@@ -71,5 +71,17 @@ describe("Location service tests: ", () => {
         locationService.addLocation(testLocationBody)
       ).to.be.rejectedWith(Error);
     });
+
+    //? LS1-4
+    it("It should call create with the correctly formatted location details on the Location model if findOne returns null", async () => {
+      //Arrange
+      findOneLocationStub.resolves(null);
+      createLocationStub.resolves(testFormattedLocationObject);
+      //Act
+      await locationService.addLocation(testLocationBody);
+      const result = createLocationStub.getCall(0).args[0];
+      //Assert
+      expect(result).to.deep.equal(testFormattedLocationObject);
+    });
   });
 });
