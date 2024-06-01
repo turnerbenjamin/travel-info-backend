@@ -12,16 +12,18 @@ describe("Location service tests: ", () => {
   let locationService = null;
   let findOneLocationStub = null;
   let createLocationStub = null;
-  findOneLocationStub = sinon.stub(Location, "findOne");
-  createLocationStub = sinon.stub(Location, "create");
 
   beforeEach(() => {
     locationService = new LocationService();
+    findOneLocationStub = sinon.stub(Location, "findOne");
+    createLocationStub = sinon.stub(Location, "create");
   });
 
   //CLEAN-UP LOCATION SERVICE TESTS
   afterEach(() => {
     locationService = null;
+    findOneLocationStub.restore();
+    createLocationStub.restore();
   });
 
   describe("addLocation tests: ", () => {
@@ -94,6 +96,16 @@ describe("Location service tests: ", () => {
 
       //Assert
       expect(result).to.deep.equal(testFormattedLocationObject);
+    });
+
+    //? LS1-6
+    it("It should throw an error if create throws an error", async () => {
+      //Arrange
+      findOneLocationStub.resolves(null);
+      createLocationStub.rejects();
+      await expect(
+        locationService.addLocation(testLocationBody)
+      ).to.be.rejectedWith(Error);
     });
   });
 });
