@@ -18,7 +18,7 @@
 - [x] LS1-2: It should return the correct location where a location with the same coordinates as those supplied is already in the collection
 - [x] LS1-3: It should throw an error if findOne fails
 - [x] LS1-4: It should call create with the correctly formatted location details on the Location model if findOne returns null
-- [ ] LS1-5: It should return a new location document with the correct properties where a location with the supplied coordinates was not already in the collection
+- [x] LS1-5: It should return a new location document with the correct properties where a location with the supplied coordinates was not already in the collection
 - [ ] LS1-6: It should throw an error if create throws an error
 
 ### User Service (US)

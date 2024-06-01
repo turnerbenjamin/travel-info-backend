@@ -65,7 +65,7 @@ describe("Location service tests: ", () => {
     });
 
     //? LS1-3
-    it("It should throw an error if findOne fails", async () => {
+    it("should throw an error if findOne fails", async () => {
       findOneLocationStub.rejects();
       await expect(
         locationService.addLocation(testLocationBody)
@@ -73,13 +73,25 @@ describe("Location service tests: ", () => {
     });
 
     //? LS1-4
-    it("It should call create with the correctly formatted location details on the Location model if findOne returns null", async () => {
+    it("should call create with the correctly formatted location details on the Location model if findOne returns null", async () => {
       //Arrange
       findOneLocationStub.resolves(null);
       createLocationStub.resolves(testFormattedLocationObject);
       //Act
       await locationService.addLocation(testLocationBody);
       const result = createLocationStub.getCall(0).args[0];
+      //Assert
+      expect(result).to.deep.equal(testFormattedLocationObject);
+    });
+
+    //? LS1-5
+    it("should return a new location document with the correct properties where a location with the supplied coordinates was not already in the collection", async () => {
+      //Arrange
+      findOneLocationStub.resolves(null);
+      createLocationStub.resolvesArg(0);
+      //Act
+      const result = await locationService.addLocation(testLocationBody);
+
       //Assert
       expect(result).to.deep.equal(testFormattedLocationObject);
     });
