@@ -1,8 +1,11 @@
-import { expect } from "chai";
+import { expect, use } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import sinon from "sinon";
 
 import LocationService from "../../../src/services/LocationService.js";
 import Location from "../../../src/models/Location.model.js";
+
+use(chaiAsPromised);
 
 describe("Location service tests: ", () => {
   //SET-UP LOCATION SERVICE TESTS
@@ -59,6 +62,14 @@ describe("Location service tests: ", () => {
       const result = await locationService.addLocation(testLocationBody);
       //Assert
       expect(result).to.equal(expected);
+    });
+
+    //? LS1-3
+    it("It should throw an error if findOne fails", async () => {
+      findOneLocationStub.rejects();
+      await expect(
+        locationService.addLocation(testLocationBody)
+      ).to.be.rejectedWith(Error);
     });
   });
 });
