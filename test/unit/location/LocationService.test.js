@@ -9,19 +9,16 @@ describe("Location service tests: ", () => {
   let locationService = null;
   let findOneLocationStub = null;
   let createLocationStub = null;
+  findOneLocationStub = sinon.stub(Location, "findOne");
+  createLocationStub = sinon.stub(Location, "create");
 
   beforeEach(() => {
     locationService = new LocationService();
-    findOneLocationStub = sinon.stub(Location, "findOne");
-    findOneLocationStub.resolves();
-    createLocationStub = sinon.stub(Location, "create");
   });
 
   //CLEAN-UP LOCATION SERVICE TESTS
   afterEach(() => {
     locationService = null;
-    findOneLocationStub = null;
-    createLocationStub = null;
   });
 
   describe("addLocation tests: ", () => {
@@ -48,8 +45,20 @@ describe("Location service tests: ", () => {
       };
       //Act
       await locationService.addLocation(testLocationBody);
+      const result = findOneLocationStub.getCall(0).args[0];
       //Assert
-      expect(findOneLocationStub.calledWith(expected)).to.deep.equal;
+      expect(result).to.deep.equal(expected);
+    });
+
+    //? LS1-2
+    it("should return the correct location where a location with the same coordinates as those supplied is already in the collection", async () => {
+      //Arrange
+      const expected = testFormattedLocationObject;
+      findOneLocationStub.resolves(expected);
+      //Act
+      const result = await locationService.addLocation(testLocationBody);
+      //Assert
+      expect(result).to.equal(expected);
     });
   });
 });
