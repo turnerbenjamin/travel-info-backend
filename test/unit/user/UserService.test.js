@@ -11,6 +11,10 @@ describe("User service tests: ", () => {
   let userService = null;
   let findByIdAndUpdateStub = null;
 
+  //TEST DATA
+  const originalUserDoc = { _id: "0" };
+  const locationDoc = { _id: "1" };
+
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
     userService = new UserService();
@@ -27,8 +31,7 @@ describe("User service tests: ", () => {
     //? US1-1
     it("should call findByIdAndUpdate on the user model with the correct arguments", async () => {
       //Arrange
-      const originalUserDoc = { _id: "0" };
-      const locationDoc = { _id: "1" };
+
       const expectedUpdateArg = {
         $push: { FavouriteLocations: locationDoc._id },
       };
@@ -45,8 +48,6 @@ describe("User service tests: ", () => {
     //? US1-2
     it("should return the updated user document", async () => {
       //Arrange
-      const originalUserDoc = { _id: "0" };
-      const locationDoc = { _id: "1" };
       const expected = {};
       findByIdAndUpdateStub.resolves(expected);
       //Act
@@ -56,6 +57,14 @@ describe("User service tests: ", () => {
       );
       //Assert
       expect(result).to.equal(expected);
+    });
+
+    //? US1-3
+    it("should throw an error where findByIdAndUpdate fails", async () => {
+      findByIdAndUpdateStub.rejects();
+      await expect(
+        userService.addLocationToFavourites(originalUserDoc, locationDoc)
+      ).to.be.rejectedWith(Error);
     });
   });
 });
