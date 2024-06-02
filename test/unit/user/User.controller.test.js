@@ -36,8 +36,9 @@ describe("User controller tests: ", () => {
     it("should send a 500 response if the location service throws an error", async () => {
       //Arrange
       locationService.addLocation.rejects();
-      //act
+      //Act
       await userController.addLocationToFavourites(req, res);
+      //Assert
       expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
     });
@@ -48,7 +49,19 @@ describe("User controller tests: ", () => {
       req.user = null;
       //act
       await userController.addLocationToFavourites(req, res);
+      //Assert
       expect(res.status.calledWith(500)).to.be.true;
+      expect(res.json.calledOnce).to.be.true;
+    });
+
+    //? UC1-4
+    it("should send a 400 response if req.body is null", async () => {
+      //Arrange
+      req.body = null;
+      //Act
+      await userController.addLocationToFavourites(req, res);
+      //Assert
+      expect(res.status.calledWith(400)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
     });
   });
