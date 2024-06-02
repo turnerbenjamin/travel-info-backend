@@ -95,12 +95,25 @@ describe("User controller tests: ", () => {
     //? UC1-6
     it("should send a 500 response if the user service throws an error", async () => {
       //Arrange
+      locationService.addLocation.resolves(locationData.documents[0]);
       userService.addLocationToFavourites.rejects();
       //act
       await userController.addLocationToFavourites(req, res);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
+    });
+
+    //? UC1-7
+    it("should send a 201 response if add favourite location resolves", async () => {
+      //Arrange
+      locationService.addLocation.resolves(locationData.documents[0]);
+      userService.addLocationToFavourites.resolves(userData.documents[1]);
+      //act
+      await userController.addLocationToFavourites(req, res);
+      //Assert
+      expect(res.status.calledWith(201)).to.be.true;
+      expect(res.json.calledWith(userData.documents[1])).to.be.true;
     });
   });
 });

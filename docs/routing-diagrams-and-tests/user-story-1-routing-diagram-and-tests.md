@@ -35,5 +35,4 @@
 - [x] UC1-4: It should send a 400 response if req.body is null
 - [x] UC1-5: It should call add favourite location on user service object with the location document returned from the location service and req.user
 - [x] UC1-6: It should send a 500 response if the user service throws an error
-- [ ] UC1-7: It should send a 201 response if add favourite location resolves
-- [ ] UC1-8: It should return the updated user
+- [x] UC1-7: It should send a 201 response if add favourite location resolves

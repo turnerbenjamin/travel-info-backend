@@ -12,7 +12,11 @@ export default class UserController {
       if (!req.user) throw new HTTPError(500, "Server error");
       if (!req.body) throw new HTTPError(400, "Invalid location");
       const location = await this.#locationService.addLocation(req.body);
-      await this.#userService.addLocationToFavourites(req.user, location);
+      const updatedUser = await this.#userService.addLocationToFavourites(
+        req.user,
+        location
+      );
+      res.status(201).json(updatedUser);
     } catch (err) {
       this.#handleError(res, err);
     }
