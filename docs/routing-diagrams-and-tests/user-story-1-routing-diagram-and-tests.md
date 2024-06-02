@@ -29,7 +29,7 @@
 
 ### User Controller (UC)
 
-- [ ] UC1-1: It should call add location on location service with the correct location details
+- [x] UC1-1: It should call add location on location service with the correct location details
 - [ ] UC1-2: It should send a 500 response if the location service throws an error
 - [ ] UC1-3: - [ ] UC1: It should call add favourite location on user service object with the location document returned from the location service
 - [ ] UC1-4: It should send a 500 response if the user service throws an error

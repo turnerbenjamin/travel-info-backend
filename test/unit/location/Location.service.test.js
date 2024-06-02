@@ -1,9 +1,10 @@
-import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
+import { expect, use } from "chai";
 import sinon from "sinon";
 
 import Location from "../../../src/models/Location.model.js";
 import LocationService from "../../../src/services/location.service.js";
+
 import locationData from "../../data/location.test.data.js";
 
 use(chaiAsPromised);
@@ -50,7 +51,7 @@ describe("Location service tests: ", () => {
       findOneLocationStub.resolves(locationData.documents[0]);
       //Act
       const result = await locationService.addLocation(
-        locationData.submissions[0]
+        locationData.submissions[0],
       );
       //Assert
       expect(result).to.deep.equal(expected);
@@ -60,7 +61,7 @@ describe("Location service tests: ", () => {
     it("should throw an error if findOne fails", async () => {
       findOneLocationStub.rejects();
       await expect(
-        locationService.addLocation(locationData.submissions[0])
+        locationService.addLocation(locationData.submissions[0]),
       ).to.be.rejectedWith(Error);
     });
 
@@ -85,7 +86,7 @@ describe("Location service tests: ", () => {
       createLocationStub.resolves(locationData.documents[0]);
       //Act
       const result = await locationService.addLocation(
-        locationData.submissions[0]
+        locationData.submissions[0],
       );
 
       //Assert
@@ -98,7 +99,7 @@ describe("Location service tests: ", () => {
       findOneLocationStub.resolves(null);
       createLocationStub.rejects();
       await expect(
-        locationService.addLocation(locationData.submissions[0])
+        locationService.addLocation(locationData.submissions[0]),
       ).to.be.rejectedWith(Error);
     });
   });

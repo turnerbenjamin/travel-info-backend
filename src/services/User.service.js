@@ -7,7 +7,7 @@ export default class UserService {
       {
         $push: { FavouriteLocations: locationToAddToFavourites._id },
       },
-      { new: true }
+      { new: true },
     );
     return updatedUser;
   };
