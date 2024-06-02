@@ -23,11 +23,9 @@
 
 ### User Service (US)
 
-- [ ] US1-1: It should add the location to the favourite locations property on the user document (this will be attached to request object during authentication)
-- [ ] US1-2: It should call save on the updated user document
-- [ ] US1-3: It should return the updated user document
-- [ ] US1-4: It should throw an error where save fails
-- [ ] US1-5: It should throw an error where the user document is not attached to the request object
+- [x] US1-1: It should call findByIdAndUpdate on the user model with the correct arguments
+- [ ] US1-2: It should return the updated user document
+- [ ] US1-3: It should throw an error where findByIdAndUpdate fails
 
 ### User Controller (UC)
 

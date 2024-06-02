@@ -1,18 +1,18 @@
 import Location from "../models/Location.model.js";
-
 export default class LocationService {
   addLocation = async (submittedLocationDetails) => {
-    const newLocationObject = this.#parseLocationObjectFromSubmittedDetails(
-      submittedLocationDetails
-    );
-    let location = await Location.findOne({
-      coordinateIdentifier: newLocationObject.coordinateIdentifier,
+    //Format submitted details
+    const newLocation = this.#parse(submittedLocationDetails);
+    //Check if location exists
+    let locationDoc = await Location.findOne({
+      coordinateIdentifier: newLocation.coordinateIdentifier,
     });
-    if (!location) location = await Location.create(newLocationObject);
-    return location;
+    //If location not in database create the location
+    if (!locationDoc) locationDoc = await Location.create(newLocation);
+    return locationDoc;
   };
 
-  #parseLocationObjectFromSubmittedDetails = (submittedLocationDetails) => {
+  #parse = (submittedLocationDetails) => {
     return {
       label: submittedLocationDetails.label,
       coordinateIdentifier: `${submittedLocationDetails.latitude},${submittedLocationDetails.longitude}`,

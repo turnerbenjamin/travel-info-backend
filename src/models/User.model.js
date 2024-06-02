@@ -1,11 +1,11 @@
-import { Schema, model } from "mongoose";
-const { isEmail } = require("validator");
+import mongoose from "mongoose";
+import validator from "validator";
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   emailAddress: {
     type: String,
     required: [true, "Field required: email"],
-    validate: [isEmail, "Invalid email address"],
+    validate: [validator.isEmail, "Invalid email address"],
   },
   password: {
     type: String,
@@ -19,5 +19,5 @@ const userSchema = new Schema({
   },
 });
 
-const User = model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 export default User;
