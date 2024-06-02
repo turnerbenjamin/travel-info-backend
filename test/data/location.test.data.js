@@ -1,7 +1,11 @@
+import mongoose from "mongoose";
+
+const ids = [new mongoose.Types.ObjectId(), new mongoose.Types.ObjectId()];
+
 const locationData = {
   documents: [
     {
-      _id: "LOCATION-0",
+      _id: ids[0],
       label: "location0",
       latAndLong: {
         type: "Point",
@@ -10,7 +14,7 @@ const locationData = {
       coordinateIdentifier: "51.506209271134956,-0.11189833206260864",
     },
     {
-      _id: "LOCATION-1",
+      _id: ids[1],
       label: "location1",
       latAndLong: {
         type: "Point",
@@ -21,13 +25,13 @@ const locationData = {
   ],
   formattedResponses: [
     {
-      _id: "LOCATION-0",
+      _id: ids[0],
       label: "location0",
       latitude: 51.506209271134956,
       longitude: -0.11189833206260864,
     },
     {
-      _id: "LOCATION-1",
+      _id: ids[1],
       label: "location1",
       latitude: 52.56824186035162,
       longitude: -0.24517818700143068,

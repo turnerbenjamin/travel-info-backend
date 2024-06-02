@@ -1,16 +1,18 @@
+import mongoose from "mongoose";
+
 const userData = {
   documents: [
     {
-      _id: "USER-0",
+      _id: new mongoose.Types.ObjectId(),
       emailAddress: "user0@test.com",
       password: "00000000",
-      FavouriteLocations: ["LOCATION-0"],
+      FavouriteLocations: [],
     },
     {
-      _id: "USER-1",
+      _id: new mongoose.Types.ObjectId(),
       emailAddress: "user1@test.com",
       password: "00000001",
-      FavouriteLocations: ["LOCATION-0", "LOCATION-1"],
+      FavouriteLocations: [],
     },
   ],
 };

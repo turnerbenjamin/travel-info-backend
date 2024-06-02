@@ -36,3 +36,7 @@
 - [x] UC1-5: It should call add favourite location on user service object with the location document returned from the location service and req.user
 - [x] UC1-6: It should send a 500 response if the user service throws an error
 - [x] UC1-7: It should send a 201 response if add favourite location resolves
+
+### Integration Tests (INT)
+
+- [x] INT1-1: It should respond with a 201 status code with valid request
