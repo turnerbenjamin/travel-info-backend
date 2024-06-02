@@ -4,6 +4,10 @@ export default class UserController {
     this.#locationService = locationService;
   }
   addLocationToFavourites = async (req, res) => {
-    const location = await this.#locationService.addLocation(req.body);
+    try {
+      const location = await this.#locationService.addLocation(req.body);
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
   };
 }

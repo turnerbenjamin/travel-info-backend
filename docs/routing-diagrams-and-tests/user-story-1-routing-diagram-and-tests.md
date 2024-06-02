@@ -30,8 +30,10 @@
 ### User Controller (UC)
 
 - [x] UC1-1: It should call add location on location service with the correct location details
-- [ ] UC1-2: It should send a 500 response if the location service throws an error
-- [ ] UC1-3: - [ ] UC1: It should call add favourite location on user service object with the location document returned from the location service
-- [ ] UC1-4: It should send a 500 response if the user service throws an error
-- [ ] UC1-5: It should send a 201 response if add favourite location resolves
-- [ ] UC1-6: It should return the updated favourite locations of the user as an array
+- [x] UC1-2: It should send a 500 response if the location service throws an error
+- [ ] UC1-3: It should send a 500 response if req.user is null
+- [ ] UC1-4: It should send a 400 response if req.body is null
+- [ ] UC1-5: - [ ] UC1: It should call add favourite location on user service object with the location document returned from the location service
+- [ ] UC1-6: It should send a 500 response if the user service throws an error
+- [ ] UC1-7: It should send a 201 response if add favourite location resolves
+- [ ] UC1-8: It should return the updated favourite locations of the user as an array

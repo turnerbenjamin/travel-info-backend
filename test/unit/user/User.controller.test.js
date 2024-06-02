@@ -14,7 +14,7 @@ describe("User controller tests: ", () => {
 
     beforeEach(() => {
       locationService = {
-        addLocation: sinon.spy(),
+        addLocation: sinon.stub(),
       };
       userController = new UserController(locationService);
       req = {
@@ -28,12 +28,18 @@ describe("User controller tests: ", () => {
     });
     //? UC1-1
     it("should call add location on location service with the correct location details", async () => {
-      //Arrange
-
-      //Act
       userController.addLocationToFavourites(req, res);
-      //Assert
       expect(locationService.addLocation.calledWith(req.body)).to.be.true;
+    });
+
+    //? UC1-2
+    it("should send a 500 response if the location service throws an error", async () => {
+      //Arrange
+      locationService.addLocation.rejects();
+      //act
+      await userController.addLocationToFavourites(req, res);
+      expect(res.status.calledWith(500)).to.be.true;
+      expect(res.json.calledOnce).to.be.true;
     });
   });
 });
