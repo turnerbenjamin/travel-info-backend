@@ -24,7 +24,7 @@
 ### User Service (US)
 
 - [x] US1-1: It should call findByIdAndUpdate on the user model with the correct arguments
-- [ ] US1-2: It should return the updated user document
+- [x] US1-2: It should return the updated user document
 - [ ] US1-3: It should throw an error where findByIdAndUpdate fails
 
 ### User Controller (UC)
