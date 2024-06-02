@@ -2,8 +2,9 @@ import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import sinon from "sinon";
 
-import LocationService from "../../../src/services/LocationService.js";
 import Location from "../../../src/models/Location.model.js";
+import LocationService from "../../../src/services/location.service.js";
+import locationData from "../../data/location.test.data.js";
 
 use(chaiAsPromised);
 
@@ -28,49 +29,38 @@ describe("Location service tests: ", () => {
 
   describe("addLocation tests: ", () => {
     //TEST DATA
-    const testLocationBody = {
-      label: "Peterborough",
-      latitude: 52.56824186035162,
-      longitude: -0.24517818700143068,
-    };
-    const testFormattedLocationObject = {
-      label: testLocationBody.label,
-      latAndLong: {
-        type: "Point",
-        coordinates: [testLocationBody.longitude, testLocationBody.latitude],
-      },
-      coordinateIdentifier: `${testLocationBody.latitude},${testLocationBody.longitude}`,
-    };
-
     //? LS1-1
     it("should call findOne on the Location model with the correct coordinateIdentifier", async () => {
       //Arrange
       const expected = {
-        coordinateIdentifier: testFormattedLocationObject.coordinateIdentifier,
+        coordinateIdentifier: locationData.documents[0].coordinateIdentifier,
       };
+      findOneLocationStub.resolves(locationData.documents[0]);
       //Act
-      await locationService.addLocation(testLocationBody);
-      const result = findOneLocationStub.getCall(0).args[0];
+      await locationService.addLocation(locationData.submissions[0]);
+      const [result] = findOneLocationStub.getCall(0).args;
       //Assert
       expect(result).to.deep.equal(expected);
     });
 
     //? LS1-2
-    it("should return the correct location where a location with the same coordinates as those supplied is already in the collection", async () => {
+    it("should return correctly formatted response where a location with the same coordinates as those supplied is already in the collection", async () => {
       //Arrange
-      const expected = testFormattedLocationObject;
-      findOneLocationStub.resolves(expected);
+      const expected = locationData.formattedResponses[0];
+      findOneLocationStub.resolves(locationData.documents[0]);
       //Act
-      const result = await locationService.addLocation(testLocationBody);
+      const result = await locationService.addLocation(
+        locationData.submissions[0]
+      );
       //Assert
-      expect(result).to.equal(expected);
+      expect(result).to.deep.equal(expected);
     });
 
     //? LS1-3
     it("should throw an error if findOne fails", async () => {
       findOneLocationStub.rejects();
       await expect(
-        locationService.addLocation(testLocationBody)
+        locationService.addLocation(locationData.submissions[0])
       ).to.be.rejectedWith(Error);
     });
 
@@ -78,24 +68,28 @@ describe("Location service tests: ", () => {
     it("should call create with the correctly formatted location details on the Location model if findOne returns null", async () => {
       //Arrange
       findOneLocationStub.resolves(null);
-      createLocationStub.resolves(testFormattedLocationObject);
+      createLocationStub.resolves(locationData.documents[0]);
+      const expected = { ...locationData.documents[0] };
+      delete expected._id;
       //Act
-      await locationService.addLocation(testLocationBody);
-      const result = createLocationStub.getCall(0).args[0];
+      await locationService.addLocation(locationData.submissions[0]);
+      const [result] = createLocationStub.getCall(0).args;
       //Assert
-      expect(result).to.deep.equal(testFormattedLocationObject);
+      expect(result).to.deep.equal(expected);
     });
 
     //? LS1-5
     it("should return a new location document with the correct properties where a location with the supplied coordinates was not already in the collection", async () => {
       //Arrange
       findOneLocationStub.resolves(null);
-      createLocationStub.resolvesArg(0);
+      createLocationStub.resolves(locationData.documents[0]);
       //Act
-      const result = await locationService.addLocation(testLocationBody);
+      const result = await locationService.addLocation(
+        locationData.submissions[0]
+      );
 
       //Assert
-      expect(result).to.deep.equal(testFormattedLocationObject);
+      expect(result).to.deep.equal(locationData.formattedResponses[0]);
     });
 
     //? LS1-6
@@ -104,7 +98,7 @@ describe("Location service tests: ", () => {
       findOneLocationStub.resolves(null);
       createLocationStub.rejects();
       await expect(
-        locationService.addLocation(testLocationBody)
+        locationService.addLocation(locationData.submissions[0])
       ).to.be.rejectedWith(Error);
     });
   });
