@@ -41,5 +41,15 @@ describe("User controller tests: ", () => {
       expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
     });
+
+    //? UC1-3
+    it("should send a 500 response if req.user is null", async () => {
+      //Arrange
+      req.user = null;
+      //act
+      await userController.addLocationToFavourites(req, res);
+      expect(res.status.calledWith(500)).to.be.true;
+      expect(res.json.calledOnce).to.be.true;
+    });
   });
 });

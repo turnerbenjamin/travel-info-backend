@@ -1,3 +1,5 @@
+import HTTPError from "../utils/HTTPError.js";
+
 export default class UserController {
   #locationService;
   constructor(locationService) {
@@ -5,9 +7,12 @@ export default class UserController {
   }
   addLocationToFavourites = async (req, res) => {
     try {
+      if (!req.user) throw new HTTPError(500, "Server error");
       const location = await this.#locationService.addLocation(req.body);
     } catch (err) {
-      res.status(500).json({ message: "Server error" });
+      const message = err.messageForUsers || "Server error";
+      const statusCode = err.statusCode || 500;
+      res.status(statusCode).json({ message });
     }
   };
 }
