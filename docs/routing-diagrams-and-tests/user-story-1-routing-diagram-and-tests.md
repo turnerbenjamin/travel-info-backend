@@ -40,3 +40,4 @@
 ### Integration Tests (INT)
 
 - [x] INT1-1: It should respond with a 201 status code with valid request
+- [x] INT1-2: It should add location to favourite locations

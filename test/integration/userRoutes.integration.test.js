@@ -69,8 +69,24 @@ describe("User routes: integration tests", () => {
         .post(endpoint)
         .send(locationData.submissions[0]);
       //Assert
-      console.log(response.message);
       expect(response.status).to.equal(201);
+    });
+
+    //? INT1-2
+    it("should add location to favourite locations", async () => {
+      //Arrange
+      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+      //Act
+      const response = await request
+        .post(endpoint)
+        .send(locationData.submissions[0]);
+
+      console.log("PRINTING");
+      console.log(response.body);
+      //Assert
+      expect(response.body.FavouriteLocations).to.deep.equal([
+        locationData.documents[0]._id.toString(),
+      ]);
     });
   });
 });
