@@ -9,6 +9,7 @@ describe("User controller tests: ", () => {
   describe("addLocationToFavourites tests", () => {
     let userController;
     let locationService;
+    let userService;
     let req;
     let res;
 
@@ -16,7 +17,10 @@ describe("User controller tests: ", () => {
       locationService = {
         addLocation: sinon.stub(),
       };
-      userController = new UserController(locationService);
+      userService = {
+        addLocationToFavourites: sinon.stub(),
+      };
+      userController = new UserController(userService, locationService);
       req = {
         body: locationData.submissions[0],
         user: userData.documents[0],
@@ -26,6 +30,14 @@ describe("User controller tests: ", () => {
         json: sinon.spy(),
       };
     });
+
+    afterEach(() => {
+      locationService = null;
+      userService = null;
+      req = null;
+      res = null;
+    });
+
     //? UC1-1
     it("should call add location on location service with the correct location details", async () => {
       userController.addLocationToFavourites(req, res);
@@ -63,6 +75,21 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(400)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
+    });
+
+    //? UC1-5
+    it("should call add favourite location on user service object with the location document returned from the location service and req.user", async () => {
+      //Arrange
+      locationService.addLocation.resolves(locationData.documents[0]);
+      //Act
+      await userController.addLocationToFavourites(req, res);
+      //Assert
+      expect(
+        userService.addLocationToFavourites.calledWith(
+          req.user,
+          locationData.documents[0]
+        )
+      ).to.be.true;
     });
   });
 });
