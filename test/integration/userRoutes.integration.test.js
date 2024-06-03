@@ -219,5 +219,14 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.deep.equal(expected);
     });
+
+    //? INT1-13
+    it("should respond with a 201 status code where favourited location is a duplicate", async () => {
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(201);
+    });
   });
 });

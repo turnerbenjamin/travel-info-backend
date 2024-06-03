@@ -55,3 +55,5 @@
 - [x] INT1-10: It should return 400 status code where longitude not numeric
 - [x] INT1-11: It should return 201 status code where location not already in the database
 - [x] INT1-12: It should add location to favourite locations where location not already in the database
+- [x] INT1-13: It should respond with a 201 status code where favourited location is a duplicate
+- [ ] INT1-14: The response body should not include duplicated entry where favourited location is a duplicate
