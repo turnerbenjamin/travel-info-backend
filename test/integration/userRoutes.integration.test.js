@@ -71,14 +71,28 @@ describe("User routes: integration tests", () => {
   };
 
   describe("Add location to favourites tests", () => {
+    const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+    const validLocationSubmission = locationData.submissions[0];
+    let newLocation;
+
+    beforeEach(() => {
+      newLocation = {
+        label: "Edinburgh",
+        latitude: 55.95380035447052,
+        longitude: -3.1862843385342554,
+      };
+    });
+
+    afterEach(() => {
+      newLocation = null;
+    });
+
     //? INT1-1
     it("should respond with a 201 status code with valid request", async () => {
-      //Arrange
-      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
       //Act
       const response = await request
         .post(endpoint)
-        .send(locationData.submissions[0]);
+        .send(validLocationSubmission);
       //Assert
       expect(response.status).to.equal(201);
     });
@@ -86,10 +100,9 @@ describe("User routes: integration tests", () => {
     //? INT1-2
     it("should add location to favourite locations", async () => {
       //Arrange
-      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
       const expected = locationData.formattedResponses;
       //Act
-      await request.post(endpoint).send(locationData.submissions[0]);
+      await request.post(endpoint).send(validLocationSubmission);
       const response = await request
         .post(endpoint)
         .send(locationData.submissions[1]);
@@ -101,12 +114,10 @@ describe("User routes: integration tests", () => {
 
     //? INT1-3
     it("should set response content type to JSON", async () => {
-      //Arrange
-      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
       //Act
       const response = await request
         .post(endpoint)
-        .send(locationData.submissions[0]);
+        .send(validLocationSubmission);
       //Assert
       expect(response.headers["content-type"]).to.include("application/json");
     });
@@ -116,15 +127,26 @@ describe("User routes: integration tests", () => {
       //Arrange
       const stub = sinon.stub(Location, "findOne");
       stub.rejects(new Error());
-      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
       //Act
       const response = await request
         .post(endpoint)
-        .send(locationData.submissions[0]);
+        .send(validLocationSubmission);
       //Assert
       expect(response.status).to.equal(500);
       //Clean-up
       stub.restore();
+    });
+
+    //? INT1-5
+    it("should return 400 status code where label missing", async () => {
+      //Arrange
+      delete newLocation.label;
+
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(400);
+      //Clean-up
     });
   });
 });
