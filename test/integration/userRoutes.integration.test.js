@@ -279,5 +279,13 @@ describe("User routes: integration tests", () => {
       expect(response.status).to.equal(500);
       stub.restore();
     });
+
+    //? INT2-5
+    it("should respond with a 200 status code where user has no favourited locations", async () => {
+      //Act
+      const response = await request.get(endpoint);
+      //Assert
+      expect(response.status).to.equal(200);
+    });
   });
 });

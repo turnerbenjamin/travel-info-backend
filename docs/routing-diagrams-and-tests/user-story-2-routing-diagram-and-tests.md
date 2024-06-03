@@ -33,5 +33,5 @@
 - [x] INT2-2: It should return correct favourited locations
 - [x] INT2-3: It should set response content type to JSON
 - [x] INT2-4: It should return 500 status code where error thrown
-- [ ] INT2-5: It should respond with a 200 status code where user has no favourited locations
+- [x] INT2-5: It should respond with a 200 status code where user has no favourited locations
 - [ ] INT2-6: It should return an empty array where user has no favourited locations
