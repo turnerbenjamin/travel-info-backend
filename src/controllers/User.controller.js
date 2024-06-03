@@ -2,9 +2,9 @@ import HTTPError from "../utils/HTTPError.js";
 
 export default class UserController {
   #locationService;
-  #userService;
-  constructor(userService, locationService) {
-    this.#userService = userService;
+  #favouriteLocationService;
+  constructor(favouriteLocationService, locationService) {
+    this.#favouriteLocationService = favouriteLocationService;
     this.#locationService = locationService;
   }
   addLocationToFavourites = async (req, res) => {
@@ -12,11 +12,9 @@ export default class UserController {
       if (!req.user) throw new HTTPError(500, "Server error");
       if (!req.body) throw new HTTPError(400, "Invalid location");
       const location = await this.#locationService.addLocation(req.body);
-      const updatedUser = await this.#userService.addLocationToFavourites(
-        req.user,
-        location
-      );
-      res.status(201).json(updatedUser);
+      const updatedFavouriteLocations =
+        await this.#favouriteLocationService.addFavourite(req.user, location);
+      res.status(201).json(updatedFavouriteLocations);
     } catch (err) {
       this.#handleError(res, err);
     }

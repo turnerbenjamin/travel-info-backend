@@ -9,7 +9,7 @@ describe("User controller tests: ", () => {
   describe("addLocationToFavourites tests", () => {
     let userController;
     let locationService;
-    let userService;
+    let favouriteLocationService;
     let req;
     let res;
 
@@ -17,10 +17,13 @@ describe("User controller tests: ", () => {
       locationService = {
         addLocation: sinon.stub(),
       };
-      userService = {
-        addLocationToFavourites: sinon.stub(),
+      favouriteLocationService = {
+        addFavourite: sinon.stub(),
       };
-      userController = new UserController(userService, locationService);
+      userController = new UserController(
+        favouriteLocationService,
+        locationService
+      );
       req = {
         body: locationData.submissions[0],
         user: userData.documents[0],
@@ -33,7 +36,7 @@ describe("User controller tests: ", () => {
 
     afterEach(() => {
       locationService = null;
-      userService = null;
+      favouriteLocationService = null;
       req = null;
       res = null;
     });
@@ -78,14 +81,14 @@ describe("User controller tests: ", () => {
     });
 
     //? UC1-5
-    it("should call add favourite location on user service object with the location document returned from the location service and req.user", async () => {
+    it("should call add favourite on favourite location service object with the location document returned from the location service and req.user", async () => {
       //Arrange
       locationService.addLocation.resolves(locationData.documents[0]);
       //Act
       await userController.addLocationToFavourites(req, res);
       //Assert
       expect(
-        userService.addLocationToFavourites.calledWith(
+        favouriteLocationService.addFavourite.calledWith(
           req.user,
           locationData.documents[0]
         )
@@ -93,10 +96,10 @@ describe("User controller tests: ", () => {
     });
 
     //? UC1-6
-    it("should send a 500 response if the user service throws an error", async () => {
+    it("should send a 500 response if the favourite location service throws an error", async () => {
       //Arrange
       locationService.addLocation.resolves(locationData.documents[0]);
-      userService.addLocationToFavourites.rejects();
+      favouriteLocationService.addFavourite.rejects();
       //act
       await userController.addLocationToFavourites(req, res);
       //Assert
@@ -105,15 +108,15 @@ describe("User controller tests: ", () => {
     });
 
     //? UC1-7
-    it("should send a 201 response if add favourite location resolves", async () => {
+    it("should send a 201 response if add location resolves", async () => {
       //Arrange
       locationService.addLocation.resolves(locationData.documents[0]);
-      userService.addLocationToFavourites.resolves(userData.documents[1]);
+      favouriteLocationService.addFavourite.resolves(locationData.documents);
       //act
       await userController.addLocationToFavourites(req, res);
       //Assert
       expect(res.status.calledWith(201)).to.be.true;
-      expect(res.json.calledWith(userData.documents[1])).to.be.true;
+      expect(res.json.calledWith(locationData.documents)).to.be.true;
     });
   });
 });

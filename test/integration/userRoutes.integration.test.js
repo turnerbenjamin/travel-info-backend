@@ -5,6 +5,7 @@ import supertest from "supertest";
 
 import Config from "../../config/Config.js";
 import Database from "../../src/database/Database.js";
+import FavouritedLocationService from "../../src/services/FavouritedLocation.service.js";
 import Location from "../../src/models/Location.model.js";
 import locationData from "../data/location.test.data.js";
 import LocationService from "../../src/services/Location.service.js";
@@ -13,11 +14,10 @@ import User from "../../src/models/User.model.js";
 import UserController from "../../src/controllers/User.controller.js";
 import userData from "../data/user.test.data.js";
 import UserRoutes from "../../src/routes/User.routes.js";
-import UserService from "../../src/services/User.service.js";
 
 describe("User routes: integration tests", () => {
   let server;
-  let userService;
+  let favouriteLocationService;
   let locationService;
   let database;
   let request;
@@ -25,9 +25,12 @@ describe("User routes: integration tests", () => {
   before(async () => {
     Config.load();
 
-    userService = new UserService();
+    favouriteLocationService = new FavouritedLocationService();
     locationService = new LocationService();
-    const userController = new UserController(userService, locationService);
+    const userController = new UserController(
+      favouriteLocationService,
+      locationService
+    );
     const authController = {
       validate: (req, _, next) => {
         req.user = userData.documents[0];
