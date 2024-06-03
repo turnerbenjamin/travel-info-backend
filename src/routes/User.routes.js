@@ -23,6 +23,12 @@ export default class UserRoutes {
       LocationValidator.validate(),
       this.#userController.addLocationToFavourites
     );
+
+    this.#router.get(
+      "/:userId/favourite-locations",
+      this.#authController.validate,
+      this.#userController.getUserFavouriteLocations
+    );
   }
 
   getRouter() {

@@ -23,6 +23,7 @@ describe("User routes: integration tests", () => {
   let locationService;
   let database;
   let request;
+  let newLocation;
 
   before(async () => {
     Config.load();
@@ -57,12 +58,18 @@ describe("User routes: integration tests", () => {
   beforeEach(async () => {
     await User.insertMany(userData.documents);
     await Location.insertMany(locationData.documents);
+    newLocation = {
+      label: "Edinburgh",
+      latitude: 55.95380035447052,
+      longitude: -3.1862843385342554,
+    };
   });
 
   afterEach(async () => {
     await User.deleteMany();
     await Location.deleteMany();
     await FavouritedLocation.deleteMany();
+    newLocation = null;
   });
 
   //Replaces auto-generated ids with those
@@ -76,19 +83,6 @@ describe("User routes: integration tests", () => {
   describe("Add location to favourites tests", () => {
     const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
     const validLocationSubmission = locationData.submissions[0];
-    let newLocation;
-
-    beforeEach(() => {
-      newLocation = {
-        label: "Edinburgh",
-        latitude: 55.95380035447052,
-        longitude: -3.1862843385342554,
-      };
-    });
-
-    afterEach(() => {
-      newLocation = null;
-    });
 
     //? INT1-1
     it("should respond with a 201 status code with valid request", async () => {
@@ -230,12 +224,27 @@ describe("User routes: integration tests", () => {
     });
 
     //? INT1-14
-    it(" should not include duplicated entry in response body where favourited location is a duplicate", async () => {
+    it("should not include duplicated entry in response body where favourited location is a duplicate", async () => {
       //Arrange
       const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
       //Act
       await request.post(endpoint).send(newLocation);
       const response = await request.post(endpoint).send(newLocation);
+
+      mirrorIds(expected, response.body);
+      //Assert
+      expect(response.body).to.deep.equal(expected);
+    });
+  });
+  describe("Get user favourite locations tests", () => {
+    const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+    //? INT2-1
+    it("should respond with a 200 status code with valid request", async () => {
+      //Arrange
+      const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.get(endpoint);
 
       mirrorIds(expected, response.body);
       //Assert
