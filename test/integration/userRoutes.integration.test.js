@@ -24,6 +24,7 @@ describe("User routes: integration tests", () => {
   let database;
   let request;
   let newLocation;
+  const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
 
   before(async () => {
     Config.load();
@@ -81,7 +82,6 @@ describe("User routes: integration tests", () => {
   };
 
   describe("Add location to favourites tests", () => {
-    const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
     const validLocationSubmission = locationData.submissions[0];
 
     //? INT1-1
@@ -237,9 +237,17 @@ describe("User routes: integration tests", () => {
     });
   });
   describe("Get user favourite locations tests", () => {
-    const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
     //? INT2-1
     it("should respond with a 200 status code with valid request", async () => {
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.get(endpoint);
+      //Assert
+      expect(response.status).to.equal(200);
+    });
+
+    //? INT2-2
+    it("It should return correct favourited locations", async () => {
       //Arrange
       const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
       //Act
