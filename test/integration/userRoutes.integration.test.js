@@ -196,5 +196,13 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT1-11
+    it("should return 201 status code where location not already in the database", async () => {
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(201);
+    });
   });
 });

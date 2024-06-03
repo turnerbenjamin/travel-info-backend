@@ -53,3 +53,5 @@
 - [x] INT1-8: It should return 400 status code where latitude not numeric
 - [x] INT1-9: It should return 400 status code where longitude missing
 - [x] INT1-10: It should return 400 status code where longitude not numeric
+- [x] INT1-11: It should return 201 status code where location not already in the database
+- [ ] INT1-12: It should add location to favourite locations where location not already in the database
