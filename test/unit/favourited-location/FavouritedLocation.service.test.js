@@ -173,5 +173,20 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(result).to.deep.equal(expected);
     });
+
+    //? FLS2-3
+    it("should return an empty array where no locations exist", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      const expected = [];
+      populateStub.resolves([]);
+      findStub.returns({ populate: populateStub });
+      //Act
+      const result = await favouritedLocationService.getUserFavourites(
+        testUser
+      );
+      //Assert
+      expect(result).to.deep.equal(expected);
+    });
   });
 });
