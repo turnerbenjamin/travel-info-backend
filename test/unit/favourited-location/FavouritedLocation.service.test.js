@@ -188,5 +188,16 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(result).to.deep.equal(expected);
     });
+
+    //? FLS2-4
+    it("should throw an error where find fails", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      findStub.rejects();
+      //Assert
+      await expect(
+        favouritedLocationService.getUserFavourites(testUser)
+      ).to.be.rejectedWith(Error);
+    });
   });
 });
