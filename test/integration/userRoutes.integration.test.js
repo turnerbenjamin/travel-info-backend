@@ -247,7 +247,7 @@ describe("User routes: integration tests", () => {
     });
 
     //? INT2-2
-    it("It should return correct favourited locations", async () => {
+    it("should return correct favourited locations", async () => {
       //Arrange
       const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
       //Act
@@ -257,6 +257,15 @@ describe("User routes: integration tests", () => {
       mirrorIds(expected, response.body);
       //Assert
       expect(response.body).to.deep.equal(expected);
+    });
+
+    //? INT2-3
+    it("should set response content type to JSON", async () => {
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.get(endpoint);
+      //Assert
+      expect(response.headers["content-type"]).to.include("application/json");
     });
   });
 });
