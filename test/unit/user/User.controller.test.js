@@ -158,5 +158,17 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
+
+    //? UC2-4
+    it("should send a 201 response if getUserFavourites resolves", async () => {
+      //Arrange
+      favouriteLocationService.getUserFavourites.resolves(
+        favouritedLocationData.formattedResponse
+      );
+      //act
+      await userController.getUserFavouriteLocations(req, res);
+      //Assert
+      expect(res.status.calledWith(201)).to.be.true;
+    });
   });
 });
