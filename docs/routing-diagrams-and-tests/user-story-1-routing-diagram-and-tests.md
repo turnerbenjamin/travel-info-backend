@@ -21,11 +21,14 @@
 - [x] LS1-5: It should return a new location document with the correct properties where a location with the supplied coordinates was not already in the collection
 - [x] LS1-6: It should throw an error if create throws an error
 
-### User Service (US)
+### Favourited Location Service (FLS)
 
-- [x] US1-1: It should call findByIdAndUpdate on the user model with the correct arguments
-- [x] US1-2: It should return the updated user document
-- [x] US1-3: It should throw an error where findByIdAndUpdate fails
+- [ ] FLS1-1: It should call find on the FavouritedLocation model with the userId as an argument
+- [ ] FLS1-2: It should return an array of favourited locations for the user where location already in the user's favourites
+- [ ] FLS1-3: It should call create on the FavouritedLocation model with the correct arguments if the location has not in the user's favourited locations.
+- [ ] FLS1-4: It should return an array of favourited locations for the user where location not already in the user's favourites
+- [ ] FLS1-5: It should throw an error where find fails
+- [ ] FLS1-6: It should throw an error where create fails
 
 ### User Controller (UC)
 

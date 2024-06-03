@@ -71,6 +71,7 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(201);
     });
+    /*
 
     //? INT1-2
     it("should add location to favourite locations", async () => {
@@ -87,6 +88,6 @@ describe("User routes: integration tests", () => {
       expect(response.body.FavouriteLocations).to.deep.equal([
         locationData.documents[0]._id.toString(),
       ]);
-    });
+    }); */
   });
 });
