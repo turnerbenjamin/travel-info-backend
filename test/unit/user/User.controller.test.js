@@ -135,10 +135,24 @@ describe("User controller tests: ", () => {
       expect(favouriteLocationService.getUserFavourites.calledWith(req.user)).to
         .be.true;
     });
+
     //? UC2-2
     it("should send a 500 response if the Favourited Location service rejects", async () => {
       //Arrange
       favouriteLocationService.getUserFavourites.rejects();
+      //act
+      await userController.getUserFavouriteLocations(req, res);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? UC2-3
+    it("should send a 500 response if req.user is null", async () => {
+      //Arrange
+      favouriteLocationService.getUserFavourites.resolves(
+        favouritedLocationData.formattedResponse
+      );
+      req.user = null;
       //act
       await userController.getUserFavouriteLocations(req, res);
       //Assert

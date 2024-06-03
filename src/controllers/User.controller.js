@@ -22,6 +22,7 @@ export default class UserController {
 
   getUserFavouriteLocations = async (req, res) => {
     try {
+      if (!req.user) throw new HTTPError(500, "Server error");
       await this.#favouriteLocationService.getUserFavourites(req.user);
     } catch (err) {
       this.#handleError(res, err);
