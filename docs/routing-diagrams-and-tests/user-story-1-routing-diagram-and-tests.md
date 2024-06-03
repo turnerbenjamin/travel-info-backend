@@ -56,4 +56,4 @@
 - [x] INT1-11: It should return 201 status code where location not already in the database
 - [x] INT1-12: It should add location to favourite locations where location not already in the database
 - [x] INT1-13: It should respond with a 201 status code where favourited location is a duplicate
-- [ ] INT1-14: The response body should not include duplicated entry where favourited location is a duplicate
+- [x] INT1-14: It should not include duplicated entry in response body where favourited location is a duplicate

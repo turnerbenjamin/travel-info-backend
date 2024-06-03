@@ -228,5 +228,18 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(201);
     });
+
+    //? INT1-14
+    it(" should not include duplicated entry in response body where favourited location is a duplicate", async () => {
+      //Arrange
+      const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.post(endpoint).send(newLocation);
+
+      mirrorIds(expected, response.body);
+      //Assert
+      expect(response.body).to.deep.equal(expected);
+    });
   });
 });
