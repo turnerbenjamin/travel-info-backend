@@ -15,7 +15,7 @@
 ### Favourited Location Service (FLS)
 
 - [x] FLS2-1: It should call find on the FavouritedLocation model with the correct argument
-- [ ] FLS2-2: It should return an array of favourited locations for the user where locations exist
+- [x] FLS2-2: It should return an array of favourited locations for the user where locations exist
 - [ ] FLS2-3: It should return an empty array where no locations exist
 - [ ] FLS2-4: It should throw an error where find fails
 
