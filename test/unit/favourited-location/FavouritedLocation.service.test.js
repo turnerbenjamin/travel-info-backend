@@ -97,5 +97,17 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(result).to.deep.equal(expected);
     });
+
+    //? FLS1-5
+    it("should throw an error where findOne fails", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      const testLocation = locationData.documents[0];
+      findOneStub.rejects();
+      //Assert
+      await expect(
+        favouritedLocationService.addFavourite(testUser, testLocation)
+      ).to.be.rejectedWith(Error);
+    });
   });
 });
