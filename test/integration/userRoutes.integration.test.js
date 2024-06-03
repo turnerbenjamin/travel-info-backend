@@ -267,5 +267,17 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.headers["content-type"]).to.include("application/json");
     });
+
+    //? INT2-4
+    it("should return 500 status code where error thrown", async () => {
+      const stub = sinon.stub(Location, "find");
+      stub.rejects(new Error());
+      //Act
+      await request.post(endpoint).send(newLocation);
+      const response = await request.get(endpoint);
+      //Assert
+      expect(response.status).to.equal(500);
+      stub.restore();
+    });
   });
 });
