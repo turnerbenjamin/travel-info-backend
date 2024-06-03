@@ -176,5 +176,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT1-9
+    it("should return 400 status code where longitude missing", async () => {
+      //Arrange
+      delete newLocation.longitude;
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });
