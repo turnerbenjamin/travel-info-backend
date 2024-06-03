@@ -21,7 +21,11 @@ export default class UserController {
   };
 
   getUserFavouriteLocations = async (req, res) => {
-    await this.#favouriteLocationService.getUserFavourites(req.user);
+    try {
+      await this.#favouriteLocationService.getUserFavourites(req.user);
+    } catch (err) {
+      this.#handleError(res, err);
+    }
   };
 
   #handleError(res, err) {
