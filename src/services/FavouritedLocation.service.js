@@ -4,11 +4,11 @@ export default class FavouritedLocationService {
   addFavourite = async (user, location) => {
     const userFavourite = await this.#getFavourite(user, location);
     if (!userFavourite) await this.#createNewFavouriteLocation(user, location);
-    const userFavourites = await this.#getUserFavourites(user);
+    const userFavourites = await this.getUserFavourites(user);
     return userFavourites;
   };
 
-  #getUserFavourites = async (user) => {
+  getUserFavourites = async (user) => {
     const userFavourites = await FavouritedLocation.find({
       user: user._id,
     }).populate("location");

@@ -143,4 +143,20 @@ describe("Favourited location service tests: ", () => {
       ).to.be.rejectedWith(Error);
     });
   });
+
+  describe("getFavourites tests: ", () => {
+    //? FLS2-1
+    it("should call find on the FavouritedLocation model with the correct argument", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      populateStub.resolves(favouritedLocationData.populatedDocuments);
+      findStub.returns({ populate: populateStub });
+      const expectedQuery = { user: testUser._id };
+      //Act
+      await favouritedLocationService.getUserFavourites(testUser);
+      const actualQuery = findStub.getCall(0).args[0];
+      //Assert
+      expect(actualQuery).to.deep.equal(expectedQuery);
+    });
+  });
 });
