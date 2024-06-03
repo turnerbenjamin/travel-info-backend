@@ -23,8 +23,8 @@
 
 ### Favourited Location Service (FLS)
 
-- [ ] FLS1-1: It should call find on the FavouritedLocation model with the userId as an argument
-- [ ] FLS1-2: It should return an array of favourited locations for the user where location already in the user's favourites
+- [x] FLS1-1: It should call find on the FavouritedLocation model with the userId as an argument
+- [x] FLS1-2: It should return an array of favourited locations for the user where location already in the user's favourites
 - [ ] FLS1-3: It should call create on the FavouritedLocation model with the correct arguments if the location has not in the user's favourited locations.
 - [ ] FLS1-4: It should return an array of favourited locations for the user where location not already in the user's favourites
 - [ ] FLS1-5: It should throw an error where find fails
