@@ -186,5 +186,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT1-10
+    it("should return 400 status code where longitude not numeric", async () => {
+      //Arrange
+      newLocation.longitude = "Z";
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });

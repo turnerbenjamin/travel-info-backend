@@ -18,6 +18,7 @@ export default class LocationValidator {
         .body("longitude")
         .trim()
         .notEmpty()
+        .isNumeric()
         .withMessage("Longitude is required"),
       LocationValidator.handleValidationErrors,
     ];

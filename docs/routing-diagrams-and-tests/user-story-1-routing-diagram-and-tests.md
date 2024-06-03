@@ -52,4 +52,4 @@
 - [x] INT1-7: It should return 400 status code where latitude missing
 - [x] INT1-8: It should return 400 status code where latitude not numeric
 - [x] INT1-9: It should return 400 status code where longitude missing
-- [ ] INT1-10: It should return 400 status code where longitude not numeric
+- [x] INT1-10: It should return 400 status code where longitude not numeric
