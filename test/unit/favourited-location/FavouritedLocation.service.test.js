@@ -35,6 +35,7 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
+      findStub.resolves(favouritedLocationData.documents);
       const expected = { user: testUser._id };
       //Act
       await favouritedLocationService.addFavourite(testUser, testLocation);
@@ -57,6 +58,21 @@ describe("Favourited location service tests: ", () => {
       );
       //Assert
       expect(result).to.equal(expected);
+    });
+
+    //? FLS1-3
+    it("should call create on the FavouritedLocation model with the correct arguments if the location has not in the user's favourited locations", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      const testLocation = locationData.documents[0];
+      findStub.resolves(favouritedLocationData.documents[1]);
+      //Act
+      await favouritedLocationService.addFavourite(testUser, testLocation);
+      const { user: userIdArg, location: locationIdArg } =
+        createStub.getCall(0).args[0];
+      //Assert
+      expect(userIdArg).to.equal(testUser._id);
+      expect(locationIdArg).to.equal(testLocation._id);
     });
   });
 });
