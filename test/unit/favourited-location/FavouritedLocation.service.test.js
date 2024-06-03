@@ -109,5 +109,18 @@ describe("Favourited location service tests: ", () => {
         favouritedLocationService.addFavourite(testUser, testLocation)
       ).to.be.rejectedWith(Error);
     });
+
+    //? FLS1-6
+    it("should throw an error where find fails", async () => {
+      //Arrange
+      const testUser = userData.documents[0];
+      const testLocation = locationData.documents[0];
+      findOneStub.resolves(favouritedLocationData.documents[0]);
+      findStub.rejects();
+      //Assert
+      await expect(
+        favouritedLocationService.addFavourite(testUser, testLocation)
+      ).to.be.rejectedWith(Error);
+    });
   });
 });
