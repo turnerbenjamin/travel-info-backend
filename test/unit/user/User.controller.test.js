@@ -160,7 +160,7 @@ describe("User controller tests: ", () => {
     });
 
     //? UC2-4
-    it("should send a 201 response if getUserFavourites resolves", async () => {
+    it("should send a 200 response if getUserFavourites resolves", async () => {
       //Arrange
       favouriteLocationService.getUserFavourites.resolves(
         favouritedLocationData.formattedResponse
@@ -168,7 +168,18 @@ describe("User controller tests: ", () => {
       //act
       await userController.getUserFavouriteLocations(req, res);
       //Assert
-      expect(res.status.calledWith(201)).to.be.true;
+      expect(res.status.calledWith(200)).to.be.true;
+    });
+
+    //? UC2-5
+    it("should call res.json with value returned from getUserFavourites", async () => {
+      //Arrange
+      const expected = favouritedLocationData.formattedResponse;
+      favouriteLocationService.getUserFavourites.resolves(expected);
+      //act
+      await userController.getUserFavouriteLocations(req, res);
+      //Assert
+      expect(res.json.calledWith(expected)).to.be.true;
     });
   });
 });
