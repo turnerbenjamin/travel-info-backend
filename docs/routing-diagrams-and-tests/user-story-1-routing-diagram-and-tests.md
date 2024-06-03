@@ -29,7 +29,7 @@
 - [x] FLS1-4: It should return an array of favourited locations for the user where location not already in the user's favourites
 - [x] FLS1-5: It should throw an error where findOne fails
 - [x] FLS1-6: It should throw an error where find fails
-- [ ] FLS1-7: It should throw an error where create fails
+- [x] FLS1-7: It should throw an error where create fails
 
 ### User Controller (UC)
 
