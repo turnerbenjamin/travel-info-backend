@@ -8,6 +8,11 @@ export default class LocationValidator {
         .trim()
         .notEmpty()
         .withMessage("A label is required"),
+      expressValidator
+        .body("latitude")
+        .trim()
+        .notEmpty()
+        .withMessage("Latitude is required"),
       LocationValidator.handleValidationErrors,
     ];
   };
