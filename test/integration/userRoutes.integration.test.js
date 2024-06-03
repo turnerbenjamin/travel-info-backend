@@ -98,5 +98,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.deep.equal(expected);
     });
+
+    //? INT1-3
+    it("should set response content type to JSON", async () => {
+      //Arrange
+      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+      const response = await request
+        .post(endpoint)
+        .send(locationData.submissions[0]);
+      expect(response.headers["content-type"]).to.include("application/json");
+    });
   });
 });
