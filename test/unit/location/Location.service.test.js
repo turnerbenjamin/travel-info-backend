@@ -31,7 +31,7 @@ describe("Location service tests: ", () => {
   describe("addLocation tests: ", () => {
     //TEST DATA
     //? LS1-1
-    it("should call findOne on the Location model with the correct coordinateIdentifier", async () => {
+    it("should call findOne on the Location model with the correct coordinate identifier as an argument", async () => {
       //Arrange
       const expected = {
         coordinateIdentifier: locationData.documents[0].coordinateIdentifier,
@@ -51,7 +51,7 @@ describe("Location service tests: ", () => {
       findOneLocationStub.resolves(locationData.documents[0]);
       //Act
       const result = await locationService.addLocation(
-        locationData.submissions[0],
+        locationData.submissions[0]
       );
       //Assert
       expect(result).to.deep.equal(expected);
@@ -61,7 +61,7 @@ describe("Location service tests: ", () => {
     it("should throw an error if findOne fails", async () => {
       findOneLocationStub.rejects();
       await expect(
-        locationService.addLocation(locationData.submissions[0]),
+        locationService.addLocation(locationData.submissions[0])
       ).to.be.rejectedWith(Error);
     });
 
@@ -86,7 +86,7 @@ describe("Location service tests: ", () => {
       createLocationStub.resolves(locationData.documents[0]);
       //Act
       const result = await locationService.addLocation(
-        locationData.submissions[0],
+        locationData.submissions[0]
       );
 
       //Assert
@@ -99,7 +99,7 @@ describe("Location service tests: ", () => {
       findOneLocationStub.resolves(null);
       createLocationStub.rejects();
       await expect(
-        locationService.addLocation(locationData.submissions[0]),
+        locationService.addLocation(locationData.submissions[0])
       ).to.be.rejectedWith(Error);
     });
   });

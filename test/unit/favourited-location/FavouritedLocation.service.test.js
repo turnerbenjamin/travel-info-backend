@@ -15,6 +15,7 @@ describe("Favourited location service tests: ", () => {
   let findStub = null;
   let findOneStub = null;
   let createStub = null;
+  let populateStub = null;
 
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
@@ -22,6 +23,7 @@ describe("Favourited location service tests: ", () => {
     findStub = sinon.stub(FavouritedLocation, "find");
     findOneStub = sinon.stub(FavouritedLocation, "findOne");
     createStub = sinon.stub(FavouritedLocation, "create");
+    populateStub = sinon.stub(FavouritedLocation, "populate");
   });
 
   //CLEAN-UP USER SERVICE TESTS
@@ -30,6 +32,7 @@ describe("Favourited location service tests: ", () => {
     findStub.restore();
     findOneStub.restore();
     createStub.restore();
+    populateStub.restore();
   });
 
   describe("addFavourite tests: ", () => {
@@ -39,7 +42,8 @@ describe("Favourited location service tests: ", () => {
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
       findOneStub.resolves(favouritedLocationData.documents[0]);
-      findStub.resolves(favouritedLocationData.documents);
+      populateStub.resolves(favouritedLocationData.populatedDocuments);
+      findStub.returns({ populate: populateStub });
       const expected = { user: testUser._id, location: testLocation._id };
       //Act
       await favouritedLocationService.addFavourite(testUser, testLocation);
@@ -48,21 +52,22 @@ describe("Favourited location service tests: ", () => {
       expect(result).to.deep.equal(expected);
     });
 
-    //? FLS1-3
+    //? FLS1-2
     it("should return an array of favourited locations for the user where location already in the user's favourites", async () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      const expected = favouritedLocationData.documents;
+      const expected = favouritedLocationData.formattedResponse;
       findOneStub.resolves(favouritedLocationData.documents[0]);
-      findStub.resolves(expected);
+      populateStub.resolves(favouritedLocationData.populatedDocuments);
+      findStub.returns({ populate: populateStub });
       //Act
       const result = await favouritedLocationService.addFavourite(
         testUser,
         testLocation
       );
       //Assert
-      expect(result).to.equal(expected);
+      expect(result).to.deep.equal(expected);
     });
 
     //? FLS1-3
@@ -70,7 +75,8 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      findStub.resolves(favouritedLocationData.documents[1]);
+      populateStub.resolves(favouritedLocationData.populatedDocuments);
+      findStub.returns({ populate: populateStub });
       //Act
       await favouritedLocationService.addFavourite(testUser, testLocation);
       const { user: userIdArg, location: locationIdArg } =
@@ -85,10 +91,10 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
+      const expected = favouritedLocationData.formattedResponse;
       findOneStub.resolves(null);
-      const expected = favouritedLocationData.documents;
-      findStub.resolves(expected);
-
+      populateStub.resolves(favouritedLocationData.populatedDocuments);
+      findStub.returns({ populate: populateStub });
       //Act
       const result = await favouritedLocationService.addFavourite(
         testUser,

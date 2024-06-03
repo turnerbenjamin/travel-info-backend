@@ -62,6 +62,14 @@ describe("User routes: integration tests", () => {
     await Location.deleteMany();
   });
 
+  //Replaces auto-generated ids with those
+  //in results for the purpose of comparing results
+  const mirrorIds = (expected, result) => {
+    result.forEach((resultDoc, i) => {
+      resultDoc._id = expected[i]._id;
+    });
+  };
+
   describe("Add location to favourites tests", () => {
     //? INT1-1
     it("should respond with a 201 status code with valid request", async () => {
@@ -74,23 +82,21 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(201);
     });
-    /*
 
     //? INT1-2
     it("should add location to favourite locations", async () => {
       //Arrange
       const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+      const expected = locationData.formattedResponses;
       //Act
+      await request.post(endpoint).send(locationData.submissions[0]);
       const response = await request
         .post(endpoint)
-        .send(locationData.submissions[0]);
+        .send(locationData.submissions[1]);
 
-      console.log("PRINTING");
-      console.log(response.body);
+      mirrorIds(expected, response.body);
       //Assert
-      expect(response.body.FavouriteLocations).to.deep.equal([
-        locationData.documents[0]._id.toString(),
-      ]);
-    }); */
+      expect(response.body).to.deep.equal(expected);
+    });
   });
 });
