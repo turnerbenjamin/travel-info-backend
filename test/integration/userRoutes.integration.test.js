@@ -14,6 +14,8 @@ import User from "../../src/models/User.model.js";
 import UserController from "../../src/controllers/User.controller.js";
 import userData from "../data/user.test.data.js";
 import UserRoutes from "../../src/routes/User.routes.js";
+import FavouritedLocation from "../../src/models/FavouritedLocation.model.js";
+import mongoose from "mongoose";
 
 describe("User routes: integration tests", () => {
   let server;
@@ -60,6 +62,7 @@ describe("User routes: integration tests", () => {
   afterEach(async () => {
     await User.deleteMany();
     await Location.deleteMany();
+    await FavouritedLocation.deleteMany();
   });
 
   //Replaces auto-generated ids with those
@@ -203,6 +206,18 @@ describe("User routes: integration tests", () => {
       const response = await request.post(endpoint).send(newLocation);
       //Assert
       expect(response.status).to.equal(201);
+    });
+
+    //? INT1-12
+    it("should add location to favourite locations where location not already in the database", async () => {
+      //Arrange
+      const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+
+      mirrorIds(expected, response.body);
+      //Assert
+      expect(response.body).to.deep.equal(expected);
     });
   });
 });
