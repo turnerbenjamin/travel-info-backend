@@ -50,6 +50,6 @@
 - [x] INT1-5: It should return 400 status code where label missing
 - [x] INT1-6: It should return 400 status code where label empty
 - [x] INT1-7: It should return 400 status code where latitude missing
-- [ ] INT1-8: It should return 400 status code where latitude not numeric
+- [x] INT1-8: It should return 400 status code where latitude not numeric
 - [ ] INT1-9: It should return 400 status code where longitude missing
 - [ ] INT1-10: It should return 400 status code where longitude not numeric

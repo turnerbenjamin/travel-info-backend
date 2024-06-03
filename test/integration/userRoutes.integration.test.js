@@ -166,5 +166,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT1-8
+    it("should return 400 status code where latitude missing", async () => {
+      //Arrange
+      newLocation.latitude = "x";
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });

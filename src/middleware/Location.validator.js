@@ -12,6 +12,7 @@ export default class LocationValidator {
         .body("latitude")
         .trim()
         .notEmpty()
+        .isNumeric()
         .withMessage("Latitude is required"),
       LocationValidator.handleValidationErrors,
     ];
