@@ -5,6 +5,7 @@ export default class LocationValidator {
     return [
       expressValidator
         .body("label")
+        .trim()
         .notEmpty()
         .withMessage("A label is required"),
       LocationValidator.handleValidationErrors,

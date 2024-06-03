@@ -141,7 +141,17 @@ describe("User routes: integration tests", () => {
     it("should return 400 status code where label missing", async () => {
       //Arrange
       delete newLocation.label;
+      //Act
+      const response = await request.post(endpoint).send(newLocation);
+      //Assert
+      expect(response.status).to.equal(400);
+      //Clean-up
+    });
 
+    //? INT1-6
+    it("should return 400 status code where label empty", async () => {
+      //Arrange
+      newLocation.label = "  ";
       //Act
       const response = await request.post(endpoint).send(newLocation);
       //Assert

@@ -48,7 +48,7 @@
 - [x] INT1-3: It should set response content type to JSON
 - [x] INT1-4: It should return 500 status code where error thrown
 - [x] INT1-5: It should return 400 status code where label missing
-- [ ] INT1-6: It should return 400 status code where label empty
+- [x] INT1-6: It should return 400 status code where label empty
 - [ ] INT1-7: It should return 400 status code where latitude missing
 - [ ] INT1-8: It should return 400 status code where latitude not numeric
 - [ ] INT1-9: It should return 400 status code where longitude missing
