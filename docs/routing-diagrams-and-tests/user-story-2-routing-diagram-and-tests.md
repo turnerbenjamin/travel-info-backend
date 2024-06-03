@@ -21,7 +21,7 @@
 
 ### User Controller (UC)
 
-- [ ] UC2-1: It should call getUserFavourites on the Favourited Location service with the correct argument
+- [x] UC2-1: It should call getUserFavourites on the Favourited Location service with the correct argument
 - [ ] UC2-2: It should send a 500 response if the Favourited Location service rejects
 - [ ] UC2-3: It should send a 500 response if req.user is null
 - [ ] UC2-4: It should send a 201 response if getUserFavourites resolves

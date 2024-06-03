@@ -20,6 +20,10 @@ export default class UserController {
     }
   };
 
+  getUserFavouriteLocations = async (req, res) => {
+    await this.#favouriteLocationService.getUserFavourites(req.user);
+  };
+
   #handleError(res, err) {
     const message = err.messageForUsers || "Server error";
     const statusCode = err.statusCode || 500;

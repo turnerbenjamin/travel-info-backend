@@ -1,46 +1,48 @@
 import sinon from "sinon";
 
+import favouritedLocationData from "../../data/favouritedLocation.test.data.js";
 import locationData from "../../data/location.test.data.js";
 import UserController from "../../../src/controllers/User.controller.js";
 import userData from "../../data/user.test.data.js";
 import { expect } from "chai";
 
 describe("User controller tests: ", () => {
+  let userController;
+  let locationService;
+  let favouriteLocationService;
+  let req;
+  let res;
+
+  beforeEach(() => {
+    locationService = {
+      addLocation: sinon.stub(),
+    };
+    favouriteLocationService = {
+      addFavourite: sinon.stub(),
+      getUserFavourites: sinon.stub(),
+    };
+    userController = new UserController(
+      favouriteLocationService,
+      locationService
+    );
+    req = {
+      body: locationData.submissions[0],
+      user: userData.documents[0],
+    };
+    res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.spy(),
+    };
+  });
+
+  afterEach(() => {
+    locationService = null;
+    favouriteLocationService = null;
+    req = null;
+    res = null;
+  });
+
   describe("addLocationToFavourites tests", () => {
-    let userController;
-    let locationService;
-    let favouriteLocationService;
-    let req;
-    let res;
-
-    beforeEach(() => {
-      locationService = {
-        addLocation: sinon.stub(),
-      };
-      favouriteLocationService = {
-        addFavourite: sinon.stub(),
-      };
-      userController = new UserController(
-        favouriteLocationService,
-        locationService
-      );
-      req = {
-        body: locationData.submissions[0],
-        user: userData.documents[0],
-      };
-      res = {
-        status: sinon.stub().returnsThis(),
-        json: sinon.spy(),
-      };
-    });
-
-    afterEach(() => {
-      locationService = null;
-      favouriteLocationService = null;
-      req = null;
-      res = null;
-    });
-
     //? UC1-1
     it("should call add location on location service with the correct location details", async () => {
       userController.addLocationToFavourites(req, res);
@@ -117,6 +119,21 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(201)).to.be.true;
       expect(res.json.calledWith(locationData.documents)).to.be.true;
+    });
+  });
+
+  describe("getFavourites tests", () => {
+    //? UC2-1
+    it("should call getUserFavourites on the Favourited Location service with the correct argument", async () => {
+      //Arrange
+      favouriteLocationService.getUserFavourites.resolves(
+        favouritedLocationData.formattedResponse
+      );
+      //act
+      await userController.getUserFavouriteLocations(req, res);
+      //Assert
+      expect(favouriteLocationService.getUserFavourites.calledWith(req.user)).to
+        .be.true;
     });
   });
 });
