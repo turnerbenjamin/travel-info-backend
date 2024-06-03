@@ -103,10 +103,28 @@ describe("User routes: integration tests", () => {
     it("should set response content type to JSON", async () => {
       //Arrange
       const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+      //Act
       const response = await request
         .post(endpoint)
         .send(locationData.submissions[0]);
+      //Assert
       expect(response.headers["content-type"]).to.include("application/json");
+    });
+
+    //? INT1-4
+    it("should return 500 status code where error thrown", async () => {
+      //Arrange
+      const stub = sinon.stub(Location, "findOne");
+      stub.rejects(new Error());
+      const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
+      //Act
+      const response = await request
+        .post(endpoint)
+        .send(locationData.submissions[0]);
+      //Assert
+      expect(response.status).to.equal(500);
+      //Clean-up
+      stub.restore();
     });
   });
 });

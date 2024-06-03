@@ -3,7 +3,7 @@ import { expect, use } from "chai";
 import sinon from "sinon";
 
 import Location from "../../../src/models/Location.model.js";
-import LocationService from "../../../src/services/location.service.js";
+import LocationService from "../../../src/services/Location.service.js";
 
 import locationData from "../../data/location.test.data.js";
 
