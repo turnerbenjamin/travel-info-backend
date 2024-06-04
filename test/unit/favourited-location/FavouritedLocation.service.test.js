@@ -229,5 +229,16 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(actualIdArgument).to.equal(testId);
     });
+
+    //? FLS3-2
+    it("should return deleted doc where one is returned", async () => {
+      //Arrange
+      const expected = favouritedLocationData.documents[0];
+      findByIdAndDeleteStub.resolves(expected);
+      //Act
+      const actual = await favouritedLocationService.deleteById(testId);
+      //Assert
+      expect(actual).to.equal(expected);
+    });
   });
 });

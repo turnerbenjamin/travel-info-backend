@@ -15,7 +15,7 @@
 ### Favourited Location Service (FLS)
 
 - [x] FLS3-1: It should call findByIdAndDelete on the FavouritedLocation model with the correct argument
-- [ ] FLS3-2: It should return deleted doc where one is returned
+- [x] FLS3-2: It should return deleted doc where one is returned
 - [ ] FLS3-3: It should return undefined where no doc is returned
 - [ ] FLS3-4: It should throw an error where findByIdAndDelete fails
 - [ ] FLS3-5: It should throw an error where passed id is null or undefined
