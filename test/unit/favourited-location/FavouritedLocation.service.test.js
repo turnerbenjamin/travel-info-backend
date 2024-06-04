@@ -250,5 +250,13 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(actual).to.equal(undefined);
     });
+
+    //? FLS3-4
+    it("should throw an error where findByIdAndDelete fails", async () => {
+      findByIdAndDeleteStub.rejects();
+      await expect(
+        favouritedLocationService.deleteById(testId)
+      ).to.be.rejectedWith(Error);
+    });
   });
 });
