@@ -8,7 +8,7 @@
 
 ## Routing Diagram
 
-![User story 1 Routing diagram](./images/user-story-2-routing-diagram.PNG)
+![User story 2 Routing diagram](./images/user-story-2-routing-diagram.PNG)
 
 ## Tests
 

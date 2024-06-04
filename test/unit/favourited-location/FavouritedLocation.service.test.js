@@ -1,5 +1,6 @@
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
+import mongoose from "mongoose";
 import sinon from "sinon";
 
 import FavouritedLocation from "../../../src/models/FavouritedLocation.model.js";
@@ -198,6 +199,35 @@ describe("Favourited location service tests: ", () => {
       await expect(
         favouritedLocationService.getUserFavourites(testUser)
       ).to.be.rejectedWith(Error);
+    });
+  });
+
+  describe("deleteById Tests: ", () => {
+    const testId = new mongoose.Types.ObjectId();
+    let findByIdAndDeleteStub = null;
+
+    //SET-UP USER SERVICE TESTS
+    beforeEach(() => {
+      findByIdAndDeleteStub = sinon.stub(
+        FavouritedLocation,
+        "findByIdAndDelete"
+      );
+    });
+
+    //CLEAN-UP USER SERVICE TESTS
+    afterEach(() => {
+      findByIdAndDeleteStub.restore();
+    });
+
+    //? FLS3-1
+    it("should call findByIdAndDelete on the FavouritedLocation model with the correct argument", async () => {
+      //Arrange
+      findByIdAndDeleteStub.resolves(favouritedLocationData.documents[0]);
+      //Act
+      await favouritedLocationService.deleteById(testId);
+      const actualIdArgument = findByIdAndDeleteStub.getCall(0).args[0];
+      //Assert
+      expect(actualIdArgument).to.equal(testId);
     });
   });
 });

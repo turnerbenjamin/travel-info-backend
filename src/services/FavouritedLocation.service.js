@@ -17,6 +17,10 @@ export default class FavouritedLocationService {
     );
   };
 
+  deleteById = async (id) => {
+    await FavouritedLocation.findByIdAndDelete(id);
+  };
+
   #formatLocationForResponse = ({ label, latAndLong, _id }) => {
     return {
       _id,
