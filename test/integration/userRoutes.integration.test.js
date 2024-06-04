@@ -342,5 +342,19 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.be.empty;
     });
+
+    //? INT3-4
+    it("should return 500 status code where error thrown", async () => {
+      //Arrange
+      const stub = sinon.stub(FavouritedLocation, "findOneAndDelete");
+      stub.rejects(new Error());
+      const endpoint = `/users/${testUser._id}/favourite-locations/${testIdToDelete}`;
+      //Act
+      const response = await request.delete(endpoint);
+      //Assert
+      expect(response.status).to.equal(500);
+      //clean-up
+      stub.restore();
+    });
   });
 });

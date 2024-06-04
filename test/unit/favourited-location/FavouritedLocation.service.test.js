@@ -18,6 +18,7 @@ describe("Favourited location service tests: ", () => {
   let findOneStub = null;
   let createStub = null;
   let populateStub = null;
+  let findOneAndDeleteStub = null;
 
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
@@ -26,6 +27,7 @@ describe("Favourited location service tests: ", () => {
     findOneStub = sinon.stub(FavouritedLocation, "findOne");
     createStub = sinon.stub(FavouritedLocation, "create");
     populateStub = sinon.stub(FavouritedLocation, "populate");
+    findOneAndDeleteStub = sinon.stub(FavouritedLocation, "findOneAndDelete");
   });
 
   //CLEAN-UP USER SERVICE TESTS
@@ -35,6 +37,7 @@ describe("Favourited location service tests: ", () => {
     findOneStub.restore();
     createStub.restore();
     populateStub.restore();
+    findOneAndDeleteStub.restore();
   });
 
   describe("addFavourite tests: ", () => {
@@ -207,17 +210,6 @@ describe("Favourited location service tests: ", () => {
     const testFavouritedLocation = favouritedLocationData.documents[0];
     const testFavouritedLocationId = testFavouritedLocation._id;
     const testUser = userData.documents[0];
-    let findOneAndDeleteStub = null;
-
-    //SET-UP USER SERVICE TESTS
-    beforeEach(() => {
-      findOneAndDeleteStub = sinon.stub(FavouritedLocation, "findOneAndDelete");
-    });
-
-    //CLEAN-UP USER SERVICE TESTS
-    afterEach(() => {
-      findOneAndDeleteStub.restore();
-    });
 
     //? FLS3-1
     it("should call findOneAndDelete on the FavouritedLocation model with the correct arguments", async () => {
