@@ -16,7 +16,7 @@
 
 - [x] FLS3-1: It should call findByIdAndDelete on the FavouritedLocation model with the correct argument
 - [x] FLS3-2: It should return deleted doc where one is returned
-- [ ] FLS3-3: It should return undefined where no doc is returned
+- [x] FLS3-3: It should return undefined where no doc is returned
 - [ ] FLS3-4: It should throw an error where findByIdAndDelete fails
 - [ ] FLS3-5: It should throw an error where passed id is null or undefined
 
@@ -24,7 +24,7 @@
 
 - [ ] UC3-1: It should call deleteById on the Favourited Location service with the correct id
 - [ ] UC3-2: It should send a 500 response if the Favourited Location service rejects
-- [ ] UC3-3: It should send a 404 response if deleteById return null or undefined
+- [ ] UC3-3: It should send a 404 response if deleteById returns undefined
 - [ ] UC3-4: It should send a 204 response if deleteById returns a deleted doc
 - [ ] UC3-5: It should call res.json with the deleted doc
 

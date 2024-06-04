@@ -240,5 +240,15 @@ describe("Favourited location service tests: ", () => {
       //Assert
       expect(actual).to.equal(expected);
     });
+
+    //? FLS3-3
+    it("should return undefined where no doc is returned", async () => {
+      //Arrange
+      findByIdAndDeleteStub.resolves(undefined);
+      //Act
+      const actual = await favouritedLocationService.deleteById(testId);
+      //Assert
+      expect(actual).to.equal(undefined);
+    });
   });
 });
