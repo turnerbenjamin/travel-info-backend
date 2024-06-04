@@ -14,7 +14,7 @@
 
 ### Favourited Location Service (FLS)
 
-- [x] FLS3-1: It should call findByIdAndDelete on the FavouritedLocation model with the correct argument
+- [x] FLS3-1: It should call findOneAndDelete on the FavouritedLocation model with the correct arguments
 - [x] FLS3-2: It should return undefined where a deleted doc is returned
 - [x] FLS3-3: It should throw HTTPError with status of 404 where no deleted doc is returned
 - [x] FLS3-4: It should throw an error where findByIdAndDelete fails
@@ -27,6 +27,7 @@
 - [x] UC3-3: It should send a 404 response if deleteById throws a HTTPError with a status code of 404
 - [x] UC3-4: It should send a 204 response if deleteById resolves
 - [x] UC3-5: It should have an undefined response body where successful
+- [x] UC3-6: It should send a 500 response if req.user is null
 
 ### Integration Tests (INT)
 
@@ -35,3 +36,4 @@
 - [ ] INT3-3: It should have an undefined response body where successful
 - [ ] INT3-4: It should return 500 status code where error thrown
 - [ ] INT3-5: It should return 404 status code where document not found
+- [ ] INT3-6: It should return 404 status code where user is not the owner of a document in the database

@@ -204,39 +204,48 @@ describe("Favourited location service tests: ", () => {
   });
 
   describe("deleteById Tests: ", () => {
-    const testId = new mongoose.Types.ObjectId();
-    let findByIdAndDeleteStub = null;
+    const testFavouritedLocation = favouritedLocationData.documents[0];
+    const testFavouritedLocationId = testFavouritedLocation._id;
+    const testUser = userData.documents[0];
+    let findOneAndDeleteStub = null;
 
     //SET-UP USER SERVICE TESTS
     beforeEach(() => {
-      findByIdAndDeleteStub = sinon.stub(
-        FavouritedLocation,
-        "findByIdAndDelete"
-      );
+      findOneAndDeleteStub = sinon.stub(FavouritedLocation, "findOneAndDelete");
     });
 
     //CLEAN-UP USER SERVICE TESTS
     afterEach(() => {
-      findByIdAndDeleteStub.restore();
+      findOneAndDeleteStub.restore();
     });
 
     //? FLS3-1
-    it("should call findByIdAndDelete on the FavouritedLocation model with the correct argument", async () => {
+    it("should call findOneAndDelete on the FavouritedLocation model with the correct arguments", async () => {
       //Arrange
-      findByIdAndDeleteStub.resolves(favouritedLocationData.documents[0]);
+      const expectedArgument = {
+        user: testUser._id,
+        _id: testFavouritedLocationId,
+      };
+      findOneAndDeleteStub.resolves(testFavouritedLocation);
       //Act
-      await favouritedLocationService.deleteById(testId);
-      const actualIdArgument = findByIdAndDeleteStub.getCall(0).args[0];
+      await favouritedLocationService.deleteById(
+        testUser,
+        testFavouritedLocationId
+      );
+      const actualArgument = findOneAndDeleteStub.getCall(0).args[0];
       //Assert
-      expect(actualIdArgument).to.equal(testId);
+      expect(actualArgument).to.deep.equal(expectedArgument);
     });
 
     //? FLS3-2
     it("should return undefined where a deleted doc is returned", async () => {
       //Arrange
-      findByIdAndDeleteStub.resolves(favouritedLocationData.documents[0]);
+      findOneAndDeleteStub.resolves(testFavouritedLocation);
       //Act
-      const actual = await favouritedLocationService.deleteById(testId);
+      const actual = await favouritedLocationService.deleteById(
+        testUser,
+        testFavouritedLocationId
+      );
       //Assert
       expect(actual).to.equal(undefined);
     });
@@ -245,11 +254,14 @@ describe("Favourited location service tests: ", () => {
     it("should throw HTTPError with status of 404 where no deleted doc is returned", async () => {
       //Arrange
       const expected = new HTTPError(404, "Favourited location not found");
-      findByIdAndDeleteStub.resolves(undefined);
+      findOneAndDeleteStub.resolves(undefined);
       let actual;
       //Act
       try {
-        await favouritedLocationService.deleteById(testId);
+        await favouritedLocationService.deleteById(
+          testUser,
+          testFavouritedLocationId
+        );
       } catch (err) {
         actual = err;
       }
@@ -259,9 +271,9 @@ describe("Favourited location service tests: ", () => {
 
     //? FLS3-4
     it("should throw an error where findByIdAndDelete fails", async () => {
-      findByIdAndDeleteStub.rejects();
+      findOneAndDeleteStub.rejects();
       await expect(
-        favouritedLocationService.deleteById(testId)
+        favouritedLocationService.deleteById(testUser, testFavouritedLocationId)
       ).to.be.rejectedWith(Error);
     });
 

@@ -200,8 +200,12 @@ describe("User controller tests: ", () => {
       //act
       await userController.deleteById(req, res);
       //Assert
-      expect(favouriteLocationService.deleteById.calledWith(testId.toString()))
-        .to.be.true;
+      expect(
+        favouriteLocationService.deleteById.calledWith(
+          req.user,
+          testId.toString()
+        )
+      ).to.be.true;
     });
 
     //? UC3-2
@@ -244,6 +248,19 @@ describe("User controller tests: ", () => {
       await userController.deleteById(req, res);
       //Assert
       expect(res.json.calledWith(undefined)).to.be.true;
+    });
+
+    //? UC3-6
+    it("should send a 500 response if req.user is null", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.rejects(
+        new HTTPError(404, "Favourited location not found")
+      );
+      req.user = null;
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
     });
   });
 });
