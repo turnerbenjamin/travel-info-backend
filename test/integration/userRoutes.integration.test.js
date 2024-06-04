@@ -5,6 +5,7 @@ import supertest from "supertest";
 
 import Config from "../../config/Config.js";
 import Database from "../../src/database/Database.js";
+import favouritedLocationData from "../data/favouritedLocation.test.data.js";
 import FavouritedLocationService from "../../src/services/FavouritedLocation.service.js";
 import Location from "../../src/models/Location.model.js";
 import locationData from "../data/location.test.data.js";
@@ -295,6 +296,27 @@ describe("User routes: integration tests", () => {
       const response = await request.get(endpoint);
       //Assert
       expect(response.body).to.deep.equal(expected);
+    });
+  });
+
+  describe("Delete favourited location by id tests", () => {
+    let testIdToDelete;
+    const testUser = userData.documents[0];
+    beforeEach(async () => {
+      const data = await FavouritedLocation.insertMany(
+        favouritedLocationData.documents
+      );
+      testIdToDelete = data[0]._id;
+    });
+
+    //? INT3-1
+    it("should respond with a 204 status code with valid request", async () => {
+      //Arrange
+      const endpoint = `/users/${testUser._id}/favourite-locations/${testIdToDelete}`;
+      //Act
+      const response = await request.delete(endpoint);
+      //Assert
+      expect(response.status).to.equal(204);
     });
   });
 });

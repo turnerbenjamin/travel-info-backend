@@ -29,6 +29,12 @@ export default class UserRoutes {
       this.#authController.validate,
       this.#userController.getUserFavouriteLocations
     );
+
+    this.#router.delete(
+      "/:userId/favourite-locations/:id",
+      this.#authController.validate,
+      this.#userController.deleteById
+    );
   }
 
   getRouter() {

@@ -243,7 +243,7 @@ describe("User controller tests: ", () => {
       //act
       await userController.deleteById(req, res);
       //Assert
-      expect(res.json.calledOnce).to.be.false;
+      expect(res.json.calledWith(undefined)).to.be.true;
     });
   });
 });

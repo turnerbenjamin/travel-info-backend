@@ -30,7 +30,8 @@
 
 ### Integration Tests (INT)
 
-- [ ] INT3-1: It should respond with a 204 status code with valid request
-- [ ] INT3-2: It should have an undefined response body where successful
-- [ ] INT3-3: It should return 500 status code where error thrown
-- [ ] INT3-4: It should return 404 status code where document not found
+- [x] INT3-1: It should respond with a 204 status code with valid request
+- [ ] INT3-2: It should have removed the favourite where successful
+- [ ] INT3-3: It should have an undefined response body where successful
+- [ ] INT3-4: It should return 500 status code where error thrown
+- [ ] INT3-5: It should return 404 status code where document not found
