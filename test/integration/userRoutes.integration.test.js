@@ -25,6 +25,7 @@ describe("User routes: integration tests", () => {
   let database;
   let request;
   let newLocation;
+  let authController;
   const endpoint = `/users/${userData.documents[0]._id}/favourite-locations`;
 
   before(async () => {
@@ -36,7 +37,7 @@ describe("User routes: integration tests", () => {
       favouriteLocationService,
       locationService
     );
-    const authController = {
+    authController = {
       validate: (req, _, next) => {
         req.user = userData.documents[0];
         next();
@@ -301,12 +302,14 @@ describe("User routes: integration tests", () => {
 
   describe("Delete favourited location by id tests", () => {
     let testIdToDelete;
+    let testIdOfDocNotOwnedByTestUser;
     const testUser = userData.documents[0];
     beforeEach(async () => {
       const data = await FavouritedLocation.insertMany(
         favouritedLocationData.documents
       );
       testIdToDelete = data[0]._id;
+      testIdOfDocNotOwnedByTestUser = data[1]._id;
     });
 
     //? INT3-1
@@ -324,8 +327,9 @@ describe("User routes: integration tests", () => {
       //Arrange
       const deleteEndpoint = `/users/${testUser._id}/favourite-locations/${testIdToDelete}`;
       const getEndpoint = `/users/${testUser._id}/favourite-locations`;
-      const expected = [locationData.formattedResponses[1]];
+      const expected = [];
       //Act
+      const testResponse = await request.get(getEndpoint);
       await request.delete(deleteEndpoint);
       const response = await request.get(getEndpoint);
       mirrorIds(expected, response.body);
@@ -361,6 +365,15 @@ describe("User routes: integration tests", () => {
       //Arrange
       const testIdNotInDatabase = new mongoose.Types.ObjectId();
       const endpoint = `/users/${testUser._id}/favourite-locations/${testIdNotInDatabase}`;
+      //Act
+      const response = await request.delete(endpoint);
+      //Assert
+      expect(response.status).to.equal(404);
+    });
+    //? INT3-6
+    it("should return 404 status code where user is not the owner of a document in the database", async () => {
+      //Arrange
+      const endpoint = `/users/${testUser._id}/favourite-locations/${testIdOfDocNotOwnedByTestUser}`;
       //Act
       const response = await request.delete(endpoint);
       //Assert

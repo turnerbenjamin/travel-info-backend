@@ -12,7 +12,7 @@ const favouritedLocationData = {
     },
     {
       _id: new mongoose.Types.ObjectId(),
-      user: userData.documents[0]._id,
+      user: userData.documents[1]._id,
       location: locationData.documents[1]._id,
     },
   ],
@@ -23,7 +23,7 @@ const favouritedLocationData = {
       location: locationData.documents[0],
     },
     {
-      user: userData.documents[0]._id,
+      user: userData.documents[1]._id,
       location: locationData.documents[1],
     },
   ],
