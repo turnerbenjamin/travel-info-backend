@@ -21,7 +21,7 @@ export default class FavouritedLocationService {
   deleteById = async (id) => {
     if (!id) throw new Error("Id is undefined");
     const deletedDoc = await FavouritedLocation.findByIdAndDelete(id);
-    return deletedDoc;
+    if (!deletedDoc) throw new HTTPError(404, "Favourited location not found");
   };
 
   #formatLocationForResponse = ({ label, latAndLong, _id }) => {

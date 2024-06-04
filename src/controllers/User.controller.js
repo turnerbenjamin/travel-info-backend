@@ -31,6 +31,11 @@ export default class UserController {
     }
   };
 
+  deleteById = async (req, res) => {
+    const id = req.params.id;
+    await this.#favouriteLocationService.deleteById(id);
+  };
+
   #handleError(res, err) {
     const message = err.messageForUsers || "Server error";
     const statusCode = err.statusCode || 500;

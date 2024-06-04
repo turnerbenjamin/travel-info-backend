@@ -8,6 +8,7 @@ import FavouritedLocationService from "../../../src/services/FavouritedLocation.
 import favouritedLocationData from "../../data/favouritedLocation.test.data.js";
 import locationData from "../../data/location.test.data.js";
 import userData from "../../data/user.test.data.js";
+import HTTPError from "../../../src/utils/HTTPError.js";
 
 use(chaiAsPromised);
 
@@ -231,24 +232,29 @@ describe("Favourited location service tests: ", () => {
     });
 
     //? FLS3-2
-    it("should return deleted doc where one is returned", async () => {
+    it("should return undefined where a deleted doc is returned", async () => {
       //Arrange
-      const expected = favouritedLocationData.documents[0];
-      findByIdAndDeleteStub.resolves(expected);
-      //Act
-      const actual = await favouritedLocationService.deleteById(testId);
-      //Assert
-      expect(actual).to.equal(expected);
-    });
-
-    //? FLS3-3
-    it("should return undefined where no doc is returned", async () => {
-      //Arrange
-      findByIdAndDeleteStub.resolves(undefined);
+      findByIdAndDeleteStub.resolves(favouritedLocationData.documents[0]);
       //Act
       const actual = await favouritedLocationService.deleteById(testId);
       //Assert
       expect(actual).to.equal(undefined);
+    });
+
+    //? FLS3-3
+    it("should throw HTTPError with status of 404 where no deleted doc is returned", async () => {
+      //Arrange
+      const expected = new HTTPError(404, "Favourited location not found");
+      findByIdAndDeleteStub.resolves(undefined);
+      let actual;
+      //Act
+      try {
+        await favouritedLocationService.deleteById(testId);
+      } catch (err) {
+        actual = err;
+      }
+      //Assert
+      expect(actual).to.deep.equal(expected);
     });
 
     //? FLS3-4

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import sinon from "sinon";
 
 import favouritedLocationData from "../../data/favouritedLocation.test.data.js";
@@ -20,6 +21,7 @@ describe("User controller tests: ", () => {
     favouriteLocationService = {
       addFavourite: sinon.stub(),
       getUserFavourites: sinon.stub(),
+      deleteById: sinon.stub(),
     };
     userController = new UserController(
       favouriteLocationService,
@@ -180,6 +182,25 @@ describe("User controller tests: ", () => {
       await userController.getUserFavouriteLocations(req, res);
       //Assert
       expect(res.json.calledWith(expected)).to.be.true;
+    });
+  });
+  describe("deleteById tests", () => {
+    const testId = new mongoose.Types.ObjectId();
+    beforeEach(() => {
+      req.params = { id: testId.toString() };
+    });
+
+    //? UC3-1
+    it("should call deleteById on the Favourited Location service with the correct id", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.resolves(
+        favouritedLocationData.documents[0]
+      );
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(favouriteLocationService.deleteById.calledWith(testId.toString()))
+        .to.be.true;
     });
   });
 });
