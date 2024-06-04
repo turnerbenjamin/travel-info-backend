@@ -19,6 +19,7 @@ describe("Favourited location service tests: ", () => {
   let createStub = null;
   let populateStub = null;
   let findOneAndDeleteStub = null;
+  let findByIdStub = null;
 
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
@@ -28,6 +29,8 @@ describe("Favourited location service tests: ", () => {
     createStub = sinon.stub(FavouritedLocation, "create");
     populateStub = sinon.stub(FavouritedLocation, "populate");
     findOneAndDeleteStub = sinon.stub(FavouritedLocation, "findOneAndDelete");
+    findByIdStub = sinon.stub(FavouritedLocation, "findById");
+    findByIdStub.returns({ populate: populateStub });
   });
 
   //CLEAN-UP USER SERVICE TESTS
@@ -38,6 +41,7 @@ describe("Favourited location service tests: ", () => {
     createStub.restore();
     populateStub.restore();
     findOneAndDeleteStub.restore();
+    findByIdStub.restore();
   });
 
   describe("addFavourite tests: ", () => {
@@ -46,9 +50,9 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      findOneStub.resolves(favouritedLocationData.documents[0]);
-      populateStub.resolves(favouritedLocationData.populatedDocuments);
-      findStub.returns({ populate: populateStub });
+      findOneStub.resolves(undefined);
+      createStub.resolves(favouritedLocationData.documents[0]);
+      populateStub.resolves(favouritedLocationData.populatedDocuments[0]);
       const expected = { user: testUser._id, location: testLocation._id };
       //Act
       await favouritedLocationService.addFavourite(testUser, testLocation);
@@ -58,21 +62,16 @@ describe("Favourited location service tests: ", () => {
     });
 
     //? FLS1-2
-    it("should return an array of favourited locations for the user where location already in the user's favourites", async () => {
+    it("should throw an error where location added is a duplicate", async () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      const expected = favouritedLocationData.formattedResponse;
       findOneStub.resolves(favouritedLocationData.documents[0]);
-      populateStub.resolves(favouritedLocationData.populatedDocuments);
-      findStub.returns({ populate: populateStub });
-      //Act
-      const result = await favouritedLocationService.addFavourite(
-        testUser,
-        testLocation
-      );
+      populateStub.resolves(favouritedLocationData.populatedDocuments[0]);
       //Assert
-      expect(result).to.deep.equal(expected);
+      await expect(
+        favouritedLocationService.addFavourite(testUser, testLocation)
+      ).to.be.rejectedWith(Error);
     });
 
     //? FLS1-3
@@ -80,8 +79,8 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      populateStub.resolves(favouritedLocationData.populatedDocuments);
-      findStub.returns({ populate: populateStub });
+      createStub.resolves(favouritedLocationData.documents[0]);
+      populateStub.resolves(favouritedLocationData.populatedDocuments[0]);
       //Act
       await favouritedLocationService.addFavourite(testUser, testLocation);
       const { user: userIdArg, location: locationIdArg } =
@@ -92,14 +91,14 @@ describe("Favourited location service tests: ", () => {
     });
 
     //? FLS1-4
-    it("should return an array of favourited locations for the user where location not already in the user's favourites", async () => {
+    it("should the location added where location not already in the user's favourites", async () => {
       //Arrange
       const testUser = userData.documents[0];
       const testLocation = locationData.documents[0];
-      const expected = favouritedLocationData.formattedResponse;
+      const expected = favouritedLocationData.formattedResponse[0];
       findOneStub.resolves(null);
-      populateStub.resolves(favouritedLocationData.populatedDocuments);
-      findStub.returns({ populate: populateStub });
+      createStub.resolves(favouritedLocationData.documents[0]);
+      populateStub.resolves(favouritedLocationData.populatedDocuments[0]);
       //Act
       const result = await favouritedLocationService.addFavourite(
         testUser,

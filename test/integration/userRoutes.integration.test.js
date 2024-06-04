@@ -102,9 +102,8 @@ describe("User routes: integration tests", () => {
       const expected = locationData.formattedResponses;
       //Act
       await request.post(endpoint).send(validLocationSubmission);
-      const response = await request
-        .post(endpoint)
-        .send(locationData.submissions[1]);
+      await request.post(endpoint).send(locationData.submissions[1]);
+      const response = await request.get(endpoint);
 
       mirrorIds(expected, response.body);
       //Assert
@@ -209,7 +208,8 @@ describe("User routes: integration tests", () => {
       //Arrange
       const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
       //Act
-      const response = await request.post(endpoint).send(newLocation);
+      await request.post(endpoint).send(newLocation);
+      const response = await request.get(endpoint);
 
       mirrorIds(expected, response.body);
       //Assert
@@ -217,23 +217,21 @@ describe("User routes: integration tests", () => {
     });
 
     //? INT1-13
-    it("should respond with a 201 status code where favourited location is a duplicate", async () => {
+    it("should respond with a 400 status code where favourited location is a duplicate", async () => {
       //Act
       await request.post(endpoint).send(newLocation);
       const response = await request.post(endpoint).send(newLocation);
       //Assert
-      expect(response.status).to.equal(201);
+      expect(response.status).to.equal(400);
     });
 
     //? INT1-14
-    it("should not include duplicated entry in response body where favourited location is a duplicate", async () => {
+    it("should return the location added where success", async () => {
       //Arrange
-      const expected = [{ ...newLocation, _id: new mongoose.Types.ObjectId() }];
+      const expected = newLocation;
       //Act
-      await request.post(endpoint).send(newLocation);
       const response = await request.post(endpoint).send(newLocation);
-
-      mirrorIds(expected, response.body);
+      delete response.body._id;
       //Assert
       expect(response.body).to.deep.equal(expected);
     });

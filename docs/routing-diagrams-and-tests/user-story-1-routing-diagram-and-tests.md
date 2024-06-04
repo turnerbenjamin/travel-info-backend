@@ -24,9 +24,9 @@
 ### Favourited Location Service (FLS)
 
 - [x] FLS1-1: It should call findOne on the FavouritedLocation model with the correct argument
-- [x] FLS1-2: It should return an array of favourited locations for the user where location already in the user's favourites
+- [x] FLS1-2: It should throw an error where location added is a duplicate
 - [x] FLS1-3: It should call create on the FavouritedLocation model with the correct arguments if the location has not in the user's favourited locations
-- [x] FLS1-4: It should return an array of favourited locations for the user where location not already in the user's favourites
+- [x] FLS1-4: It should the location added where location not already in the user's favourites
 - [x] FLS1-5: It should throw an error where findOne fails
 - [x] FLS1-6: It should throw an error where find fails
 - [x] FLS1-7: It should throw an error where create fails
@@ -55,5 +55,5 @@
 - [x] INT1-10: It should return 400 status code where longitude not numeric
 - [x] INT1-11: It should return 201 status code where location not already in the database
 - [x] INT1-12: It should add location to favourite locations where location not already in the database
-- [x] INT1-13: It should respond with a 201 status code where favourited location is a duplicate
-- [x] INT1-14: It should not include duplicated entry in response body where favourited location is a duplicate
+- [x] INT1-13: It should respond with a 400 status code where favourited location is a duplicate
+- [x] INT1-14: It should return the location added where success

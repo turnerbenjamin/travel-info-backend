@@ -3,10 +3,20 @@ import HTTPError from "../../src/utils/HTTPError.js";
 
 export default class FavouritedLocationService {
   addFavourite = async (user, location) => {
-    const userFavourite = await this.#getFavourite(user, location);
-    if (!userFavourite) await this.#createNewFavouriteLocation(user, location);
-    const userFavourites = await this.getUserFavourites(user);
-    return userFavourites;
+    await this.#checkIfDuplicate(user, location);
+    const userFavourite = await this.#createNewFavouriteLocation(
+      user,
+      location
+    );
+    const formattedUserFavourite =
+      await this.#getFavouriteByIdAndFormatForResponse(userFavourite._id);
+    return formattedUserFavourite;
+  };
+
+  #checkIfDuplicate = async (user, location) => {
+    const existingDocument = await this.#getFavourite(user, location);
+    if (existingDocument)
+      throw new HTTPError(400, "Location has already been favourited");
   };
 
   getUserFavourites = async (user) => {
@@ -27,6 +37,13 @@ export default class FavouritedLocationService {
     if (!deletedDoc) throw new HTTPError(404, "Favourited location not found");
   };
 
+  #getFavouriteByIdAndFormatForResponse = async (favouritedLocationId) => {
+    const favouritedLocationDoc = await FavouritedLocation.findById(
+      favouritedLocationId
+    ).populate("location");
+    return this.#formatLocationForResponse(favouritedLocationDoc.location);
+  };
+
   #formatLocationForResponse = ({ label, latAndLong, _id }) => {
     return {
       _id,
@@ -45,9 +62,10 @@ export default class FavouritedLocationService {
   };
 
   #createNewFavouriteLocation = async (user, location) => {
-    await FavouritedLocation.create({
+    const newFavouriteLocation = await FavouritedLocation.create({
       user: user._id,
       location: location._id,
     });
+    return newFavouriteLocation;
   };
 }
