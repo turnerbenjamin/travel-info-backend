@@ -318,5 +318,19 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(204);
     });
+
+    //? INT3-2
+    it("should have removed the favourite where successful", async () => {
+      //Arrange
+      const deleteEndpoint = `/users/${testUser._id}/favourite-locations/${testIdToDelete}`;
+      const getEndpoint = `/users/${testUser._id}/favourite-locations`;
+      const expected = [locationData.formattedResponses[1]];
+      //Act
+      await request.delete(deleteEndpoint);
+      const response = await request.get(getEndpoint);
+      mirrorIds(expected, response.body);
+      //Assert
+      expect(response.body).to.deep.equal(expected);
+    });
   });
 });
