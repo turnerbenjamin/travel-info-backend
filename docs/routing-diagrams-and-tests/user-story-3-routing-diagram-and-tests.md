@@ -18,7 +18,7 @@
 - [x] FLS3-2: It should return deleted doc where one is returned
 - [x] FLS3-3: It should return undefined where no doc is returned
 - [x] FLS3-4: It should throw an error where findByIdAndDelete fails
-- [ ] FLS3-5: It should throw an error where passed id is null or undefined
+- [x] FLS3-5: It should throw an error where passed id is undefined
 
 ### User Controller (UC)
 

@@ -258,5 +258,12 @@ describe("Favourited location service tests: ", () => {
         favouritedLocationService.deleteById(testId)
       ).to.be.rejectedWith(Error);
     });
+
+    //? FLS3-5
+    it("should throw an error where passed id is undefined", async () => {
+      await expect(
+        favouritedLocationService.deleteById(undefined)
+      ).to.be.rejectedWith(Error);
+    });
   });
 });

@@ -1,4 +1,5 @@
 import FavouritedLocation from "../models/FavouritedLocation.model.js";
+import HTTPError from "../../src/utils/HTTPError.js";
 
 export default class FavouritedLocationService {
   addFavourite = async (user, location) => {
@@ -18,6 +19,7 @@ export default class FavouritedLocationService {
   };
 
   deleteById = async (id) => {
+    if (!id) throw new Error("Id is undefined");
     const deletedDoc = await FavouritedLocation.findByIdAndDelete(id);
     return deletedDoc;
   };
