@@ -24,7 +24,7 @@
 
 - [x] UC3-1: It should call deleteById on the Favourited Location service with the correct id
 - [x] UC3-2: It should send a 500 response if the Favourited Location service rejects
-- [ ] UC3-3: It should send a 404 response if deleteById returns undefined
+- [x] UC3-3: It should send a 404 response if deleteById throws a HTTPError with a status code of 404
 - [ ] UC3-4: It should send a 204 response if deleteById returns a deleted doc
 - [ ] UC3-5: It should have an undefined response body where successful
 

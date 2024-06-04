@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import sinon from "sinon";
 
 import favouritedLocationData from "../../data/favouritedLocation.test.data.js";
+import HTTPError from "../../../src/utils/HTTPError.js";
 import locationData from "../../data/location.test.data.js";
 import UserController from "../../../src/controllers/User.controller.js";
 import userData from "../../data/user.test.data.js";
@@ -211,6 +212,18 @@ describe("User controller tests: ", () => {
       await userController.deleteById(req, res);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? UC3-3
+    it("should send a 404 response if deleteById throws a HTTPError with a status code of 404", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.rejects(
+        new HTTPError(404, "Favourited location not found")
+      );
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(res.status.calledWith(404)).to.be.true;
     });
   });
 });
