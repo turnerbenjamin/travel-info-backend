@@ -332,5 +332,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.deep.equal(expected);
     });
+
+    //? INT3-3
+    it("should have an empty response body where successful", async () => {
+      //Arrange
+      const endpoint = `/users/${testUser._id}/favourite-locations/${testIdToDelete}`;
+      //Act
+      const response = await request.delete(endpoint);
+      //Assert
+      expect(response.body).to.be.empty;
+    });
   });
 });
