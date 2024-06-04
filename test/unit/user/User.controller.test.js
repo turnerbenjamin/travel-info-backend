@@ -225,5 +225,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(404)).to.be.true;
     });
+
+    //? UC3-4
+    it("should send a 204 response if deleteById resolves", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.resolves(undefined);
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(res.status.calledWith(204)).to.be.true;
+    });
   });
 });

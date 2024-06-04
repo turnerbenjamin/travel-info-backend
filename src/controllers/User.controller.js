@@ -35,6 +35,7 @@ export default class UserController {
     try {
       const id = req.params.id;
       await this.#favouriteLocationService.deleteById(id);
+      res.status(204);
     } catch (err) {
       this.#handleError(res, err);
     }
