@@ -235,5 +235,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(204)).to.be.true;
     });
+
+    //? UC3-5
+    it("should have an undefined response body where successful", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.resolves(undefined);
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(res.json.calledOnce).to.be.false;
+    });
   });
 });

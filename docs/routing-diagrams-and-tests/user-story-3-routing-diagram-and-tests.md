@@ -26,7 +26,7 @@
 - [x] UC3-2: It should send a 500 response if the Favourited Location service rejects
 - [x] UC3-3: It should send a 404 response if deleteById throws a HTTPError with a status code of 404
 - [x] UC3-4: It should send a 204 response if deleteById resolves
-- [ ] UC3-5: It should have an undefined response body where successful
+- [x] UC3-5: It should have an undefined response body where successful
 
 ### Integration Tests (INT)
 
