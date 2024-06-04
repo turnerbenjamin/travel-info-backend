@@ -202,5 +202,15 @@ describe("User controller tests: ", () => {
       expect(favouriteLocationService.deleteById.calledWith(testId.toString()))
         .to.be.true;
     });
+
+    //? UC3-2
+    it("should send a 500 response if the Favourited Location service rejects", async () => {
+      //Arrange
+      favouriteLocationService.deleteById.rejects();
+      //act
+      await userController.deleteById(req, res);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });

@@ -23,7 +23,7 @@
 ### User Controller (UC)
 
 - [x] UC3-1: It should call deleteById on the Favourited Location service with the correct id
-- [ ] UC3-2: It should send a 500 response if the Favourited Location service rejects
+- [x] UC3-2: It should send a 500 response if the Favourited Location service rejects
 - [ ] UC3-3: It should send a 404 response if deleteById returns undefined
 - [ ] UC3-4: It should send a 204 response if deleteById returns a deleted doc
 - [ ] UC3-5: It should have an undefined response body where successful
