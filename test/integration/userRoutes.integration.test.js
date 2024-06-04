@@ -356,5 +356,15 @@ describe("User routes: integration tests", () => {
       //clean-up
       stub.restore();
     });
+    //? INT3-5
+    it("should return 404 status code where document not found", async () => {
+      //Arrange
+      const testIdNotInDatabase = new mongoose.Types.ObjectId();
+      const endpoint = `/users/${testUser._id}/favourite-locations/${testIdNotInDatabase}`;
+      //Act
+      const response = await request.delete(endpoint);
+      //Assert
+      expect(response.status).to.equal(404);
+    });
   });
 });

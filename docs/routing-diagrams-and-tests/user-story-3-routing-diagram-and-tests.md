@@ -35,5 +35,5 @@
 - [x] INT3-2: It should have removed the favourite where successful
 - [x] INT3-3: It should have an empty response body where successful
 - [x] INT3-4: It should return 500 status code where error thrown
-- [ ] INT3-5: It should return 404 status code where document not found
+- [x] INT3-5: It should return 404 status code where document not found
 - [ ] INT3-6: It should return 404 status code where user is not the owner of a document in the database
