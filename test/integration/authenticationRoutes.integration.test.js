@@ -64,5 +64,14 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.be.empty;
     });
+
+    //? INT4-3
+    it("should respond with a 400 response if email address missing", async () => {
+      //Act
+      newUserSubmission.emailAddress = null;
+      const response = await request.post(endpoint).send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });

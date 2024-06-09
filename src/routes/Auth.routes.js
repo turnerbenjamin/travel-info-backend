@@ -1,4 +1,5 @@
 import { Router } from "express";
+import UserValidator from "../middleware/User.validator.js";
 
 export default class AuthRoutes {
   #router;
@@ -13,7 +14,11 @@ export default class AuthRoutes {
   }
 
   #initialiseRoutes() {
-    this.#router.post("/register", this.#authController.register);
+    this.#router.post(
+      "/register",
+      UserValidator.validate(),
+      this.#authController.register
+    );
   }
 
   getRouter() {
