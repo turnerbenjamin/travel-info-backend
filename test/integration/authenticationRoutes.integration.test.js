@@ -100,5 +100,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT4-7
+    it(" should respond with a 400 response if user email is duplicated", async () => {
+      //Arrange
+      await request.post(endpoint).send(newUserSubmission);
+      //Act
+      const response = await request.post(endpoint).send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });
