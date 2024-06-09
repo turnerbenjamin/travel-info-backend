@@ -79,5 +79,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(400)).to.be.true;
     });
+
+    //? AC4-4
+    it("should respond with a status code of 500 if the User service throws an error without a status code of 400", async () => {
+      //Arrange
+      userService.createUser.rejects(new Error());
+      //Act
+      await authenticationController.register(req, res);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
