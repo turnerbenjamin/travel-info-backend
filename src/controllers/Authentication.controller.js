@@ -1,8 +1,16 @@
 import bcrypt from "bcrypt";
 
 export default class AuthenticationController {
+  #userService;
+
+  constructor(userService) {
+    this.#userService = userService;
+  }
+
   register = async (req, res) => {
-    const { password } = req.body;
-    await bcrypt.hash(password, 10);
+    const { emailAddress, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await this.#userService.createUser(emailAddress, hashedPassword);
   };
 }

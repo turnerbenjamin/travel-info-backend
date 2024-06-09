@@ -8,6 +8,7 @@ import userData from "../../data/user.test.data.js";
 describe("User controller tests: ", () => {
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
+  const testHashedPassword = "hashedPassword";
   let authenticationController;
   let userService;
   let hashStub;
@@ -16,7 +17,12 @@ describe("User controller tests: ", () => {
 
   beforeEach(() => {
     hashStub = sinon.stub(bcrypt, "hash");
-    authenticationController = new AuthenticationController();
+    hashStub.resolves(testHashedPassword);
+    userService = {
+      createUser: sinon.stub(),
+    };
+
+    authenticationController = new AuthenticationController(userService);
     req = {
       body: userData.submissions[0],
     };
@@ -29,7 +35,7 @@ describe("User controller tests: ", () => {
   afterEach(() => {
     authenticationController = null;
     userService = null;
-    hashStub = null;
+    hashStub.restore();
     req = null;
     res = null;
   });
@@ -46,6 +52,17 @@ describe("User controller tests: ", () => {
       //Assert
       expect(actualPasswordToHash).to.equal(expectedPasswordToHash);
       expect(actualSalts).to.equal(expectedSalts);
+    });
+
+    //? AC4-2
+    it("should pass the user email and hashed password to create user on the User service", async () => {
+      //Act
+      await authenticationController.register(req, res);
+      const [actualEmailAddressArg, actualHashedPasswordArg] =
+        userService.createUser.getCall(0).args;
+      //Assert
+      expect(actualEmailAddressArg).to.equal(testUserEmail);
+      expect(actualHashedPasswordArg).to.equal(testHashedPassword);
     });
   });
 });
