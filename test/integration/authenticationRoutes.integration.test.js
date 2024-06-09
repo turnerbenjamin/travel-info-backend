@@ -91,5 +91,14 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT4-6
+    it("should respond with a 400 response if password is less than 8 chars long", async () => {
+      //Act
+      newUserSubmission.password = "1234567";
+      const response = await request.post(endpoint).send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });

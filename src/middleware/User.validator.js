@@ -17,6 +17,7 @@ export default class UserValidator {
         .body("password")
         .exists()
         .notEmpty()
+        .isLength({ min: 8 })
         .withMessage("password must be at least 8 characters"),
       UserValidator.handleValidationErrors,
     ];
