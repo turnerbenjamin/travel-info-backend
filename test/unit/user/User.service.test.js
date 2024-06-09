@@ -2,28 +2,28 @@ import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import sinon from "sinon";
 
-import AuthenticationService from "../../../src/services/Authentication.service.js";
+import UserService from "../../../src/services/User.service.js";
 import userData from "../../data/user.test.data.js";
 import User from "../../../src/models/User.model.js";
 import HTTPError from "../../../src/utils/HTTPError.js";
 
 use(chaiAsPromised);
 
-describe("Authentication service tests: ", () => {
-  let authenticationService = null;
+describe("User service tests: ", () => {
+  let userService = null;
   let createStub = null;
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
 
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
-    authenticationService = new AuthenticationService();
+    userService = new UserService();
     createStub = sinon.stub(User, "create");
   });
 
   //CLEAN-UP USER SERVICE TESTS
   afterEach(() => {
-    authenticationService = null;
+    userService = null;
     createStub.restore();
   });
 
@@ -33,7 +33,7 @@ describe("Authentication service tests: ", () => {
       //Arrange
       createStub.resolves(userData.documents[0]);
       //Act
-      await authenticationService.createUser(testUserEmail, testUserPassword);
+      await userService.createUser(testUserEmail, testUserPassword);
       const [userObjArg] = createStub.getCall(0).args;
       //Assert
       expect(userObjArg).to.deep.equal(userData.submissions[0]);
@@ -51,7 +51,7 @@ describe("Authentication service tests: ", () => {
       let actual;
       //Act
       try {
-        await authenticationService.createUser(testUserEmail, testUserPassword);
+        await userService.createUser(testUserEmail, testUserPassword);
       } catch (err) {
         actual = err;
       }
@@ -67,7 +67,7 @@ describe("Authentication service tests: ", () => {
       let actual;
       //Act
       try {
-        await authenticationService.createUser(testUserEmail, testUserPassword);
+        await userService.createUser(testUserEmail, testUserPassword);
       } catch (err) {
         actual = err;
       }
@@ -80,7 +80,7 @@ describe("Authentication service tests: ", () => {
       //Arrange
       createStub.resolves(userData.documents[0]);
       //Act
-      const actualUserId = await authenticationService.createUser(
+      const actualUserId = await userService.createUser(
         testUserEmail,
         testUserPassword
       );

@@ -23,6 +23,7 @@
     },
     "homepage": "https://github.com/digital-futures-academy-se-2404-a/challenge-5-travel-info-back-end-turnerbenjamin#readme",
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "express-validator": "^7.1.0",

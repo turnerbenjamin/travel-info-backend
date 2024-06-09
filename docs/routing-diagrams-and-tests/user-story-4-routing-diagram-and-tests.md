@@ -21,7 +21,7 @@
 
 ### Authentication Controller (AC)
 
-- [ ] AC4-1: It should hash on bcrypt with the password
+- [x] AC4-1: It should call hash on bcrypt with the password
 - [ ] AC4-2: It should pass the user email and hashed password to create user on the User service.
 - [ ] AC4-3: It should respond with a status of 400 if the User service throws a HTTP error with a status of 400
 - [ ] AC4-4: It should respond with a status code of 500 if the User service throws an error without a status code of 400

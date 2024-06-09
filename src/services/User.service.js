@@ -1,7 +1,7 @@
 import User from "../models/User.model.js";
 import HTTPError from "../utils/HTTPError.js";
 
-export default class AuthenticationService {
+export default class UserService {
   createUser = async (emailAddress, hashedPassword) => {
     try {
       const newUser = await User.create({
