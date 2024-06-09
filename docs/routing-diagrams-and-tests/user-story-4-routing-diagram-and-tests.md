@@ -29,7 +29,7 @@
 
 ### Integration Tests (INT)
 
-- [ ] INT4-1: It should respond with a 201 status code with valid request
+- [x] INT4-1: It should respond with a 201 status code with valid request
 - [ ] INT4-2: It should have an empty response body where successful
 - [ ] INT4-3: It should respond with a 400 response if email address missing
 - [ ] INT4-4: It should respond with a 400 response if email is invalid

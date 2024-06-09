@@ -51,11 +51,10 @@ describe("User routes: integration tests", () => {
     await database.connect();
     server.start();
     request = supertest(app);
-
-    after(async () => {
-      await server.close();
-      await database.close();
-    });
+  });
+  after(async () => {
+    await server.close();
+    await database.close();
   });
 
   beforeEach(async () => {
