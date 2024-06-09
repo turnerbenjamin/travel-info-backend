@@ -36,4 +36,5 @@
 - [x] INT4-5: It should respond with a 400 response if password is missing
 - [x] INT4-6: It should respond with a 400 response if password is less than 8 chars long
 - [x] INT4-7: It should respond with a 400 response if user email is duplicated
-- [ ] INT4-8: It should respond with a 500 response create fails
+- [x] INT4-8: It should respond with a 500 response create fails
+- [x] INT4-9: It should create the user in the database

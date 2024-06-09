@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import express from "express";
+import sinon from "sinon";
 import supertest from "supertest";
 
 import AuthController from "../../src/controllers/Authentication.controller.js";
@@ -102,13 +103,36 @@ describe("User routes: integration tests", () => {
     });
 
     //? INT4-7
-    it(" should respond with a 400 response if user email is duplicated", async () => {
+    it("should respond with a 400 response if user email is duplicated", async () => {
       //Arrange
       await request.post(endpoint).send(newUserSubmission);
       //Act
       const response = await request.post(endpoint).send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
+    });
+
+    //? INT4-8
+    it("should respond with a 500 response create fails", async () => {
+      //Arrange
+      const stub = sinon.stub(User, "create");
+      stub.rejects(new Error());
+      //Act
+      const response = await request.post(endpoint).send(newUserSubmission);
+      stub.restore();
+      //Assert
+      expect(response.status).to.equal(500);
+    });
+
+    //? INT4-9
+    it("should create the user in the database", async () => {
+      //Act
+      await request.post(endpoint).send(newUserSubmission);
+      const newUser = await User.findOne({
+        emailAddress: newUserSubmission.emailAddress,
+      });
+      //Assert
+      expect(newUser.emailAddress).to.equal(newUserSubmission.emailAddress);
     });
   });
 });
