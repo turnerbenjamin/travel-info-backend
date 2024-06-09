@@ -25,7 +25,7 @@
 - [x] AC4-2: It should pass the user email and hashed password to create user on the User service
 - [x] AC4-3: It should respond with a status of 400 if the User service throws a HTTP error with a status of 400
 - [x] AC4-4: It should respond with a status code of 500 if the User service throws an error without a status code of 400
-- [ ] AC5-5: It should respond with a 201 status if the user was created successfully
+- [x] AC5-5: It should respond with a 201 status if the user was created successfully
 
 ### Integration Tests (INT)
 

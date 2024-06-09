@@ -89,5 +89,17 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
+
+    //? AC4-5
+    it("should respond with a 201 status if the user was created successfully", async () => {
+      //Arrange
+      const testId = userData.documents[0]._id;
+      userService.createUser.resolves(testId);
+      //Act
+      await authenticationController.register(req, res);
+      //Assert
+      expect(res.status.calledWith(201)).to.be.true;
+      expect(res.json.calledWith(undefined)).to.be.true;
+    });
   });
 });

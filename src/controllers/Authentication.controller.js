@@ -12,6 +12,7 @@ export default class AuthenticationController {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       await this.#userService.createUser(emailAddress, hashedPassword);
+      res.status(201).json(undefined);
     } catch (err) {
       this.#handleError(res, err);
     }
