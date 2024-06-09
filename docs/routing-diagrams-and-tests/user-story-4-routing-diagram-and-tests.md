@@ -38,3 +38,5 @@
 - [x] INT4-7: It should respond with a 400 response if user email is duplicated
 - [x] INT4-8: It should respond with a 500 response create fails
 - [x] INT4-9: It should create the user in the database
+- [x] INT4-10: It should not include password field in doc returned from database by default
+- [ ] INT4-11: It should store hashed password

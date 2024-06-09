@@ -134,5 +134,16 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(newUser.emailAddress).to.equal(newUserSubmission.emailAddress);
     });
+
+    //? INT4-10
+    it("should not include password field in doc returned from database by default", async () => {
+      //Act
+      await request.post(endpoint).send(newUserSubmission);
+      const newUser = await User.findOne({
+        emailAddress: newUserSubmission.emailAddress,
+      });
+      //Assert
+      expect(newUser.password).to.equal(undefined);
+    });
   });
 });
