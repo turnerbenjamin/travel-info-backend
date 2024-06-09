@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import sinon from "sinon";
 
 import AuthenticationController from "../../../src/controllers/Authentication.controller.js";
+import HTTPError from "../../../src/utils/HTTPError.js";
 import userData from "../../data/user.test.data.js";
 
 describe("User controller tests: ", () => {
@@ -63,6 +64,20 @@ describe("User controller tests: ", () => {
       //Assert
       expect(actualEmailAddressArg).to.equal(testUserEmail);
       expect(actualHashedPasswordArg).to.equal(testHashedPassword);
+    });
+
+    //? AC4-3
+    it("should respond with a status of 400 if the User service throws a HTTP error with a status of 400", async () => {
+      //Arrange
+      const testError = new HTTPError(
+        400,
+        "A user with this email already exists"
+      );
+      userService.createUser.rejects(testError);
+      //Act
+      await authenticationController.register(req, res);
+      //Assert
+      expect(res.status.calledWith(400)).to.be.true;
     });
   });
 });
