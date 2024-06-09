@@ -58,5 +58,21 @@ describe("Authentication service tests: ", () => {
       //Assert
       expect(actual).to.deep.equal(expected);
     });
+
+    //? AS4-2
+    it("should throw a HTTPError with status of 500 for all other errors", async () => {
+      //Arrange
+      const expected = new HTTPError(500, "Server error");
+      createStub.rejects(new Error());
+      let actual;
+      //Act
+      try {
+        await authenticationService.createUser(testUserEmail, testUserPassword);
+      } catch (err) {
+        actual = err;
+      }
+      //Assert
+      expect(actual).to.deep.equal(expected);
+    });
   });
 });

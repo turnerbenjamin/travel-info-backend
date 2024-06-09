@@ -8,7 +8,7 @@ export default class AuthenticationService {
     } catch (err) {
       if (err.code === 11000)
         throw new HTTPError(400, "A user with this email already exists");
-      throw err;
+      throw new HTTPError(500, "Server error");
     }
   };
 }
