@@ -56,5 +56,13 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(201);
     });
+
+    //? INT4-2
+    it("should have an empty response body where successful", async () => {
+      //Act
+      const response = await request.post(endpoint).send(newUserSubmission);
+      //Assert
+      expect(response.body).to.be.empty;
+    });
   });
 });
