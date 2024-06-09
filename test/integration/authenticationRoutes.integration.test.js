@@ -73,5 +73,14 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(400);
     });
+
+    //? INT4-4
+    it("should respond with a 400 response if email is invalid", async () => {
+      //Act
+      newUserSubmission.emailAddress = "invalid@email";
+      const response = await request.post(endpoint).send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(400);
+    });
   });
 });

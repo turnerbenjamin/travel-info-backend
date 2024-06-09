@@ -9,6 +9,10 @@ export default class UserValidator {
         .trim()
         .notEmpty()
         .withMessage("Email address is required"),
+      expressValidator
+        .body("emailAddress")
+        .isEmail()
+        .withMessage("Email address is invalid"),
       UserValidator.handleValidationErrors,
     ];
   };
