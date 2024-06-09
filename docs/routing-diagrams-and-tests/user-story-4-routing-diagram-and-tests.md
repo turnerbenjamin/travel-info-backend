@@ -17,7 +17,7 @@
 - [x] AS4-1: It should call create on the user model with the correct arguments
 - [x] AS4-2: It should throw a HTTPError with status of 400 where the email is a duplicate
 - [x] AS4-3: It should throw a HTTPError with status of 500 for all other errors
-- [ ] AS4-4: It should return the id of the new user
+- [x] AS4-4: It should return the id of the new user
 
 ### Authentication Controller (AC)
 

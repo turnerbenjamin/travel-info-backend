@@ -59,7 +59,7 @@ describe("Authentication service tests: ", () => {
       expect(actual).to.deep.equal(expected);
     });
 
-    //? AS4-2
+    //? AS4-3
     it("should throw a HTTPError with status of 500 for all other errors", async () => {
       //Arrange
       const expected = new HTTPError(500, "Server error");
@@ -73,6 +73,19 @@ describe("Authentication service tests: ", () => {
       }
       //Assert
       expect(actual).to.deep.equal(expected);
+    });
+
+    //? AS4-4
+    it("should return the id of the new user", async () => {
+      //Arrange
+      createStub.resolves(userData.documents[0]);
+      //Act
+      const actualUserId = await authenticationService.createUser(
+        testUserEmail,
+        testUserPassword
+      );
+      //Assert
+      expect(actualUserId).to.equal(userData.documents[0]._id);
     });
   });
 });
