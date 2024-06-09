@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import bcrypt from "bcrypt";
 import express from "express";
 import sinon from "sinon";
 import supertest from "supertest";
@@ -144,6 +145,17 @@ describe("User routes: integration tests", () => {
       });
       //Assert
       expect(newUser.password).to.equal(undefined);
+    });
+
+    //? INT4-11
+    it("should store hashed password", async () => {
+      //Act
+      await request.post(endpoint).send(newUserSubmission);
+      const newUser = await User.findOne({
+        emailAddress: newUserSubmission.emailAddress,
+      }).select("password");
+      //Assert
+      expect(newUser.password).not.to.equal(newUserSubmission.password);
     });
   });
 });
