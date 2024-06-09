@@ -33,7 +33,7 @@
 - [x] INT4-2: It should have an empty response body where successful
 - [x] INT4-3: It should respond with a 400 response if email address missing
 - [x] INT4-4: It should respond with a 400 response if email is invalid
-- [ ] INT4-5: It should respond with a 400 response if password is missing
+- [x] INT4-5: It should respond with a 400 response if password is missing
 - [ ] INT4-6: It should respond with a 400 response if password is less than 8 chars long
 - [ ] INT4-7: It should respond with a 400 response if user email is duplicated
 - [ ] INT4-8: It should respond with a 500 response create fails

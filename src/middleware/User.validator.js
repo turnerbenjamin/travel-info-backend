@@ -13,6 +13,11 @@ export default class UserValidator {
         .body("emailAddress")
         .isEmail()
         .withMessage("Email address is invalid"),
+      expressValidator
+        .body("password")
+        .exists()
+        .notEmpty()
+        .withMessage("password must be at least 8 characters"),
       UserValidator.handleValidationErrors,
     ];
   };
