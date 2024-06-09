@@ -13,6 +13,16 @@ const userData = {
       password: "00000001",
     },
   ],
+  submissions: [
+    {
+      emailAddress: "user0@test.com",
+      password: "password1",
+    },
+    {
+      emailAddress: "user1@test.com",
+      password: "password2",
+    },
+  ],
 };
 
 export default userData;

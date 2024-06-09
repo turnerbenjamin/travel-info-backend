@@ -1,6 +1,5 @@
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import mongoose from "mongoose";
 import sinon from "sinon";
 
 import FavouritedLocation from "../../../src/models/FavouritedLocation.model.js";

@@ -6,6 +6,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Field required: email"],
     validate: [validator.isEmail, "Invalid email address"],
+    unique: true,
   },
   password: {
     type: String,
