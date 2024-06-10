@@ -14,6 +14,7 @@ describe("User service tests: ", () => {
   let createStub = null;
   let findOneStub = null;
   let selectStub = null;
+  let findByIdStub = null;
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
 
@@ -22,6 +23,7 @@ describe("User service tests: ", () => {
     userService = new UserService();
     createStub = sinon.stub(User, "create");
     findOneStub = sinon.stub(User, "findOne");
+    findByIdStub = sinon.stub(User, "findById");
     selectStub = sinon.stub();
     findOneStub.returns({ select: selectStub });
   });
@@ -31,6 +33,7 @@ describe("User service tests: ", () => {
     userService = null;
     createStub.restore();
     findOneStub.restore();
+    findByIdStub.restore();
     selectStub = null;
   });
 
@@ -115,7 +118,6 @@ describe("User service tests: ", () => {
     //? AS5-2
     it("should throw a HTTPError with status of 500 where findOne fails", async () => {
       //Arrange
-      const expectedError = new HTTPError(500, "Server error");
       selectStub.rejects(new Error());
       let actualError;
       //Act
@@ -139,6 +141,18 @@ describe("User service tests: ", () => {
 
       //Assert
       expect(response).to.equal(testDoc);
+    });
+  });
+  describe("findById tests: ", () => {
+    //? US6-1
+    it("Should call findById on User with correct argument", async () => {
+      //Arrange
+      const testId = "123";
+      //Act
+      await userService.findById(testId);
+      const [actualIdArg] = findByIdStub.getCall(0).args;
+      //Assert
+      expect(actualIdArg).to.equal(testId);
     });
   });
 });

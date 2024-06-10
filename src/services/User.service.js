@@ -16,6 +16,10 @@ export default class UserService {
     }
   };
 
+  findById = async (id) => {
+    await User.findById(id);
+  };
+
   findByEmailAddress = async (emailAddress) => {
     try {
       const user = await User.findOne({ emailAddress }).select("+password");
