@@ -126,5 +126,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
     });
+
+    //? AC5-2
+    it("should respond with a 500 error if User Service fails", async () => {
+      //Arrange
+      userService.findByEmailAddress.rejects(new Error());
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
