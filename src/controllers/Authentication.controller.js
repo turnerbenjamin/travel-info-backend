@@ -18,6 +18,11 @@ export default class AuthenticationController {
     }
   };
 
+  signIn = async (req, res, next) => {
+    const { emailAddress } = req.body;
+    await this.#userService.findByEmailAddress(emailAddress);
+  };
+
   #handleError(res, err) {
     const message = err.messageForUsers || "Server error";
     const statusCode = err.statusCode || 500;

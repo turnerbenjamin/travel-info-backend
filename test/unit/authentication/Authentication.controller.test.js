@@ -15,12 +15,14 @@ describe("User controller tests: ", () => {
   let hashStub;
   let req;
   let res;
+  let next;
 
   beforeEach(() => {
     hashStub = sinon.stub(bcrypt, "hash");
     hashStub.resolves(testHashedPassword);
     userService = {
       createUser: sinon.stub(),
+      findByEmailAddress: sinon.stub(),
     };
 
     authenticationController = new AuthenticationController(userService);
@@ -31,6 +33,7 @@ describe("User controller tests: ", () => {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
+    next = sinon.stub();
   });
 
   afterEach(() => {
@@ -39,6 +42,7 @@ describe("User controller tests: ", () => {
     hashStub.restore();
     req = null;
     res = null;
+    next = null;
   });
 
   describe("register user tests", () => {
@@ -100,6 +104,17 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(201)).to.be.true;
       expect(res.json.calledWith(undefined)).to.be.true;
+    });
+  });
+
+  describe("signIn tests", () => {
+    //? AC5-1
+    it("should call findByEmailAddress on the User Service", async () => {
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(userService.findByEmailAddress.calledWith(testUserEmail)).to.be
+        .true;
     });
   });
 });
