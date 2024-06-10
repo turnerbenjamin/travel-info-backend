@@ -229,5 +229,17 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(401);
     });
+
+    //? INT5-5
+    it("should respond with a 401 response if passwords do not match", async () => {
+      //Arrange
+      await request.post(registerEndpoint).send(newUserSubmission);
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send({ ...newUserSubmission, password: "incorrect-password" });
+      //Assert
+      expect(response.status).to.equal(401);
+    });
   });
 });
