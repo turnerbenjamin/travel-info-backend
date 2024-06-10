@@ -12,6 +12,8 @@ use(chaiAsPromised);
 describe("User service tests: ", () => {
   let userService = null;
   let createStub = null;
+  let findOneStub = null;
+  let selectStub = null;
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
 
@@ -19,12 +21,17 @@ describe("User service tests: ", () => {
   beforeEach(() => {
     userService = new UserService();
     createStub = sinon.stub(User, "create");
+    findOneStub = sinon.stub(User, "findOne");
+    selectStub = sinon.stub();
+    findOneStub.returns({ select: selectStub });
   });
 
   //CLEAN-UP USER SERVICE TESTS
   afterEach(() => {
     userService = null;
     createStub.restore();
+    findOneStub.restore();
+    selectStub = null;
   });
 
   describe("createUser tests: ", () => {
@@ -86,6 +93,23 @@ describe("User service tests: ", () => {
       );
       //Assert
       expect(actualUserId).to.equal(userData.documents[0]._id);
+    });
+  });
+
+  describe("findByEmailAddress tests: ", () => {
+    //? AS5-1
+    it("should call findOne and select on the user model with the correct arguments", async () => {
+      //Arrange
+      const expectedFindOneArg = { emailAddress: testUserEmail };
+      const expectedSelectArg = "+password";
+      //Act
+      await userService.findByEmailAddress(testUserEmail);
+      //Assert
+      const [actualFindOneArg] = findOneStub.getCall(0).args;
+      const [actualSelectArg] = selectStub.getCall(0).args;
+      //Assert
+      expect(actualFindOneArg).to.deep.equal(expectedFindOneArg);
+      expect(actualSelectArg).to.deep.equal(expectedSelectArg);
     });
   });
 });

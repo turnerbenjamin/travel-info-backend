@@ -12,7 +12,7 @@
 
 ## Tests
 
-### Authentication Service (AS)
+### User Service (AS)
 
 - [x] AS4-1: It should call create on the user model with the correct arguments
 - [x] AS4-2: It should throw a HTTPError with status of 400 where the email is a duplicate
