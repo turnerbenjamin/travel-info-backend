@@ -15,7 +15,7 @@ This story relates to the authorisation elements of other user stories, so I hav
 - [x] US6-1: It should call findById on User with correct argument
 - [x] US6-2: It should throw HTTPError with status of 500 is findById rejects
 - [x] US6-3: It should return undefined if findById resolves with undefined
-- [ ] US6-4: It should return user if findById resolves with user doc
+- [x] US6-4: It should return user if findById resolves with user doc
 
 ## Auth Controller
 

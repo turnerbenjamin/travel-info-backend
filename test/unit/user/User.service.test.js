@@ -171,7 +171,7 @@ describe("User service tests: ", () => {
       expect(actual.statusCode).to.equal(500);
     });
 
-    //? US6-2
+    //? US6-4
     it("should return undefined if findById resolves with undefined", async () => {
       //Arrange
       findByIdStub.resolves(undefined);
@@ -180,6 +180,17 @@ describe("User service tests: ", () => {
       const actual = await userService.findById(testId);
       //Assert
       expect(actual).to.equal(undefined);
+    });
+
+    //? US6-4
+    it("should return user if findById resolves with user doc", async () => {
+      //Arrange
+      findByIdStub.resolves(userData.documents[0]);
+      const testId = "123";
+      //Act
+      const actual = await userService.findById(testId);
+      //Assert
+      expect(actual).to.equal(userData.documents[0]);
     });
   });
 });

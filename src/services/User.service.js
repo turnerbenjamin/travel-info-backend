@@ -18,7 +18,8 @@ export default class UserService {
 
   findById = async (id) => {
     try {
-      await User.findById(id);
+      const user = await User.findById(id);
+      return user;
     } catch (err) {
       throw new HTTPError(500, "Server error");
     }
