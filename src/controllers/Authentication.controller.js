@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import HTTPError from "../utils/HTTPError.js";
 
 export default class AuthenticationController {
   #userService;
@@ -19,8 +20,13 @@ export default class AuthenticationController {
   };
 
   signIn = async (req, res, next) => {
-    const { emailAddress } = req.body;
-    await this.#userService.findByEmailAddress(emailAddress);
+    try {
+      const { emailAddress } = req.body;
+      const user = await this.#userService.findByEmailAddress(emailAddress);
+      if (!user) throw new HTTPError(401, "Incorrect log-in details");
+    } catch (err) {
+      this.#handleError(res, err);
+    }
   };
 
   #handleError(res, err) {

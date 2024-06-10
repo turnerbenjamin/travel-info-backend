@@ -116,5 +116,15 @@ describe("User controller tests: ", () => {
       expect(userService.findByEmailAddress.calledWith(testUserEmail)).to.be
         .true;
     });
+
+    //? AC5-2
+    it("should respond with a 401 error if User Service returns null", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(null);
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(res.status.calledWith(401)).to.be.true;
+    });
   });
 });

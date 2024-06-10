@@ -21,7 +21,7 @@
 ### Authentication Controller (AC)
 
 - [x] AC5-1: It should call findByEmailAddress on the User Service
-- [ ] AC5-2: It should respond with a 401 error if User Service returns null
+- [x] AC5-2: It should respond with a 401 error if User Service returns null
 - [ ] AC5-3: It should respond with a 500 error if User Service fails
 - [ ] AC5-4: It should call compare on bcrypt with the correct arguments
 - [ ] AC5-5: It should respond with a 401 error if bcrypt returns false
