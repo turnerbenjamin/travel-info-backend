@@ -39,6 +39,7 @@ export default class AuthenticationController {
       const decodedJWT = this.#readJWT(req, res);
       const user = await this.#userService.findById(decodedJWT._id);
       if (!user) this.#throwUnauthorisedError();
+      this.#attachUserToReq(req, user);
     } catch (err) {
       console.log(err);
       this.#handleError(res, err);
