@@ -42,8 +42,7 @@
 
 - [x] INT5-1: It should respond with a 200 status code with valid request
 - [x] INT5-2: It should include user emailAddress and id in body in success response
-- [ ] INT5-3: It should not include user password in body in success response
-- [ ] INT5-4: It should have a header to set JWT in success response
-- [ ] INT5-5: It should respond with a 401 response if email address is not found
-- [ ] INT5-6: It should respond with a 401 response if passwords do not match
-- [ ] INT5-7: It should respond with a 500 response if findOne and select fails
+- [x] INT5-3: It should have a header to set JWT in success response
+- [ ] INT5-4: It should respond with a 401 response if email address is not found
+- [ ] INT5-5: It should respond with a 401 response if passwords do not match
+- [ ] INT5-6: It should respond with a 500 response if findOne and select fails

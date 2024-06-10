@@ -207,5 +207,17 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.body).to.deep.equal(expected);
     });
+
+    //? INT5-3
+    it("should have a header to set JWT in success response", async () => {
+      //Arrange
+      await request.post(registerEndpoint).send(newUserSubmission);
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send(newUserSubmission);
+      //Assert
+      expect(response.header["set-cookie"][0].startsWith("jwt=")).to.be.true;
+    });
   });
 });
