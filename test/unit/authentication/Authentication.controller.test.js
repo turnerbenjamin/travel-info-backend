@@ -165,5 +165,16 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
     });
+
+    //? AC5-6
+    it("should respond with a 500 error if bcrypt rejects", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(userData.documents[0]);
+      compareStub.rejects(false);
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
