@@ -31,7 +31,7 @@
 
 ### Sign and Send JWT (JWT)
 
-- [ ] JWT5-1: It should call sign on jwt with the correct arguments
+- [x] JWT5-1: It should call sign on jwt with the correct arguments
 - [ ] JWT5-2: It should respond with a 500 error if sign fails
 - [ ] JWT5-3: It should res.cookie with valid arguments
 - [ ] JWT5-4: It should respond with a 500 error if cookie method fails

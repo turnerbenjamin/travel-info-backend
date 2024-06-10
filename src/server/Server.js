@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 
 export default class Server {
@@ -17,6 +18,7 @@ export default class Server {
 
   start() {
     this.#app.use(express.json());
+    this.#app.use(cookieParser());
     this.#server = this.#app.listen(this.#port, this.#host, () => {
       console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
       console.log(`Server is listening on http://${this.#host}/${this.#port}`);
