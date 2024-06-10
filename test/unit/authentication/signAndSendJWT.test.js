@@ -45,5 +45,16 @@ describe("User controller tests: ", () => {
       expect(actualSecretKey).to.equal(expectedSecretKey);
       expect(actualOptions).to.deep.equal(expectedOptions);
     });
+
+    //? JWT5-2
+    it("should respond with a 500 error if sign fails", async () => {
+      //Arrange
+      signStub.throws(new Error());
+      //Act
+      signAndSendJWT(req, res);
+
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
