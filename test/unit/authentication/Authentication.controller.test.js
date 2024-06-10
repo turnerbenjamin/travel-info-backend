@@ -13,6 +13,7 @@ describe("User controller tests: ", () => {
   let authenticationController;
   let userService;
   let hashStub;
+  let compareStub;
   let req;
   let res;
   let next;
@@ -20,6 +21,7 @@ describe("User controller tests: ", () => {
   beforeEach(() => {
     hashStub = sinon.stub(bcrypt, "hash");
     hashStub.resolves(testHashedPassword);
+    compareStub = sinon.stub(bcrypt, "compare");
     userService = {
       createUser: sinon.stub(),
       findByEmailAddress: sinon.stub(),
@@ -40,6 +42,7 @@ describe("User controller tests: ", () => {
     authenticationController = null;
     userService = null;
     hashStub.restore();
+    compareStub.restore();
     req = null;
     res = null;
     next = null;
@@ -127,7 +130,7 @@ describe("User controller tests: ", () => {
       expect(res.status.calledWith(401)).to.be.true;
     });
 
-    //? AC5-2
+    //? AC5-3
     it("should respond with a 500 error if User Service fails", async () => {
       //Arrange
       userService.findByEmailAddress.rejects(new Error());
@@ -135,6 +138,21 @@ describe("User controller tests: ", () => {
       await authenticationController.signIn(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? AC5-4
+    it("should call compare on bcrypt with the correct arguments", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(userData.documents[0]);
+      const expectedArguments = [
+        userData.submissions[0].password,
+        userData.documents[0].password,
+      ];
+      //Act
+      await authenticationController.signIn(req, res, next);
+      const actualArguments = compareStub.getCall(0).args;
+      //Assert
+      expect(actualArguments).to.deep.equal(expectedArguments);
     });
   });
 });

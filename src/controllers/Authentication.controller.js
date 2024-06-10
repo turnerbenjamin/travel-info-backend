@@ -21,12 +21,17 @@ export default class AuthenticationController {
 
   signIn = async (req, res, next) => {
     try {
-      const { emailAddress } = req.body;
+      const { emailAddress, password } = req.body;
       const user = await this.#userService.findByEmailAddress(emailAddress);
       if (!user) throw new HTTPError(401, "Incorrect log-in details");
+      await this.#validatePassword(res, password, user.password);
     } catch (err) {
       this.#handleError(res, err);
     }
+  };
+
+  #validatePassword = async (res, submittedPassword, storedPassword) => {
+    const isValid = await bcrypt.compare(submittedPassword, storedPassword);
   };
 
   #handleError(res, err) {
