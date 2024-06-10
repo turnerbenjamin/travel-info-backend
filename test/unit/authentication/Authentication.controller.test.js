@@ -239,5 +239,15 @@ describe("User controller tests: ", () => {
       expect(actualJWTArg).to.equal(expectedJWTArg);
       expect(actualSecretArg).to.equal(expectedSecretArg);
     });
+
+    //? AC6-3
+    it("should respond with a status code of 500 if verify rejects", async () => {
+      //Arrange
+      verifyStub.throws();
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });

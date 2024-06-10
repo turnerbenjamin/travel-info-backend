@@ -21,7 +21,7 @@ This story relates to the authorisation elements of other user stories, so I hav
 
 - [x] AC6-1: It should respond with status code of 401 if no req.cookie.jwt
 - [x] AC6-2: It should call jwt.verify with correct arguments
-- [ ] AC6-3: It should status code of 500 if verify rejects
+- [x] AC6-3: It should respond with a status code of 500 if verify rejects
 - [ ] AC6-4: It should call getUserById on User Service with correct id if verify resolves
 - [ ] AC6-5: It should respond with status code of 500 if User Service rejects
 - [ ] AC6-6: It should respond with status code of 401 if User Service returns undefined
