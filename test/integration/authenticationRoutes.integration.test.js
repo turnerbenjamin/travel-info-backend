@@ -187,5 +187,25 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(200);
     });
+
+    //? INT5-2
+    it("should include res.user in the body of a success response", async () => {
+      //Arrange
+      await request.post(registerEndpoint).send(newUserSubmission);
+      const userDoc = await User.findOne({
+        emailAddress: newUserSubmission.emailAddress,
+      });
+      const expected = {
+        _id: userDoc._id.toString(),
+        emailAddress: userDoc.emailAddress,
+      };
+
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send(newUserSubmission);
+      //Assert
+      expect(response.body).to.deep.equal(expected);
+    });
   });
 });

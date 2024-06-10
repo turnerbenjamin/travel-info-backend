@@ -33,9 +33,10 @@ export default class AuthenticationController {
   };
 
   #attachUserToReq = (req, user) => {
-    const userClone = { ...user };
-    delete userClone.password;
-    req.user = userClone;
+    req.user = {
+      _id: user._id,
+      emailAddress: user.emailAddress,
+    };
   };
 
   #validatePassword = async (submittedPassword, storedPassword) => {

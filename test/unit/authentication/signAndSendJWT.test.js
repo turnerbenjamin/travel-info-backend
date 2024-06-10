@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 import sinon from "sinon";
 
 import userData from "../../data/user.test.data.js";
-import signAndSendJWT from "../../../src/middleware/SignAndSendJWT.js";
+import signAndSendJWT from "../../../src/middleware/signAndSendJWT.js";
 
-describe("User controller tests: ", () => {
+describe("Sign and Send JWT Tests: ", () => {
   const testUser = userData.documents[0];
   let signStub;
   let req;
@@ -97,8 +97,8 @@ describe("User controller tests: ", () => {
       expect(res.status.calledWith(200)).to.be.true;
     });
 
-    //? JWT5-5
-    it("should respond with a 200 status code", async () => {
+    //? JWT5-6
+    it("should include res.user in the body of a success response", async () => {
       //Arrange
       const expected = req.user;
       //Act

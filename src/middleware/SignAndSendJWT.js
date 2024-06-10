@@ -13,7 +13,6 @@ const signAndSendJWT = (req, res) => {
     });
     res.status(200).json(req.user);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 };
