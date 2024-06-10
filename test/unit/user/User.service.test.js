@@ -111,5 +111,21 @@ describe("User service tests: ", () => {
       expect(actualFindOneArg).to.deep.equal(expectedFindOneArg);
       expect(actualSelectArg).to.deep.equal(expectedSelectArg);
     });
+
+    //? AS5-2
+    it("should throw a HTTPError with status of 500 where findOne fails", async () => {
+      //Arrange
+      const expectedError = new HTTPError(500, "Server error");
+      selectStub.rejects(new Error());
+      let actualError;
+      //Act
+      try {
+        await userService.findByEmailAddress(testUserEmail);
+      } catch (err) {
+        actualError = err;
+      }
+      //Assert
+      expect(actualError.statusCode).to.equal(500);
+    });
   });
 });
