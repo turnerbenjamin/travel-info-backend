@@ -19,7 +19,7 @@ describe("User controller tests: ", () => {
     res = {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
-      cookie: sinon.spy(),
+      cookie: sinon.stub(),
     };
   });
 
@@ -77,6 +77,16 @@ describe("User controller tests: ", () => {
       expect(actualCookieName).to.equal(expectedCookieName);
       expect(actualToken).to.equal(expectedToken);
       expect(actualOptions).to.deep.equal(expectedOptions);
+    });
+
+    //? JWT5-4
+    it("should respond with a 500 error if cookie method fails", async () => {
+      //Arrange
+      res.cookie.throws(new Error());
+      //Act
+      signAndSendJWT(req, res);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
     });
   });
 });
