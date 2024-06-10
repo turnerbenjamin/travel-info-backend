@@ -260,5 +260,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(userService.findById.calledWith(testJWT._id)).to.be.true;
     });
+
+    //? AC6-5
+    it("should respond with status code of 500 if User Service rejects", async () => {
+      //Arrange
+      userService.findById.rejects();
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
