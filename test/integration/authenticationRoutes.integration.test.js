@@ -219,5 +219,15 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.header["set-cookie"][0].startsWith("jwt=")).to.be.true;
     });
+
+    //? INT5-4
+    it("should respond with a 401 response if email address is not found", async () => {
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(401);
+    });
   });
 });
