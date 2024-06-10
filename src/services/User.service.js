@@ -17,7 +17,11 @@ export default class UserService {
   };
 
   findById = async (id) => {
-    await User.findById(id);
+    try {
+      await User.findById(id);
+    } catch (err) {
+      throw new HTTPError(500, "Server error");
+    }
   };
 
   findByEmailAddress = async (emailAddress) => {

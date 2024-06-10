@@ -154,5 +154,21 @@ describe("User service tests: ", () => {
       //Assert
       expect(actualIdArg).to.equal(testId);
     });
+
+    //? US6-2
+    it("should throw HTTPError with status of 500 is findById rejects", async () => {
+      //Arrange
+      const testId = "123";
+      findByIdStub.rejects();
+      let actual;
+      //Act
+      try {
+        await userService.findById(testId);
+      } catch (err) {
+        actual = err;
+      }
+      //Assert
+      expect(actual.statusCode).to.equal(500);
+    });
   });
 });
