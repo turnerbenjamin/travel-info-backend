@@ -19,7 +19,8 @@ describe("User routes: integration tests", () => {
   let database;
   let request;
   let newUserSubmission;
-  const endpoint = `/auth/register`;
+  const registerEndpoint = `/auth/register`;
+  const signInEndpoint = `/auth/sign-in`;
 
   before(async () => {
     Config.load();
@@ -54,7 +55,9 @@ describe("User routes: integration tests", () => {
     //? INT4-1
     it("should respond with a 201 status code with valid request", async () => {
       //Act
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(201);
     });
@@ -62,7 +65,9 @@ describe("User routes: integration tests", () => {
     //? INT4-2
     it("should have an empty response body where successful", async () => {
       //Act
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.body).to.be.empty;
     });
@@ -71,7 +76,9 @@ describe("User routes: integration tests", () => {
     it("should respond with a 400 response if email address missing", async () => {
       //Act
       newUserSubmission.emailAddress = null;
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
     });
@@ -80,7 +87,9 @@ describe("User routes: integration tests", () => {
     it("should respond with a 400 response if email is invalid", async () => {
       //Act
       newUserSubmission.emailAddress = "invalid@email";
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
     });
@@ -89,7 +98,9 @@ describe("User routes: integration tests", () => {
     it("should respond with a 400 response if password is missing", async () => {
       //Act
       newUserSubmission.password = null;
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
     });
@@ -98,7 +109,9 @@ describe("User routes: integration tests", () => {
     it("should respond with a 400 response if password is less than 8 chars long", async () => {
       //Act
       newUserSubmission.password = "1234567";
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
     });
@@ -106,9 +119,11 @@ describe("User routes: integration tests", () => {
     //? INT4-7
     it("should respond with a 400 response if user email is duplicated", async () => {
       //Arrange
-      await request.post(endpoint).send(newUserSubmission);
+      await request.post(registerEndpoint).send(newUserSubmission);
       //Act
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       //Assert
       expect(response.status).to.equal(400);
     });
@@ -119,7 +134,9 @@ describe("User routes: integration tests", () => {
       const stub = sinon.stub(User, "create");
       stub.rejects(new Error());
       //Act
-      const response = await request.post(endpoint).send(newUserSubmission);
+      const response = await request
+        .post(registerEndpoint)
+        .send(newUserSubmission);
       stub.restore();
       //Assert
       expect(response.status).to.equal(500);
@@ -128,7 +145,7 @@ describe("User routes: integration tests", () => {
     //? INT4-9
     it("should create the user in the database", async () => {
       //Act
-      await request.post(endpoint).send(newUserSubmission);
+      await request.post(registerEndpoint).send(newUserSubmission);
       const newUser = await User.findOne({
         emailAddress: newUserSubmission.emailAddress,
       });
@@ -139,7 +156,7 @@ describe("User routes: integration tests", () => {
     //? INT4-10
     it("should not include password field in doc returned from database by default", async () => {
       //Act
-      await request.post(endpoint).send(newUserSubmission);
+      await request.post(registerEndpoint).send(newUserSubmission);
       const newUser = await User.findOne({
         emailAddress: newUserSubmission.emailAddress,
       });
@@ -150,12 +167,25 @@ describe("User routes: integration tests", () => {
     //? INT4-11
     it("should store hashed password", async () => {
       //Act
-      await request.post(endpoint).send(newUserSubmission);
+      await request.post(registerEndpoint).send(newUserSubmission);
       const newUser = await User.findOne({
         emailAddress: newUserSubmission.emailAddress,
       }).select("password");
       //Assert
       expect(newUser.password).not.to.equal(newUserSubmission.password);
+    });
+  });
+  describe("Sign in user tests", () => {
+    //? INT5-1
+    it("should respond with a 200 status code with valid request", async () => {
+      //Arrange
+      await request.post(registerEndpoint).send(newUserSubmission);
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send(newUserSubmission);
+      //Assert
+      expect(response.status).to.equal(200);
     });
   });
 });

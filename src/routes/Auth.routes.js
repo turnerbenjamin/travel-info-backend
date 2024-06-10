@@ -1,5 +1,7 @@
 import { Router } from "express";
+
 import UserValidator from "../middleware/User.validator.js";
+import signAndSendJWT from "../middleware/signAndSendJWT.js";
 
 export default class AuthRoutes {
   #router;
@@ -19,6 +21,8 @@ export default class AuthRoutes {
       UserValidator.validate(),
       this.#authController.register
     );
+
+    this.#router.post("/sign-in", this.#authController.signIn, signAndSendJWT);
   }
 
   getRouter() {
