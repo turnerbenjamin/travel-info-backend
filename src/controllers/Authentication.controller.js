@@ -25,8 +25,8 @@ export default class AuthenticationController {
     try {
       const { emailAddress, password } = req.body;
       const user = await this.#userService.findByEmailAddress(emailAddress);
-      if (!user) throw new HTTPError(401, "Incorrect log-in details");
-      await this.#validatePassword(password, user.password);
+      if (!user) this.#throwUnauthorisedError();
+      await this.#validatePassword(res, password, user.password);
       this.#attachUserToReq(req, user);
       next();
     } catch (err) {
@@ -36,16 +36,19 @@ export default class AuthenticationController {
 
   protect = async (req, res, next) => {
     try {
-      if (!req?.cookies?.jwt)
-        throw new HTTPError(
-          401,
-          "You are not authorised to access this resource"
-        );
-      const decodedJWT = jwt.verify(
-        req.cookies.jwt,
-        process.env.JWT_SECRET_KEY
-      );
-      await this.#userService.findById(decodedJWT._id);
+      const decodedJWT = this.#readJWT(req, res);
+      const user = await this.#userService.findById(decodedJWT._id);
+      if (!user) this.#throwUnauthorisedError();
+    } catch (err) {
+      console.log(err);
+      this.#handleError(res, err);
+    }
+  };
+
+  #readJWT = (req, res) => {
+    try {
+      if (!req?.cookies?.jwt) this.#throwUnauthorisedError();
+      return jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
     } catch (err) {
       this.#handleError(res, err);
     }
@@ -58,9 +61,17 @@ export default class AuthenticationController {
     };
   };
 
-  #validatePassword = async (submittedPassword, storedPassword) => {
-    const isValid = await bcrypt.compare(submittedPassword, storedPassword);
-    if (!isValid) throw new HTTPError(401, "Incorrect log-in details");
+  #validatePassword = async (res, submittedPassword, storedPassword) => {
+    try {
+      const isValid = await bcrypt.compare(submittedPassword, storedPassword);
+      if (!isValid) this.#throwUnauthorisedError();
+    } catch (err) {
+      this.#handleError(res, err);
+    }
+  };
+
+  #throwUnauthorisedError = () => {
+    throw new HTTPError(401, "You are not authorised to access this resource");
   };
 
   #handleError(res, err) {

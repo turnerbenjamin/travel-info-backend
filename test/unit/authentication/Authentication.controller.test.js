@@ -270,5 +270,16 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
+
+    //? AC6-6
+    it("should respond with status code of 401 if User Service returns undefined", async () => {
+      //Arrange
+      verifyStub.resolves(testJWT);
+      userService.findById.resolves(undefined);
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(res.status.calledWith(401)).to.be.true;
+    });
   });
 });
