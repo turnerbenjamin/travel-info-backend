@@ -154,5 +154,16 @@ describe("User controller tests: ", () => {
       //Assert
       expect(actualArguments).to.deep.equal(expectedArguments);
     });
+
+    //? AC5-5
+    it("should respond with a 401 error if bcrypt returns false", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(userData.documents[0]);
+      compareStub.resolves(false);
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(res.status.calledWith(401)).to.be.true;
+    });
   });
 });

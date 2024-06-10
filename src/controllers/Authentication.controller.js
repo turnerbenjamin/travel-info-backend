@@ -24,14 +24,15 @@ export default class AuthenticationController {
       const { emailAddress, password } = req.body;
       const user = await this.#userService.findByEmailAddress(emailAddress);
       if (!user) throw new HTTPError(401, "Incorrect log-in details");
-      await this.#validatePassword(res, password, user.password);
+      await this.#validatePassword(password, user.password);
     } catch (err) {
       this.#handleError(res, err);
     }
   };
 
-  #validatePassword = async (res, submittedPassword, storedPassword) => {
+  #validatePassword = async (submittedPassword, storedPassword) => {
     const isValid = await bcrypt.compare(submittedPassword, storedPassword);
+    if (!isValid) throw new HTTPError(401, "Incorrect log-in details");
   };
 
   #handleError(res, err) {
