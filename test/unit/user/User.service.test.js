@@ -170,5 +170,16 @@ describe("User service tests: ", () => {
       //Assert
       expect(actual.statusCode).to.equal(500);
     });
+
+    //? US6-2
+    it("should return undefined if findById resolves with undefined", async () => {
+      //Arrange
+      findByIdStub.resolves(undefined);
+      const testId = "123";
+      //Act
+      const actual = await userService.findById(testId);
+      //Assert
+      expect(actual).to.equal(undefined);
+    });
   });
 });
