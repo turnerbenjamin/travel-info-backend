@@ -11,7 +11,7 @@ const signAndSendJWT = (req, res) => {
       httpOnly: true,
       sameSite: "strict",
     });
-    res.status(200);
+    res.status(200).json(req.user);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }

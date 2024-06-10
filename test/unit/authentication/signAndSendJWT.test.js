@@ -96,5 +96,15 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(200)).to.be.true;
     });
+
+    //? JWT5-5
+    it("should respond with a 200 status code", async () => {
+      //Arrange
+      const expected = req.user;
+      //Act
+      signAndSendJWT(req, res);
+      //Assert
+      expect(res.json.calledWith(expected)).to.be.true;
+    });
   });
 });

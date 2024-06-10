@@ -36,7 +36,7 @@
 - [x] JWT5-3: It should call res.cookie with valid arguments
 - [x] JWT5-4: It should respond with a 500 error if cookie method fails
 - [x] JWT5-5: It should respond with a 200 status code
-- [ ] JWT5-6: It should include res.user in the body of a success response
+- [x] JWT5-6: It should include res.user in the body of a success response
 
 ### Integration Tests (INT)
 
