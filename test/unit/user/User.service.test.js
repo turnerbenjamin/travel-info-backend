@@ -127,5 +127,18 @@ describe("User service tests: ", () => {
       //Assert
       expect(actualError.statusCode).to.equal(500);
     });
+
+    //? AS5-3
+    it("should return the new user", async () => {
+      //Arrange
+      const testDoc = userData.documents[0];
+      selectStub.resolves(testDoc);
+      //Act
+
+      const response = await userService.findByEmailAddress(testUserEmail);
+
+      //Assert
+      expect(response).to.equal(testDoc);
+    });
   });
 });

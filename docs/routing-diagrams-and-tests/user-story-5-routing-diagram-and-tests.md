@@ -16,7 +16,7 @@
 
 - [x] AS5-1: It should call findOne and select on the user model with the correct arguments
 - [x] AS5-2: It should throw a HTTPError with status of 500 where findOne fails
-- [ ] AS5-3: It should return the new user
+- [x] AS5-3: It should return the new user
 
 ### Authentication Controller (AC)
 

@@ -18,7 +18,8 @@ export default class UserService {
 
   findByEmailAddress = async (emailAddress) => {
     try {
-      await User.findOne({ emailAddress }).select("+password");
+      const user = await User.findOne({ emailAddress }).select("+password");
+      return user;
     } catch (err) {
       throw new HTTPError(500, "Server Error");
     }
