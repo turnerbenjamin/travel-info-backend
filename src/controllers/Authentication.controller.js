@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import HTTPError from "../utils/HTTPError.js";
 
 export default class AuthenticationController {
@@ -33,7 +35,16 @@ export default class AuthenticationController {
   };
 
   protect = async (req, res, next) => {
-    res.status(401).json("You are not authorised to access this resource");
+    try {
+      if (!req?.cookies?.jwt)
+        throw new HTTPError(
+          401,
+          "You are not authorised to access this resource"
+        );
+      jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
+    } catch (err) {
+      this.#handleError(res, err);
+    }
   };
 
   #attachUserToReq = (req, user) => {

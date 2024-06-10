@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import sinon from "sinon";
 
 import AuthenticationController from "../../../src/controllers/Authentication.controller.js";
@@ -202,21 +203,41 @@ describe("User controller tests: ", () => {
     });
   });
   describe("signIn tests", () => {
-    const testJWT = "testJWT";
+    const testJWT = { _id: "test_id" };
+    let verifyStub;
 
     beforeEach(() => {
-      req.cookie = {
+      req.cookies = {
         jwt: testJWT,
       };
+      verifyStub = sinon.stub(jwt, "verify");
+    });
+
+    afterEach(() => {
+      verifyStub.restore();
     });
     //? AC6-1
     it("should respond with status code of 401 if no req.cookie.jwt", async () => {
       //Arrange
-      req.cookie = undefined;
+      req.cookies = undefined;
       //Act
       await authenticationController.protect(req, res, next);
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
+    });
+
+    //? AC6-2
+    it("should call jwt.verify with correct arguments", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      const expectedJWTArg = req.cookies.jwt;
+      const expectedSecretArg = process.env.JWT_SECRET_KEY;
+      //Act
+      await authenticationController.protect(req, res, next);
+      const [actualJWTArg, actualSecretArg] = verifyStub.getCall(0).args;
+      //Assert
+      expect(actualJWTArg).to.equal(expectedJWTArg);
+      expect(actualSecretArg).to.equal(expectedSecretArg);
     });
   });
 });
