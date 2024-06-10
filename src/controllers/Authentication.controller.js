@@ -40,6 +40,7 @@ export default class AuthenticationController {
       const user = await this.#userService.findById(decodedJWT._id);
       if (!user) this.#throwUnauthorisedError();
       this.#attachUserToReq(req, user);
+      next();
     } catch (err) {
       console.log(err);
       this.#handleError(res, err);

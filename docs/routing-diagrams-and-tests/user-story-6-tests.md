@@ -26,4 +26,4 @@ This story relates to the authorisation elements of other user stories, so I hav
 - [x] AC6-5: It should respond with status code of 500 if User Service rejects
 - [x] AC6-6: It should respond with status code of 401 if User Service returns undefined
 - [x] AC6-7: It should attach user to request object us User Service resolves
-- [ ] AC6-8: It should call next if User Service resolves
+- [x] AC6-8: It should call next if User Service resolves

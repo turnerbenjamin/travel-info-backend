@@ -292,8 +292,18 @@ describe("User controller tests: ", () => {
       //Act
       await authenticationController.protect(req, res, next);
       //Assert
-
       expect(req.user).to.deep.equal(expected);
+    });
+
+    //? AC6-8
+    it("should attach user to request object us User Service resolves", async () => {
+      //Arrange
+      verifyStub.resolves(testJWT);
+      userService.findById.resolves(userData.documents[0]);
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(next.calledOnce).to.be.true;
     });
   });
 });
