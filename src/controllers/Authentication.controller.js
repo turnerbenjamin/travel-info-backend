@@ -32,6 +32,10 @@ export default class AuthenticationController {
     }
   };
 
+  protect = async (req, res, next) => {
+    res.status(401).json("You are not authorised to access this resource");
+  };
+
   #attachUserToReq = (req, user) => {
     req.user = {
       _id: user._id,

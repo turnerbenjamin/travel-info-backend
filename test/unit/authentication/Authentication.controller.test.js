@@ -201,4 +201,22 @@ describe("User controller tests: ", () => {
       expect(next.called).to.be.true;
     });
   });
+  describe("signIn tests", () => {
+    const testJWT = "testJWT";
+
+    beforeEach(() => {
+      req.cookie = {
+        jwt: testJWT,
+      };
+    });
+    //? AC6-1
+    it("should respond with status code of 401 if no req.cookie.jwt", async () => {
+      //Arrange
+      req.cookie = undefined;
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(res.status.calledWith(401)).to.be.true;
+    });
+  });
 });
