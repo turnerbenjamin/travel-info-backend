@@ -37,7 +37,7 @@ describe("User controller tests: ", () => {
       const expectedSecretKey = process.env.JWT_SECRET_KEY;
       const expectedOptions = { expiresIn: process.env.JWT_EXPIRES_IN };
       //Act
-      await signAndSendJWT(req, res);
+      signAndSendJWT(req, res);
       //Assert
       const [actualJWTBody, actualSecretKey, actualOptions] =
         signStub.getCall(0).args;
@@ -52,9 +52,31 @@ describe("User controller tests: ", () => {
       signStub.throws(new Error());
       //Act
       signAndSendJWT(req, res);
-
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? JWT5-3
+    it("should call res.cookie with valid arguments", async () => {
+      //Arrange
+      const testToken = "testToken";
+      signStub.returns(testToken);
+      const expectedCookieName = "jwt";
+      const expectedToken = testToken;
+      const expectedOptions = {
+        maxAge: process.env.COOKIE_EXPIRES_IN,
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        sameSite: "strict",
+      };
+      //Act
+      signAndSendJWT(req, res);
+      const [actualCookieName, actualToken, actualOptions] =
+        res.cookie.getCall(0).args;
+      //Assert
+      expect(actualCookieName).to.equal(expectedCookieName);
+      expect(actualToken).to.equal(expectedToken);
+      expect(actualOptions).to.deep.equal(expectedOptions);
     });
   });
 });

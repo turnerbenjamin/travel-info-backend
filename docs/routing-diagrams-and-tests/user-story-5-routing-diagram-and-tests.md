@@ -33,7 +33,7 @@
 
 - [x] JWT5-1: It should call sign on jwt with the correct arguments
 - [x] JWT5-2: It should respond with a 500 error if sign fails
-- [ ] JWT5-3: It should res.cookie with valid arguments
+- [x] JWT5-3: It should call res.cookie with valid arguments
 - [ ] JWT5-4: It should respond with a 500 error if cookie method fails
 - [ ] JWT5-5: It should respond with a 201 status code
 - [ ] JWT5-6: It should include res.user in the body of a success response
