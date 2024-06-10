@@ -45,4 +45,4 @@
 - [x] INT5-3: It should have a header to set JWT in success response
 - [x] INT5-4: It should respond with a 401 response if email address is not found
 - [x] INT5-5: It should respond with a 401 response if passwords do not match
-- [ ] INT5-6: It should respond with a 500 response if findOne and select fails
+- [x] INT5-6: It should respond with a 500 response if findOne and select fails

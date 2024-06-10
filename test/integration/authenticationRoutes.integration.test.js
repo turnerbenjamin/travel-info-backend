@@ -241,5 +241,19 @@ describe("User routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(401);
     });
+
+    //? INT5-6
+    it("should respond with a 500 response if findOne and select fails", async () => {
+      //Arrange
+      const stub = sinon.stub(User, "findOne");
+      stub.rejects();
+      //Act
+      const response = await request
+        .post(signInEndpoint)
+        .send(newUserSubmission);
+      stub.restore();
+      //Assert
+      expect(response.status).to.equal(500);
+    });
   });
 });
