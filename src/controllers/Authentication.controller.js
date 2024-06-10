@@ -26,6 +26,7 @@ export default class AuthenticationController {
       if (!user) throw new HTTPError(401, "Incorrect log-in details");
       await this.#validatePassword(password, user.password);
       this.#attachUserToReq(req, user);
+      next();
     } catch (err) {
       this.#handleError(res, err);
     }

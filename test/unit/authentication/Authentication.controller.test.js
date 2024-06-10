@@ -35,7 +35,7 @@ describe("User controller tests: ", () => {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
-    next = sinon.stub();
+    next = sinon.spy();
   });
 
   afterEach(() => {
@@ -188,6 +188,17 @@ describe("User controller tests: ", () => {
       await authenticationController.signIn(req, res, next);
       //Assert
       expect(req.user).to.deep.equal(expected);
+    });
+
+    //? AC5-8
+    it("should call next if bcrypt returns true", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(userData.documents[0]);
+      compareStub.resolves(true);
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(next.called).to.be.true;
     });
   });
 });
