@@ -26,7 +26,7 @@
 - [x] AC5-4: It should call compare on bcrypt with the correct arguments
 - [x] AC5-5: It should respond with a 401 error if bcrypt returns false
 - [x] AC5-6: It should respond with a 500 error if bcrypt rejects
-- [ ] AC5-7: It should attach the User object, without the password, to req if bcrypt returns true
+- [x] AC5-7: It should attach the User object, without the password, to req if bcrypt returns true
 - [ ] AC5-7: It should call next if bcrypt returns true
 
 ### Sign and Send JWT (JWT)

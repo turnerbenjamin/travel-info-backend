@@ -170,11 +170,24 @@ describe("User controller tests: ", () => {
     it("should respond with a 500 error if bcrypt rejects", async () => {
       //Arrange
       userService.findByEmailAddress.resolves(userData.documents[0]);
-      compareStub.rejects(false);
+      compareStub.rejects();
       //Act
       await authenticationController.signIn(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? AC5-7
+    it("should attach the User object, without the password, to req if bcrypt returns true", async () => {
+      //Arrange
+      userService.findByEmailAddress.resolves(userData.documents[0]);
+      const expected = { ...userData.documents[0] };
+      delete expected.password;
+      compareStub.resolves(true);
+      //Act
+      await authenticationController.signIn(req, res, next);
+      //Assert
+      expect(req.user).to.deep.equal(expected);
     });
   });
 });

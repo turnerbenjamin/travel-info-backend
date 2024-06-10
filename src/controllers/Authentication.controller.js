@@ -25,9 +25,16 @@ export default class AuthenticationController {
       const user = await this.#userService.findByEmailAddress(emailAddress);
       if (!user) throw new HTTPError(401, "Incorrect log-in details");
       await this.#validatePassword(password, user.password);
+      this.#attachUserToReq(req, user);
     } catch (err) {
       this.#handleError(res, err);
     }
+  };
+
+  #attachUserToReq = (req, user) => {
+    const userClone = { ...user };
+    delete userClone.password;
+    req.user = userClone;
   };
 
   #validatePassword = async (submittedPassword, storedPassword) => {
