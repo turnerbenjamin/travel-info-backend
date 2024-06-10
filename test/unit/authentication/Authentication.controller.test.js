@@ -26,6 +26,7 @@ describe("User controller tests: ", () => {
     userService = {
       createUser: sinon.stub(),
       findByEmailAddress: sinon.stub(),
+      findById: sinon.stub(),
     };
 
     authenticationController = new AuthenticationController(userService);
@@ -248,6 +249,16 @@ describe("User controller tests: ", () => {
       await authenticationController.protect(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //? AC6-4
+    it("should call getUserById on User Service with correct id if verify resolves", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      //Act
+      await authenticationController.protect(req, res, next);
+      //Assert
+      expect(userService.findById.calledWith(testJWT._id)).to.be.true;
     });
   });
 });

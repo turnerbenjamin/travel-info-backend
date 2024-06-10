@@ -41,7 +41,11 @@ export default class AuthenticationController {
           401,
           "You are not authorised to access this resource"
         );
-      jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
+      const decodedJWT = jwt.verify(
+        req.cookies.jwt,
+        process.env.JWT_SECRET_KEY
+      );
+      await this.#userService.findById(decodedJWT._id);
     } catch (err) {
       this.#handleError(res, err);
     }
