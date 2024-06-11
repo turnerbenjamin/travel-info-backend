@@ -340,7 +340,7 @@ describe("Authentication routes: integration tests", () => {
       expect(response.status).to.equal(401);
     });
 
-    //? INT7-5
+    //? INT7-6
     it("should respond with a 400 response if the new password is missing", async () => {
       //Arrange
 
@@ -350,6 +350,22 @@ describe("Authentication routes: integration tests", () => {
         .set("Cookie", token)
         .send({
           password: testOldPassword,
+        });
+      //Assert
+      expect(response.status).to.equal(400);
+    });
+
+    //? INT7-7
+    it("should respond with a 400 response if the new password is less than 8 chars long", async () => {
+      //Arrange
+
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({
+          password: testOldPassword,
+          updatedPassword: "1234567",
         });
       //Assert
       expect(response.status).to.equal(400);

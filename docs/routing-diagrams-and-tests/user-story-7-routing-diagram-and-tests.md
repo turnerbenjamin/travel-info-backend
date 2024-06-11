@@ -49,4 +49,4 @@
 - [x] INT7-4: It should respond with a 401 status code if the user does not have a valid token
 - [x] INT7-5: It should respond with a 401 status code if the oldPassword is not validated
 - [x] INT7-6: It should respond with a 400 response if the new password is missing
-- [ ] INT7-7: It should respond with a 400 response if the new password is less than 8 chars long
+- [x] INT7-7: It should respond with a 400 response if the new password is less than 8 chars long

@@ -30,7 +30,8 @@ export default class UserValidator {
         .exists()
         .trim()
         .notEmpty()
-        .withMessage("Invalid value for new password"),
+        .isLength({ min: 8 })
+        .withMessage("password must be at least 8 characters"),
 
       UserValidator.handleValidationErrors,
     ];
