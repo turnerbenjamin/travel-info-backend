@@ -15,7 +15,7 @@
 ### User Service (AS)
 
 - [x] AS7-1: It should call findByIdAndUpdate on the user model with the correct arguments
-- [ ] AS7-2: It should throw a HTTPError with status of 500 where findByIdAndUpdate fails
+- [x] AS7-2: It should throw a HTTPError with status of 500 where findByIdAndUpdate fails
 - [ ] AS7-3: It should return the updated user
 
 ### Authentication Controller (AC)

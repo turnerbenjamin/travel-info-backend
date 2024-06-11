@@ -202,12 +202,30 @@ describe("User service tests: ", () => {
     const testPasswordUpdate = { password: "newPassword" };
     //?AS7-1
     it("should call findByIdAndUpdate on the user model with the correct arguments", async () => {
-      //Act
+      //Arrange
       findByIdAndUpdateStub.resolves(userData.documents[0]);
+      //Act
       await userService.updateById(testId, testPasswordUpdate);
       //expect
       expect(findByIdAndUpdateStub.calledWith(testId, testPasswordUpdate)).to.be
         .true;
+    });
+
+    //?AS7-2
+    it("should throw a HTTPError with status of 500 where findByIdAndUpdate fails", async () => {
+      //Arrange
+      const expected = 500;
+      let actual;
+      findByIdAndUpdateStub.rejects(new Error());
+      //Act
+      try {
+        await userService.updateById(testId, testPasswordUpdate);
+      } catch (err) {
+        actual = err.statusCode;
+      }
+
+      //expect
+      expect(actual).to.equal(expected);
     });
   });
 });

@@ -36,6 +36,10 @@ export default class UserService {
   };
 
   updateById = async (id, update) => {
-    await User.findByIdAndUpdate(id, update);
+    try {
+      await User.findByIdAndUpdate(id, update);
+    } catch (err) {
+      throw new HTTPError(500, "Server error");
+    }
   };
 }
