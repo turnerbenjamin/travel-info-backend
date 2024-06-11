@@ -52,7 +52,10 @@ export default class AuthenticationController {
     return async (req, res, next) => {
       try {
         const decodedJWT = this.#readJWT(req, res);
-        const user = await this.#userService.findById(decodedJWT._id, true);
+        const user = await this.#userService.findById(
+          decodedJWT._id,
+          !!options?.requirePassword
+        );
         if (!user) this.#throwUnauthorisedError();
         this.#attachUserToReq(req, user);
         if (options?.requirePassword)

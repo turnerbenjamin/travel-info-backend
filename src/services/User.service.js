@@ -18,8 +18,9 @@ export default class UserService {
 
   findById = async (id, doIncludePassword) => {
     try {
-      const selectQuery = doIncludePassword && "+password";
-      const user = await User.findById(id).select(selectQuery);
+      const user = await User.findById(id).select(
+        doIncludePassword ? "+password" : undefined
+      );
       return user;
     } catch (err) {
       throw new HTTPError(500, "Server error");

@@ -201,6 +201,17 @@ describe("User service tests: ", () => {
       //Assert
       expect(actual).to.equal(userData.documents[0]);
     });
+
+    //?AS7-4
+    it("should call select with correct argument", async () => {
+      //Arrange
+      selectStub.resolves(userData.documents[0]);
+
+      //Act
+      await userService.findById(testId, true);
+      //Assert
+      expect(selectStub.calledWith("+password")).to.be.true;
+    });
   });
   describe("Update By Id Tests", () => {
     const testPasswordUpdate = { password: "newPassword" };

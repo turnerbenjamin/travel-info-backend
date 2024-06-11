@@ -17,6 +17,7 @@
 - [x] AS7-1: It should call findByIdAndUpdate on the user model with the correct arguments
 - [x] AS7-2: It should throw a HTTPError with status of 500 where findByIdAndUpdate fails
 - [x] AS7-3: It should return the updated user
+- [x] AS7-4: It should call select with correct argument
 
 ### Authentication Controller (AC)
 
@@ -39,7 +40,6 @@
 - [x] AC7-10: It should respond with a 500 error if User Service fails
 - [x] AC7-11: It should respond with a status code of 200 if User updated successfully
 - [x] AC7-12: It should respond with a the updated user document
-- [ ] AC7-13: The user password should not be included in a success response.
 
 ### Integration Tests (INT)
 
