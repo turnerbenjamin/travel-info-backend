@@ -310,5 +310,19 @@ describe("Authentication routes: integration tests", () => {
       //Assert
       expect(response.status).to.equal(200);
     });
+
+    //? INT7-4
+    it("should respond with a 401 status code if the user does not have a valid token", async () => {
+      //Arrange
+      token = "invalidToken";
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({ password: testOldPassword, updatedPassword: testNewPassword });
+
+      //Assert
+      expect(response.status).to.equal(401);
+    });
   });
 });
