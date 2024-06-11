@@ -34,7 +34,7 @@ export default class AuthenticationController {
     }
   };
 
-  protect = async (req, res, next) => {
+  requireLoggedIn = async (req, res, next) => {
     try {
       const decodedJWT = this.#readJWT(req, res);
       const user = await this.#userService.findById(decodedJWT._id);
@@ -64,16 +64,12 @@ export default class AuthenticationController {
   };
 
   #validatePassword = async (res, submittedPassword, storedPassword) => {
-    try {
-      const isValid = await bcrypt.compare(submittedPassword, storedPassword);
-      if (!isValid) this.#throwUnauthorisedError();
-    } catch (err) {
-      this.#handleError(res, err);
-    }
+    const isValid = await bcrypt.compare(submittedPassword, storedPassword);
+    if (!isValid) this.#throwUnauthorisedError();
   };
 
   #throwUnauthorisedError = () => {
-    throw new HTTPError(401, "You are not authorised to access this resource");
+    throw new HTTPError(401, "Incorrect log-in details");
   };
 
   #handleError(res, err) {

@@ -188,7 +188,7 @@ describe("User controller tests: ", () => {
   describe("deleteById tests", () => {
     const testId = new mongoose.Types.ObjectId();
     beforeEach(() => {
-      req.params = { id: testId.toString() };
+      req.params = { locationId: testId.toString() };
     });
 
     //? UC3-1

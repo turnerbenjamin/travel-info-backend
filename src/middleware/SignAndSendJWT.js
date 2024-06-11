@@ -9,7 +9,7 @@ const signAndSendJWT = (req, res) => {
       maxAge: process.env.COOKIE_EXPIRES_IN,
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res.status(200).json(req.user);
   } catch (err) {

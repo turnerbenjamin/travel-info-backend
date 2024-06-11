@@ -30,7 +30,6 @@ describe("User routes: integration tests", () => {
 
   before(async () => {
     Config.load();
-
     favouriteLocationService = new FavouritedLocationService();
     locationService = new LocationService();
     const userController = new UserController(
@@ -38,7 +37,7 @@ describe("User routes: integration tests", () => {
       locationService
     );
     authController = {
-      validate: (req, _, next) => {
+      requireLoggedIn: (req, _, next) => {
         req.user = userData.documents[0];
         next();
       },
@@ -46,7 +45,7 @@ describe("User routes: integration tests", () => {
     const userRoutes = new UserRoutes("/users", authController, userController);
     const { PORT, HOST, DB_URI } = process.env;
     const app = express();
-    server = new Server(PORT, HOST, app, userRoutes);
+    server = new Server(PORT, HOST, app, [userRoutes]);
     database = new Database(DB_URI);
     await database.connect();
     server.start();
@@ -305,7 +304,7 @@ describe("User routes: integration tests", () => {
       const data = await FavouritedLocation.insertMany(
         favouritedLocationData.documents
       );
-      testIdToDelete = data[0]._id;
+      testIdToDelete = data[0].location;
       testIdOfDocNotOwnedByTestUser = data[1]._id;
     });
 

@@ -30,7 +30,7 @@ describe("User routes: integration tests", () => {
     const authRoutes = new AuthRoutes("/auth", authController);
     const { PORT, HOST, DB_URI } = process.env;
     const app = express();
-    server = new Server(PORT, HOST, app, authRoutes);
+    server = new Server(PORT, HOST, app, [authRoutes]);
     database = new Database(DB_URI);
     await database.connect();
     server.start();

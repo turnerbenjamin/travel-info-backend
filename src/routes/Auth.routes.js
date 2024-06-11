@@ -16,6 +16,7 @@ export default class AuthRoutes {
   }
 
   #initialiseRoutes() {
+    this.#router.get("/", (req, res) => res.status(200).json("Hi"));
     this.#router.post(
       "/register",
       UserValidator.validate(),

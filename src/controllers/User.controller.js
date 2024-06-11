@@ -33,9 +33,9 @@ export default class UserController {
 
   deleteById = async (req, res) => {
     try {
-      const id = req.params.id;
+      const locationId = req.params.locationId;
       if (!req.user) throw new HTTPError(500, "Server error");
-      await this.#favouriteLocationService.deleteById(req.user, id);
+      await this.#favouriteLocationService.deleteById(req.user, locationId);
       res.status(204).json(undefined);
     } catch (err) {
       this.#handleError(res, err);

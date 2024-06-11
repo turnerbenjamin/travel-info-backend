@@ -32,7 +32,7 @@ export default class FavouritedLocationService {
     if (!id) throw new Error("Id is undefined");
     const deletedDoc = await FavouritedLocation.findOneAndDelete({
       user: user._id,
-      _id: id,
+      location: id,
     });
     if (!deletedDoc) throw new HTTPError(404, "Favourited location not found");
   };

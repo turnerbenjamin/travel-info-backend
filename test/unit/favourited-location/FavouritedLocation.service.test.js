@@ -214,7 +214,7 @@ describe("Favourited location service tests: ", () => {
       //Arrange
       const expectedArgument = {
         user: testUser._id,
-        _id: testFavouritedLocationId,
+        location: testFavouritedLocationId,
       };
       findOneAndDeleteStub.resolves(testFavouritedLocation);
       //Act
