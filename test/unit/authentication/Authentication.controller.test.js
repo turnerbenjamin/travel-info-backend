@@ -460,6 +460,17 @@ describe("User controller tests: ", () => {
         //Assert
         expect(res.status.calledWith(200)).to.be.true;
       });
+
+      //?AC7-12
+      it("should respond with a the updated user document", async () => {
+        //Arrange
+        hashStub.resolves(testHashedPassword);
+        userService.updateById.resolves(testUser);
+        //Act
+        await authenticationController.updatePassword(req, res, next);
+        //Assert
+        expect(res.json.calledWith(testUser)).to.be.true;
+      });
     });
   });
 });

@@ -38,7 +38,7 @@
 - [x] AC7-9: It should call updateById on the User Service with the correct arguments
 - [x] AC7-10: It should respond with a 500 error if User Service fails
 - [x] AC7-11: It should respond with a status code of 200 if User updated successfully
-- [ ] AC7-12: It should respond with a the updated user document
+- [x] AC7-12: It should respond with a the updated user document
 - [ ] AC7-13: The user password should not be included in a success response.
 
 ### Integration Tests (INT)
