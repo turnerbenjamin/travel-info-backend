@@ -261,6 +261,7 @@ describe("User routes: integration tests", () => {
     const testUser = userData.submissions[0];
     const testOldPassword = testUser.password;
     const testNewPassword = "testNewPassword";
+
     let token;
     beforeEach(async () => {
       await request.post(registerEndpoint).send(testUser);
@@ -278,6 +279,20 @@ describe("User routes: integration tests", () => {
         .send({ password: testOldPassword, updatedPassword: testNewPassword });
       //Assert
       expect(response.status).to.equal(200);
+    });
+
+    //? INT7-2
+    it("should respond with the user details, without the password, if the update is successful", async () => {
+      //Arrange
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({ password: testOldPassword, updatedPassword: testNewPassword });
+      //Assert
+      expect(response.body.emailAddress).to.equal(testUser.emailAddress);
+      expect(response.body.password).to.equal(undefined);
+      expect(!!response.body._id).to.be.true;
     });
   });
 });
