@@ -39,6 +39,7 @@ export default class AuthenticationController {
       const { updatedPassword } = req.body;
       const hashedPassword = await bcrypt.hash(updatedPassword, 10);
       await this.#userService.updateById(req.user._id, hashedPassword);
+      res.status(200);
     } catch (err) {
       this.#handleError(res, err);
     }

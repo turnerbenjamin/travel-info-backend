@@ -442,11 +442,23 @@ describe("User controller tests: ", () => {
       //?AC7-10
       it("should respond with a 500 error if User Service fails", async () => {
         //Arrange
-        hashStub.rejects();
+        hashStub.resolves(testHashedPassword);
+        userService.updateById.rejects();
         //Act
         await authenticationController.updatePassword(req, res, next);
         //Assert
         expect(res.status.calledWith(500)).to.be.true;
+      });
+
+      //?AC7-11
+      it("should respond with a status code of 200 if User updated successfully", async () => {
+        //Arrange
+        hashStub.resolves(testHashedPassword);
+        userService.updateById.resolves();
+        //Act
+        await authenticationController.updatePassword(req, res, next);
+        //Assert
+        expect(res.status.calledWith(200)).to.be.true;
       });
     });
   });
