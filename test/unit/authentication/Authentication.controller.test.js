@@ -357,7 +357,7 @@ describe("User controller tests: ", () => {
         .true;
     });
 
-    //?AC7-3
+    //?AC7-4
     it("It should call compare on bcrypt with the correct arguments", async () => {
       //Arrange
       verifyStub.returns(testJWT);
@@ -369,6 +369,20 @@ describe("User controller tests: ", () => {
       })(req, res, next);
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
+    });
+
+    //?AC7-5
+    it("It should respond with a 500 error if bcrypt rejects", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      userService.findById.resolves(testUser);
+      compareStub.throws();
+      //Act
+      await authenticationController.requireLoggedIn({
+        requirePassword: true,
+      })(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
     });
   });
 });
