@@ -16,14 +16,17 @@ export default class AuthRoutes {
   }
 
   #initialiseRoutes() {
-    this.#router.get("/", (req, res) => res.status(200).json("Hi"));
     this.#router.post(
       "/register",
       UserValidator.validate(),
       this.#authController.register
     );
-
     this.#router.post("/sign-in", this.#authController.signIn, signAndSendJWT);
+    this.#router.post(
+      "/update-password",
+      this.#authController.requireLoggedIn({ requirePassword: true }),
+      this.#authController.updatePassword
+    );
   }
 
   getRouter() {

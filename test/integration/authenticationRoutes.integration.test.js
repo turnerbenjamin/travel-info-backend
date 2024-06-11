@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import bcrypt from "bcrypt";
-import express from "express";
+import express, { response } from "express";
 import sinon from "sinon";
 import supertest from "supertest";
 
@@ -254,6 +253,31 @@ describe("User routes: integration tests", () => {
       stub.restore();
       //Assert
       expect(response.status).to.equal(500);
+    });
+  });
+
+  describe("Update password integration tests", () => {
+    const updatePasswordEndpoint = "/auth/update-password";
+    const testUser = userData.submissions[0];
+    const testOldPassword = testUser.password;
+    const testNewPassword = "testNewPassword";
+    let token;
+    beforeEach(async () => {
+      await request.post(registerEndpoint).send(testUser);
+      const response = await request.post(signInEndpoint).send(testUser);
+      token = response.header["set-cookie"][0];
+    });
+
+    //? INT7-1
+    it("should respond with a status code of 200 if the update is successful", async () => {
+      //Arrange
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({ password: testOldPassword, updatedPassword: testNewPassword });
+      //Assert
+      expect(response.status).to.equal(200);
     });
   });
 });
