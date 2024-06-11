@@ -30,6 +30,7 @@ describe("User controller tests: ", () => {
       createUser: sinon.stub(),
       findByEmailAddress: sinon.stub(),
       findById: sinon.stub(),
+      updateById: sinon.stub(),
     };
 
     authenticationController = new AuthenticationController(userService);
@@ -403,6 +404,11 @@ describe("User controller tests: ", () => {
     });
 
     describe("Update password tests", () => {
+      const testUserId = "testUserId";
+      beforeEach(() => {
+        req.user = { ...testUser, _id: testUserId };
+      });
+
       //?AC7-7
       it("It should call hash on bcrypt with the new password", async () => {
         //Act
@@ -410,17 +416,27 @@ describe("User controller tests: ", () => {
         //Assert
         expect(hashStub.calledWith(testUpdatedPassword)).to.be.true;
       });
-    });
 
-    describe("Update password tests", () => {
-      //?AC7-7
-      it("It should respond with a 500 error if hash fails", async () => {
+      //?AC7-8
+      it("should respond with a 500 error if hash fails", async () => {
         //Arrange
         hashStub.rejects();
         //Act
         await authenticationController.updatePassword(req, res, next);
         //Assert
         expect(res.status.calledWith(500)).to.be.true;
+      });
+
+      //?AC7-9
+      it("should call updateById on the User Service with the correct arguments", async () => {
+        //Arrange
+        hashStub.resolves(testHashedPassword);
+        //Act
+        await authenticationController.updatePassword(req, res, next);
+        //Assert
+        expect(
+          userService.updateById.calledWith(testUserId, testHashedPassword)
+        ).to.be.true;
       });
     });
   });
