@@ -34,7 +34,7 @@
 #### Update Password
 
 - [x] AC7-7: It should call hash on bcrypt with the new password
-- [ ] AC7-8: It should respond with a 500 error if hash fails
+- [x] AC7-8: It should respond with a 500 error if hash fails
 - [ ] AC7-9: It should call updateById on the User Service with the correct arguments
 - [ ] AC7-10: It should respond with a 500 error if User Service fails
 - [ ] AC7-11: It should respond with a status code of 200 if User updated successfully

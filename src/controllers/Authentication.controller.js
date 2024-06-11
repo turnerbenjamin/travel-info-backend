@@ -35,8 +35,12 @@ export default class AuthenticationController {
   };
 
   updatePassword = async (req, res) => {
-    const { updatedPassword } = req.body;
-    await bcrypt.hash(updatedPassword, 10);
+    try {
+      const { updatedPassword } = req.body;
+      await bcrypt.hash(updatedPassword, 10);
+    } catch (err) {
+      this.#handleError(res, err);
+    }
   };
 
   requireLoggedIn = (options) => {

@@ -411,5 +411,17 @@ describe("User controller tests: ", () => {
         expect(hashStub.calledWith(testUpdatedPassword)).to.be.true;
       });
     });
+
+    describe("Update password tests", () => {
+      //?AC7-7
+      it("It should respond with a 500 error if hash fails", async () => {
+        //Arrange
+        hashStub.rejects();
+        //Act
+        await authenticationController.updatePassword(req, res, next);
+        //Assert
+        expect(res.status.calledWith(500)).to.be.true;
+      });
+    });
   });
 });
