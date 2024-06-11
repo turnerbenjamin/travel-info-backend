@@ -47,6 +47,6 @@
 - [x] INT7-2: It should respond with the user details, without the password, if the update is successful
 - [x] INT7-3: It should successfully sign-in with the new details
 - [x] INT7-4: It should respond with a 401 status code if the user does not have a valid token
-- [ ] INT7-5: It should respond with a 401 status code if the oldPassword is not validated
-- [ ] INT7-6: It should respond with a 400 response if the new password is missing
+- [x] INT7-5: It should respond with a 401 status code if the oldPassword is not validated
+- [x] INT7-6: It should respond with a 400 response if the new password is missing
 - [ ] INT7-7: It should respond with a 400 response if the new password is less than 8 chars long

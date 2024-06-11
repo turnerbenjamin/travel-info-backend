@@ -25,6 +25,7 @@ export default class AuthRoutes {
     this.#router.post(
       "/update-password",
       this.#authController.requireLoggedIn({ requirePassword: true }),
+      UserValidator.validateUpdatedPassword(),
       this.#authController.updatePassword
     );
   }

@@ -320,9 +320,39 @@ describe("Authentication routes: integration tests", () => {
         .post(updatePasswordEndpoint)
         .set("Cookie", token)
         .send({ password: testOldPassword, updatedPassword: testNewPassword });
-
       //Assert
       expect(response.status).to.equal(401);
+    });
+
+    //? INT7-5
+    it("should respond with a 401 status code if the oldPassword is not validated", async () => {
+      //Arrange
+
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({
+          password: testOldPassword + "x",
+          updatedPassword: testNewPassword,
+        });
+      //Assert
+      expect(response.status).to.equal(401);
+    });
+
+    //? INT7-5
+    it("should respond with a 400 response if the new password is missing", async () => {
+      //Arrange
+
+      //Act
+      const response = await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({
+          password: testOldPassword,
+        });
+      //Assert
+      expect(response.status).to.equal(400);
     });
   });
 });

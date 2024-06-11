@@ -23,6 +23,19 @@ export default class UserValidator {
     ];
   };
 
+  static validateUpdatedPassword = () => {
+    return [
+      expressValidator
+        .body("updatedPassword")
+        .exists()
+        .trim()
+        .notEmpty()
+        .withMessage("Invalid value for new password"),
+
+      UserValidator.handleValidationErrors,
+    ];
+  };
+
   static handleValidationErrors = (req, res, next) => {
     const errors = expressValidator.validationResult(req);
     if (!errors.isEmpty()) {
