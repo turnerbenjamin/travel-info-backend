@@ -12,7 +12,7 @@ import UserService from "../../src/services/User.service.js";
 import userData from "../data/user.test.data.js";
 import User from "../../src/models/User.model.js";
 
-describe("User routes: integration tests", () => {
+describe("Authentication routes: integration tests", () => {
   let server;
   let userService;
   let database;
@@ -293,6 +293,22 @@ describe("User routes: integration tests", () => {
       expect(response.body.emailAddress).to.equal(testUser.emailAddress);
       expect(response.body.password).to.equal(undefined);
       expect(!!response.body._id).to.be.true;
+    });
+
+    //? INT7-3
+    it("should successfully sign-in with the new details", async () => {
+      //Arrange
+      //Act
+      await request
+        .post(updatePasswordEndpoint)
+        .set("Cookie", token)
+        .send({ password: testOldPassword, updatedPassword: testNewPassword });
+      const response = await request.post(signInEndpoint).send({
+        emailAddress: testUser.emailAddress,
+        password: testNewPassword,
+      });
+      //Assert
+      expect(response.status).to.equal(200);
     });
   });
 });

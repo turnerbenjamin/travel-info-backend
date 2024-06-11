@@ -433,10 +433,11 @@ describe("User controller tests: ", () => {
         hashStub.resolves(testHashedPassword);
         //Act
         await authenticationController.updatePassword(req, res, next);
+        const [actualUserIdArg, actualUpdateArg] =
+          userService.updateById.getCall(0).args;
         //Assert
-        expect(
-          userService.updateById.calledWith(testUserId, testHashedPassword)
-        ).to.be.true;
+        expect(actualUserIdArg).to.equal(testUserId);
+        expect(actualUpdateArg).to.deep.equal({ password: testHashedPassword });
       });
 
       //?AC7-10
