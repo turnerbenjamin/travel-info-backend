@@ -27,7 +27,7 @@
 - [x] AC7-1: It should call findById on the user service with the correct arguments
 - [x] AC7-2: It should respond with status code of 500 where findById fails
 - [x] AC7-3: It should call compare on bcrypt with the correct arguments
-- [ ] AC7-4: It should respond with a 401 error if bcrypt returns false
+- [x] AC7-4: It should respond with a 401 error if bcrypt returns false
 - [ ] AC7-5: It should respond with a 500 error if bcrypt rejects
 - [ ] AC7-6: It should call next if bcrypt returns true
 

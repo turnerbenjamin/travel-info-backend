@@ -356,5 +356,19 @@ describe("User controller tests: ", () => {
       expect(compareStub.calledWith(testUserPassword, testUserPassword)).to.be
         .true;
     });
+
+    //?AC7-3
+    it("It should call compare on bcrypt with the correct arguments", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      userService.findById.resolves(testUser);
+      compareStub.returns(false);
+      //Act
+      await authenticationController.requireLoggedIn({
+        requirePassword: true,
+      })(req, res, next);
+      //Assert
+      expect(res.status.calledWith(401)).to.be.true;
+    });
   });
 });
