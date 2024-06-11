@@ -22,7 +22,7 @@
 
 ### Require Logged In
 
-<!-- These tests build on those in user story 6 | Additional functionality added to optionally require that a valid password is passed for authentication -->
+<!-- These tests build on those in user story 6 | Additional functionality added to optionally require that a valid password is provided for authentication -->
 
 - [x] AC7-1: It should call findById on the user service with the correct arguments
 - [x] AC7-2: It should respond with status code of 500 where findById fails
@@ -33,7 +33,7 @@
 
 #### Update Password
 
-- [ ] AC7-7: It should call hash on bcrypt with the new password
+- [x] AC7-7: It should call hash on bcrypt with the new password
 - [ ] AC7-8: It should respond with a 500 error if hash fails
 - [ ] AC7-9: It should call updateById on the User Service with the correct arguments
 - [ ] AC7-10: It should respond with a 500 error if User Service fails
