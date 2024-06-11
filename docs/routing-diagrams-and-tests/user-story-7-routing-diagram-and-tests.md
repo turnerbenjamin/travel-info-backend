@@ -25,7 +25,7 @@
 <!-- These tests build on those in user story 6 | Additional functionality added to optionally require that a valid password is passed for authentication -->
 
 - [x] AC7-1: It should call findById on the user service with the correct arguments
-- [ ] AC7-2: It should respond with status code of 500 where findById fails
+- [x] AC7-2: It should respond with status code of 500 where findById fails
 - [ ] AC7-3: It should call compare on bcrypt with the correct arguments
 - [ ] AC7-4: It should respond with a 401 error if bcrypt returns false
 - [ ] AC7-5: It should respond with a 500 error if bcrypt rejects

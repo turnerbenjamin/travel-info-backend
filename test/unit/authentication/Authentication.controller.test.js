@@ -329,5 +329,18 @@ describe("User controller tests: ", () => {
       //Assert
       expect(userService.findById.calledWith(testJWT._id, true)).to.be.true;
     });
+
+    //?AC7-2
+    it("It should respond with status code of 500 where findById fails", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      userService.findById.rejects(new Error());
+      //Act
+      await authenticationController.requireLoggedIn({
+        requirePassword: true,
+      })(req, res, next);
+      //Assert
+      expect(res.status.calledWith(500)).to.be.true;
+    });
   });
 });
