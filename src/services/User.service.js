@@ -37,7 +37,10 @@ export default class UserService {
 
   updateById = async (id, update) => {
     try {
-      await User.findByIdAndUpdate(id, update);
+      const updatedUser = await User.findByIdAndUpdate(id, update, {
+        new: true,
+      });
+      return updatedUser;
     } catch (err) {
       throw new HTTPError(500, "Server error");
     }

@@ -206,9 +206,12 @@ describe("User service tests: ", () => {
       findByIdAndUpdateStub.resolves(userData.documents[0]);
       //Act
       await userService.updateById(testId, testPasswordUpdate);
+      const [actualIdArg, actualUpdateArg, actualOptionsArg] =
+        findByIdAndUpdateStub.getCall(0).args;
       //expect
-      expect(findByIdAndUpdateStub.calledWith(testId, testPasswordUpdate)).to.be
-        .true;
+      expect(actualIdArg).to.equal(testId);
+      expect(actualUpdateArg).to.equal(testPasswordUpdate);
+      expect(actualOptionsArg).to.deep.equal({ new: true });
     });
 
     //?AS7-2
@@ -223,7 +226,17 @@ describe("User service tests: ", () => {
       } catch (err) {
         actual = err.statusCode;
       }
+      //expect
+      expect(actual).to.equal(expected);
+    });
 
+    //?AS7-3
+    it("should return the updated user", async () => {
+      //Arrange
+      const expected = userData.documents[0];
+      findByIdAndUpdateStub.resolves(expected);
+      //Act
+      const actual = await userService.updateById(testId, testPasswordUpdate);
       //expect
       expect(actual).to.equal(expected);
     });
