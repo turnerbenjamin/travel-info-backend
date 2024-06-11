@@ -8,6 +8,7 @@ import HTTPError from "../../../src/utils/HTTPError.js";
 import userData from "../../data/user.test.data.js";
 
 describe("User controller tests: ", () => {
+  const testUser = userData.submissions[0];
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
   const testHashedPassword = "hashedPassword";
@@ -307,13 +308,12 @@ describe("User controller tests: ", () => {
 
   describe("Update password tests", () => {
     const testJWT = { _id: "test_id" };
-    const testOldPassword = "old-password";
 
     beforeEach(() => {
       req.cookies = {
         jwt: testJWT,
       };
-      req.body.password = testOldPassword;
+      req.body.password = testUserPassword;
     });
 
     //?AC7-1
@@ -341,6 +341,20 @@ describe("User controller tests: ", () => {
       })(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
+    });
+
+    //?AC7-3
+    it("It should call compare on bcrypt with the correct arguments", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      userService.findById.resolves(testUser);
+      //Act
+      await authenticationController.requireLoggedIn({
+        requirePassword: true,
+      })(req, res, next);
+      //Assert
+      expect(compareStub.calledWith(testUserPassword, testUserPassword)).to.be
+        .true;
     });
   });
 });
