@@ -18,11 +18,13 @@ describe("User controller tests: ", () => {
   let req;
   let res;
   let next;
+  let verifyStub;
 
   beforeEach(() => {
     hashStub = sinon.stub(bcrypt, "hash");
     hashStub.resolves(testHashedPassword);
     compareStub = sinon.stub(bcrypt, "compare");
+    verifyStub = sinon.stub(jwt, "verify");
     userService = {
       createUser: sinon.stub(),
       findByEmailAddress: sinon.stub(),
@@ -45,6 +47,7 @@ describe("User controller tests: ", () => {
     userService = null;
     hashStub.restore();
     compareStub.restore();
+    verifyStub.restore();
     req = null;
     res = null;
     next = null;
@@ -205,18 +208,13 @@ describe("User controller tests: ", () => {
   });
   describe("signIn tests", () => {
     const testJWT = { _id: "test_id" };
-    let verifyStub;
 
     beforeEach(() => {
       req.cookies = {
         jwt: testJWT,
       };
-      verifyStub = sinon.stub(jwt, "verify");
     });
 
-    afterEach(() => {
-      verifyStub.restore();
-    });
     //? AC6-1
     it("should respond with status code of 401 if no req.cookie.jwt", async () => {
       //Arrange
@@ -274,7 +272,7 @@ describe("User controller tests: ", () => {
     //? AC6-6
     it("should respond with status code of 401 if User Service returns undefined", async () => {
       //Arrange
-      verifyStub.resolves(testJWT);
+      verifyStub.returns(testJWT);
       userService.findById.resolves(undefined);
       //Act
       await authenticationController.requireLoggedIn()(req, res, next);
@@ -287,7 +285,7 @@ describe("User controller tests: ", () => {
       //Arrange
       const expected = { ...userData.documents[0] };
       delete expected.password;
-      verifyStub.resolves(testJWT);
+      verifyStub.returns(testJWT);
       userService.findById.resolves(userData.documents[0]);
       //Act
       await authenticationController.requireLoggedIn()(req, res, next);
@@ -298,12 +296,38 @@ describe("User controller tests: ", () => {
     //? AC6-8
     it("should attach user to request object us User Service resolves", async () => {
       //Arrange
-      verifyStub.resolves(testJWT);
+      verifyStub.returns(testJWT);
       userService.findById.resolves(userData.documents[0]);
       //Act
       await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(next.calledOnce).to.be.true;
+    });
+  });
+
+  describe("Update password tests", () => {
+    const testJWT = { _id: "test_id" };
+    const testOldPassword = "old-password";
+
+    beforeEach(() => {
+      req.cookies = {
+        jwt: testJWT,
+      };
+      req.body.password = testOldPassword;
+    });
+
+    //?AC7-1
+    it("It should call findById on the user service with the correct arguments", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      //Act
+      await authenticationController.requireLoggedIn({ requirePassword: true })(
+        req,
+        res,
+        next
+      );
+      //Assert
+      expect(userService.findById.calledWith(testJWT._id, true)).to.be.true;
     });
   });
 });

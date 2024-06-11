@@ -26,7 +26,7 @@ export default class AuthenticationController {
       const { emailAddress, password } = req.body;
       const user = await this.#userService.findByEmailAddress(emailAddress);
       if (!user) this.#throwUnauthorisedError();
-      await this.#validatePassword(res, password, user.password);
+      await this.#validatePassword(password, user.password);
       this.#attachUserToReq(req, user);
       next();
     } catch (err) {
@@ -34,14 +34,15 @@ export default class AuthenticationController {
     }
   };
 
-  requireLoggedIn = () => {
+  requireLoggedIn = (options) => {
     return async (req, res, next) => {
       try {
         const decodedJWT = this.#readJWT(req, res);
         const user = await this.#userService.findById(decodedJWT._id, true);
         if (!user) this.#throwUnauthorisedError();
         this.#attachUserToReq(req, user);
-        console.log(user);
+        if (options?.requirePassword)
+          await this.#validatePassword(req.body?.password, user.password);
         next();
       } catch (err) {
         this.#handleError(res, err);
@@ -65,7 +66,8 @@ export default class AuthenticationController {
     };
   };
 
-  #validatePassword = async (res, submittedPassword, storedPassword) => {
+  #validatePassword = async (submittedPassword, storedPassword) => {
+    if (!submittedPassword || !storedPassword) this.#throwUnauthorisedError();
     const isValid = await bcrypt.compare(submittedPassword, storedPassword);
     if (!isValid) this.#throwUnauthorisedError();
   };

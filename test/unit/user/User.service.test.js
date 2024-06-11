@@ -46,12 +46,16 @@ describe("User service tests: ", () => {
     //? AS4-1
     it("should call create on the user model with the correct arguments", async () => {
       //Arrange
+      const expected = {
+        emailAddress: testUserEmail,
+        password: testUserPassword,
+      };
       createStub.resolves(userData.documents[0]);
       //Act
       await userService.createUser(testUserEmail, testUserPassword);
       const [userObjArg] = createStub.getCall(0).args;
       //Assert
-      expect(userObjArg).to.deep.equal(userData.submissions[0]);
+      expect(userObjArg).to.deep.equal(expected);
     });
 
     //? AS4-2
