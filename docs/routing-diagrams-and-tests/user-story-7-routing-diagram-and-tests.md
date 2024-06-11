@@ -29,7 +29,7 @@
 - [x] AC7-3: It should call compare on bcrypt with the correct arguments
 - [x] AC7-4: It should respond with a 401 error if bcrypt returns false
 - [x] AC7-5: It should respond with a 500 error if bcrypt rejects
-- [ ] AC7-6: It should call next if bcrypt returns true
+- [x] AC7-6: It should call next if bcrypt returns true
 
 #### Update Password
 

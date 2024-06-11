@@ -384,5 +384,18 @@ describe("User controller tests: ", () => {
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
+
+    it("It should respond with a 500 error if bcrypt rejects", async () => {
+      //Arrange
+      verifyStub.returns(testJWT);
+      userService.findById.resolves(testUser);
+      compareStub.returns(true);
+      //Act
+      await authenticationController.requireLoggedIn({
+        requirePassword: true,
+      })(req, res, next);
+      //Assert
+      expect(next.calledWith()).to.be.true;
+    });
   });
 });
