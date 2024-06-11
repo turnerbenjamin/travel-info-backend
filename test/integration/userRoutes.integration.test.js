@@ -37,7 +37,7 @@ describe("User routes: integration tests", () => {
       locationService
     );
     authController = {
-      requireLoggedIn: (req, _, next) => {
+      requireLoggedIn: () => (req, _, next) => {
         req.user = userData.documents[0];
         next();
       },

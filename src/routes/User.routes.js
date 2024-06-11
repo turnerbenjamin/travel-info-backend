@@ -19,20 +19,20 @@ export default class UserRoutes {
   #initialiseRoutes() {
     this.#router.post(
       "/:userId/favourite-locations",
-      this.#authController.requireLoggedIn,
+      this.#authController.requireLoggedIn(),
       LocationValidator.validate(),
       this.#userController.addLocationToFavourites
     );
 
     this.#router.get(
       "/:userId/favourite-locations",
-      this.#authController.requireLoggedIn,
+      this.#authController.requireLoggedIn(),
       this.#userController.getUserFavouriteLocations
     );
 
     this.#router.delete(
       "/:userId/favourite-locations/:locationId",
-      this.#authController.requireLoggedIn,
+      this.#authController.requireLoggedIn(),
       this.#userController.deleteById
     );
   }

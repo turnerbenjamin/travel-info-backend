@@ -222,7 +222,7 @@ describe("User controller tests: ", () => {
       //Arrange
       req.cookies = undefined;
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
     });
@@ -234,7 +234,7 @@ describe("User controller tests: ", () => {
       const expectedJWTArg = req.cookies.jwt;
       const expectedSecretArg = process.env.JWT_SECRET_KEY;
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       const [actualJWTArg, actualSecretArg] = verifyStub.getCall(0).args;
       //Assert
       expect(actualJWTArg).to.equal(expectedJWTArg);
@@ -246,7 +246,7 @@ describe("User controller tests: ", () => {
       //Arrange
       verifyStub.throws();
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
@@ -256,7 +256,7 @@ describe("User controller tests: ", () => {
       //Arrange
       verifyStub.returns(testJWT);
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(userService.findById.calledWith(testJWT._id)).to.be.true;
     });
@@ -266,7 +266,7 @@ describe("User controller tests: ", () => {
       //Arrange
       userService.findById.rejects();
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(res.status.calledWith(500)).to.be.true;
     });
@@ -277,7 +277,7 @@ describe("User controller tests: ", () => {
       verifyStub.resolves(testJWT);
       userService.findById.resolves(undefined);
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(res.status.calledWith(401)).to.be.true;
     });
@@ -290,7 +290,7 @@ describe("User controller tests: ", () => {
       verifyStub.resolves(testJWT);
       userService.findById.resolves(userData.documents[0]);
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(req.user).to.deep.equal(expected);
     });
@@ -301,7 +301,7 @@ describe("User controller tests: ", () => {
       verifyStub.resolves(testJWT);
       userService.findById.resolves(userData.documents[0]);
       //Act
-      await authenticationController.requireLoggedIn(req, res, next);
+      await authenticationController.requireLoggedIn()(req, res, next);
       //Assert
       expect(next.calledOnce).to.be.true;
     });

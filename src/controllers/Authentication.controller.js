@@ -34,17 +34,19 @@ export default class AuthenticationController {
     }
   };
 
-  requireLoggedIn = async (req, res, next) => {
-    try {
-      const decodedJWT = this.#readJWT(req, res);
-      const user = await this.#userService.findById(decodedJWT._id);
-      if (!user) this.#throwUnauthorisedError();
-      this.#attachUserToReq(req, user);
-      next();
-    } catch (err) {
-      console.log(err);
-      this.#handleError(res, err);
-    }
+  requireLoggedIn = () => {
+    return async (req, res, next) => {
+      try {
+        const decodedJWT = this.#readJWT(req, res);
+        const user = await this.#userService.findById(decodedJWT._id, true);
+        if (!user) this.#throwUnauthorisedError();
+        this.#attachUserToReq(req, user);
+        console.log(user);
+        next();
+      } catch (err) {
+        this.#handleError(res, err);
+      }
+    };
   };
 
   #readJWT = (req, res) => {

@@ -15,8 +15,10 @@ describe("User service tests: ", () => {
   let findOneStub = null;
   let selectStub = null;
   let findByIdStub = null;
+  let findByIdAndUpdateStub = null;
   const testUserEmail = userData.submissions[0].emailAddress;
   const testUserPassword = userData.submissions[0].password;
+  const testId = userData.documents[0]._id.toString();
 
   //SET-UP USER SERVICE TESTS
   beforeEach(() => {
@@ -24,8 +26,10 @@ describe("User service tests: ", () => {
     createStub = sinon.stub(User, "create");
     findOneStub = sinon.stub(User, "findOne");
     findByIdStub = sinon.stub(User, "findById");
+    findByIdAndUpdateStub = sinon.stub(User, "findByIdAndUpdate");
     selectStub = sinon.stub();
     findOneStub.returns({ select: selectStub });
+    findByIdStub.returns({ select: selectStub });
   });
 
   //CLEAN-UP USER SERVICE TESTS
@@ -34,6 +38,7 @@ describe("User service tests: ", () => {
     createStub.restore();
     findOneStub.restore();
     findByIdStub.restore();
+    findByIdAndUpdateStub.restore();
     selectStub = null;
   });
 
@@ -147,7 +152,7 @@ describe("User service tests: ", () => {
     //? US6-1
     it("Should call findById on User with correct argument", async () => {
       //Arrange
-      const testId = "123";
+
       //Act
       await userService.findById(testId);
       const [actualIdArg] = findByIdStub.getCall(0).args;
@@ -158,7 +163,7 @@ describe("User service tests: ", () => {
     //? US6-2
     it("should throw HTTPError with status of 500 is findById rejects", async () => {
       //Arrange
-      const testId = "123";
+
       findByIdStub.rejects();
       let actual;
       //Act
@@ -174,8 +179,8 @@ describe("User service tests: ", () => {
     //? US6-4
     it("should return undefined if findById resolves with undefined", async () => {
       //Arrange
-      findByIdStub.resolves(undefined);
-      const testId = "123";
+      selectStub.resolves(undefined);
+
       //Act
       const actual = await userService.findById(testId);
       //Assert
@@ -185,12 +190,24 @@ describe("User service tests: ", () => {
     //? US6-4
     it("should return user if findById resolves with user doc", async () => {
       //Arrange
-      findByIdStub.resolves(userData.documents[0]);
-      const testId = "123";
+      selectStub.resolves(userData.documents[0]);
+
       //Act
       const actual = await userService.findById(testId);
       //Assert
       expect(actual).to.equal(userData.documents[0]);
+    });
+  });
+  describe("Update By Id Tests", () => {
+    const testPasswordUpdate = { password: "newPassword" };
+    //?AS7-1
+    it("should call findByIdAndUpdate on the user model with the correct arguments", async () => {
+      //Act
+      findByIdAndUpdateStub.resolves(userData.documents[0]);
+      await userService.updateById(testId, testPasswordUpdate);
+      //expect
+      expect(findByIdAndUpdateStub.calledWith(testId, testPasswordUpdate)).to.be
+        .true;
     });
   });
 });

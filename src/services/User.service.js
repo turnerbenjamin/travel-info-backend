@@ -16,9 +16,10 @@ export default class UserService {
     }
   };
 
-  findById = async (id) => {
+  findById = async (id, doIncludePassword) => {
     try {
-      const user = await User.findById(id);
+      const selectQuery = doIncludePassword && "+password";
+      const user = await User.findById(id).select(selectQuery);
       return user;
     } catch (err) {
       throw new HTTPError(500, "Server error");
@@ -32,5 +33,9 @@ export default class UserService {
     } catch (err) {
       throw new HTTPError(500, "Server Error");
     }
+  };
+
+  updateById = async (id, update) => {
+    await User.findByIdAndUpdate(id, update);
   };
 }
