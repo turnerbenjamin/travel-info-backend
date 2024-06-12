@@ -1,3 +1,5 @@
+import HTTPError from "../utils/HTTPError.js";
+
 export default class WeatherController {
   #weatherService;
 
@@ -5,7 +7,11 @@ export default class WeatherController {
     this.#weatherService = weatherService;
   }
   getWeather = async (req) => {
-    const { latitude, longitude } = req.query;
-    await this.#weatherService.getWeather(latitude, longitude);
+    try {
+      const { latitude, longitude } = req.query;
+      await this.#weatherService.getWeather(latitude, longitude);
+    } catch (err) {
+      throw new HTTPError(500, "Server error");
+    }
   };
 }

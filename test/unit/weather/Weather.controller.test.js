@@ -43,4 +43,19 @@ describe("Geocoding Controller tests", () => {
     expect(weatherService.getWeather.calledWith(testLatitude, testLongitude)).to
       .be.true;
   });
+
+  //? WC9-2
+  it("should respond with a status code of 500 if the weather service rejects", async () => {
+    const expected = 500;
+    let actual;
+    weatherService.getWeather.rejects();
+    //Act
+    try {
+      await weatherController.getWeather(req, res);
+    } catch (err) {
+      actual = err.statusCode;
+    }
+    //Assert
+    expect(actual).to.equal(expected);
+  });
 });
