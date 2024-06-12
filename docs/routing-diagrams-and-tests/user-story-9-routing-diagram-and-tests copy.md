@@ -28,7 +28,7 @@
 ### Integration Tests (INT)
 
 - [x] INT9-1: It should respond with a status code of 200 if the request is successful
-- [ ] INT9-2: It should respond with a weather forecast object
+- [x] INT9-2: It should respond with a weather forecast object
 - [ ] INT9-3: It should respond with a status code of 500 if the request fails
 - [ ] INT9-4: It should respond with a status code of 400 if latitude missing
 - [ ] INT9-5: It should respond with a status code of 400 if latitude not numeric

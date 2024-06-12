@@ -58,4 +58,12 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.status).to.equal(200);
   });
+
+  //?INT9-2
+  it("should respond with a weather forecast object", async () => {
+    //Act
+    const response = await request.get(testUrl);
+    //Assert
+    expect(response.body).to.deep.equal(weatherTestData);
+  });
 });
