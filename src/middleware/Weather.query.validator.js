@@ -14,7 +14,9 @@ export default class WeatherQueryValidator {
         .query("longitude")
         .trim()
         .notEmpty()
-        .withMessage("Latitude cannot be empty"),
+        .withMessage("Longitude cannot be empty")
+        .isNumeric()
+        .withMessage("Longitude must be numeric"),
       WeatherQueryValidator.handleValidationErrors,
     ];
   };

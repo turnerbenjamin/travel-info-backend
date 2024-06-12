@@ -33,4 +33,4 @@
 - [x] INT9-4: It should respond with a status code of 400 if latitude missing
 - [x] INT9-5: It should respond with a status code of 400 if latitude not numeric
 - [x] INT9-6: It should respond with a status code of 400 if longitude missing
-- [ ] INT9-7: It should respond with a status code of 400 if longitude not numeric
+- [x] INT9-7: It should respond with a status code of 400 if longitude not numeric

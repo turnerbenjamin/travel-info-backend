@@ -109,4 +109,15 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.status).to.equal(400);
   });
+
+  //?INT9-7
+  it("should respond with a status code of 400 if longitude not numeric", async () => {
+    //Arrange
+    const nonNumericLongitude = "abc";
+    const invalidURL = `${endpoint}/?latitude=${testLatitude}&longitude=${nonNumericLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
 });
