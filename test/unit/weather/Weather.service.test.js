@@ -47,4 +47,12 @@ describe("Weather Service tests", () => {
     //Assert
     expect(actual).to.equal(expected);
   });
+
+  //? WS9-3
+  it("should return a weather forecast object", async () => {
+    //Act
+    const actual = await weatherService.getWeather(testLatitude, testLongitude);
+    //Assert
+    expect(actual).to.equal(weatherServiceTestData);
+  });
 });
