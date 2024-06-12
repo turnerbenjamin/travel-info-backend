@@ -34,10 +34,21 @@ describe("Geocoding Controller tests", () => {
     res = null;
   });
 
+  //? GC8-1
   it("should call get locations on the geocoding service with the correct arguments", async () => {
     //Act
     await geocodingController.getLocations(req, res);
     //Assert
-    expect(geocodingService.getLocations.calledWith(testSearchTerm));
+    expect(geocodingService.getLocations.calledWith(testSearchTerm)).to.be.true;
+  });
+
+  //? GC8-2
+  it("should respond with a status code of 500 if the geocoding service rejects", async () => {
+    //Arrange
+    geocodingService.getLocations.rejects();
+    //Act
+    await geocodingController.getLocations(req, res);
+    //Assert
+    expect(res.status.calledWith(500)).to.be.true;
   });
 });

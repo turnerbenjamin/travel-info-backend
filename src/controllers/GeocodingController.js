@@ -5,8 +5,12 @@ export default class GeocodingController {
     this.#geocodingService = geocodingService;
   }
 
-  getLocations(req) {
-    const { searchTerm } = req.query;
-    this.#geocodingService.getLocations(searchTerm);
-  }
+  getLocations = async (req, res) => {
+    try {
+      const { searchTerm } = req.query;
+      await this.#geocodingService.getLocations(searchTerm);
+    } catch (err) {
+      res.status(500).json("Server error");
+    }
+  };
 }
