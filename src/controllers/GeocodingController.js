@@ -9,6 +9,7 @@ export default class GeocodingController {
     try {
       const { searchTerm } = req.query;
       await this.#geocodingService.getLocations(searchTerm);
+      res.status(200);
     } catch (err) {
       res.status(500).json("Server error");
     }

@@ -51,4 +51,12 @@ describe("Geocoding Controller tests", () => {
     //Assert
     expect(res.status.calledWith(500)).to.be.true;
   });
+
+  //? GC8-3
+  it("should respond with a status code of 200 if the geocoding service resolves", async () => {
+    //Act
+    await geocodingController.getLocations(req, res);
+    //Assert
+    expect(res.status.calledWith(200)).to.be.true;
+  });
 });
