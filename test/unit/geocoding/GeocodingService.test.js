@@ -26,4 +26,20 @@ describe("Geocoding Service tests", () => {
     //Assert
     expect(axiosGetStub.calledWith(expectedURL)).to.be.true;
   });
+
+  //?GS8-2
+  it("should throw a HTTPError with status of 500 where Axios rejects", async () => {
+    //Arrange
+    axiosGetStub.rejects();
+    const expected = 500;
+    let actual;
+    //Act
+    try {
+      await geocodingService.getLocations(testSearchTerm);
+    } catch (err) {
+      actual = err.statusCode;
+    }
+    //Assert
+    expect(actual).to.equal(expected);
+  });
 });
