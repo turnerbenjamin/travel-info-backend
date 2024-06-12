@@ -15,7 +15,7 @@ describe("Geocoding Controller tests", () => {
     const getLocationsStub = sinon.stub();
     getLocationsStub.resolves(geocodingTestData.rawData);
     geocodingService = {
-      getLocations: sinon.stub(),
+      getLocations: getLocationsStub,
     };
     geocodingController = new GeocodingController(geocodingService);
     req = {
@@ -58,5 +58,16 @@ describe("Geocoding Controller tests", () => {
     await geocodingController.getLocations(req, res);
     //Assert
     expect(res.status.calledWith(200)).to.be.true;
+  });
+
+  //? GC8-4
+  it("should correctly format the response objects", async () => {
+    //Arrange
+    const expected = geocodingTestData.formattedData;
+    //Act
+    await geocodingController.getLocations(req, res);
+    const [actual] = res.json.getCall(0).args;
+    //Assert
+    expect(actual).to.deep.equal(expected);
   });
 });
