@@ -7,7 +7,9 @@ export default class WeatherQueryValidator {
         .query("latitude")
         .trim()
         .notEmpty()
-        .withMessage("Latitude cannot be empty"),
+        .withMessage("Latitude cannot be empty")
+        .isNumeric()
+        .withMessage("Latitude must be numeric"),
       WeatherQueryValidator.handleValidationErrors,
     ];
   };
