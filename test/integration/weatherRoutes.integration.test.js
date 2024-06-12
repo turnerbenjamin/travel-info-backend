@@ -76,4 +76,15 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.status).to.equal(500);
   });
+
+  //?INT9-4
+  it("should respond with a status code of 400 if latitude missing", async () => {
+    //Arrange
+    const emptyLatitude = "  ";
+    const invalidURL = `${endpoint}/?latitude=${emptyLatitude}&longitude=${testLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
 });

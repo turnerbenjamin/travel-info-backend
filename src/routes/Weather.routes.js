@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import WeatherQueryValidator from "../middleware/Weather.query.validator.js";
+
 export default class WeatherRoutes {
   #router;
   #root;
@@ -13,7 +15,11 @@ export default class WeatherRoutes {
   }
 
   #initialiseRoutes() {
-    this.#router.get("/", this.#weatherController.getWeather);
+    this.#router.get(
+      "/",
+      WeatherQueryValidator.validate(),
+      this.#weatherController.getWeather
+    );
   }
 
   getRouter() {
