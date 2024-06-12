@@ -2,7 +2,7 @@ import { expect } from "chai";
 import axios from "axios";
 import sinon from "sinon";
 
-import GeocodingService from "../../../src/services/GeocodingService.js";
+import GeocodingService from "../../../src/services/Geocoding.service.js";
 import * as geocodingTestData from "../../data/geocoding.test.data.js";
 
 describe("Geocoding Service tests", () => {

@@ -21,7 +21,7 @@
 
 ### Geocoding Controller (GC)
 
-- [ ] GC8-1: It should call get locations on the geocoding service with the correct arguments
+- [x] GC8-1: It should call get locations on the geocoding service with the correct arguments
 - [ ] GC8-2: It should respond with a status code of 500 if the geocoding service rejects
 - [ ] GC8-3: It should respond with a status code of 200 if the geocoding service resolves
 - [ ] GC8-4: It should correctly format the response objects
@@ -31,3 +31,4 @@
 - [ ] INT8-1: It should respond with a status code of 200 if the request is successful
 - [ ] INT8-2: It should respond with an array of location objects
 - [ ] INT8-3: It should respond with a status code of 500 if the request fails
+- [ ] INT8-4: It should respond with a status code of 400 if the search term is empty
