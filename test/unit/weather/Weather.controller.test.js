@@ -66,4 +66,12 @@ describe("Geocoding Controller tests", () => {
     //Assert
     expect(res.status.calledWith(200)).to.be.true;
   });
+
+  //? WC9-4
+  it("should respond with the raw return value from weather service", async () => {
+    //Act
+    await weatherController.getWeather(req, res);
+    //Assert
+    expect(res.json.calledWith(weatherTestData)).to.be.true;
+  });
 });

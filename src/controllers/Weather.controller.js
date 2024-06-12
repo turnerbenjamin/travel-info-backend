@@ -9,8 +9,11 @@ export default class WeatherController {
   getWeather = async (req, res) => {
     try {
       const { latitude, longitude } = req.query;
-      await this.#weatherService.getWeather(latitude, longitude);
-      res.status(200);
+      const weatherData = await this.#weatherService.getWeather(
+        latitude,
+        longitude
+      );
+      res.status(200).json(weatherData);
     } catch (err) {
       throw new HTTPError(500, "Server error");
     }

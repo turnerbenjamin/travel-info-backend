@@ -23,7 +23,7 @@
 - [x] WC9-1: It should call get weather on the weather service with the correct arguments
 - [x] WC9-2: It should respond with a status code of 500 if the weather service rejects
 - [x] WC9-3: It should respond with a status code of 200 if the weather service resolves
-- [ ] WC9-4: It should respond with the raw return value from weather service
+- [x] WC9-4: It should respond with the raw return value from weather service
 
 ### Integration Tests (INT)
 
