@@ -1,7 +1,9 @@
+import { expect } from "chai";
 import axios from "axios";
 import sinon from "sinon";
+
 import GeocodingService from "../../../src/services/GeocodingService.js";
-import { expect } from "chai";
+import * as geocodingTestData from "../../data/geocoding.test.data.js";
 
 describe("Geocoding Service tests", () => {
   const testSearchTerm = "Dublin";
@@ -20,6 +22,7 @@ describe("Geocoding Service tests", () => {
   //?GS8-1
   it("should call get on Axios with a valid url", async () => {
     //Arrange
+    axiosGetStub.resolves({ data: geocodingTestData.rawData });
     const expectedURL = `https://api.openweathermap.org/geo/1.0/direct?q=${testSearchTerm},,GB&appid=${process.env.OPEN_WEATHER_API_KEY}`;
     //Act
     await geocodingService.getLocations(testSearchTerm);
@@ -41,5 +44,15 @@ describe("Geocoding Service tests", () => {
     }
     //Assert
     expect(actual).to.equal(expected);
+  });
+
+  //?GS8-3
+  it("should return an array of location objects", async () => {
+    //Arrange
+    axiosGetStub.resolves({ data: geocodingTestData.rawData });
+    //Act
+    const actual = await geocodingService.getLocations(testSearchTerm);
+    //Assert
+    expect(actual).to.equal(geocodingTestData.rawData);
   });
 });

@@ -16,7 +16,7 @@
 
 - [x] GS8-1: It should call get on Axios with a valid url
 - [x] GS8-2: It should throw a HTTPError with status of 500 where Axios rejects
-- [ ] GS8-3: It should return an array of location objects
+- [x] GS8-3: It should return an array of location objects
 - [ ] GS8-4: It should return an empty array where Axios resolves to an empty array
 
 ### Geocoding Controller (GC)
