@@ -17,6 +17,7 @@ describe("Geocoding Service tests", () => {
 
   afterEach(() => {
     axiosGetStub.restore();
+    geocodingService = null;
   });
 
   //?GS8-1

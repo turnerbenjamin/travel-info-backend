@@ -12,7 +12,7 @@
 
 ## Tests
 
-### GeocodingService (GC)
+### Geocoding Service (GS)
 
 - [x] GS8-1: It should call get on Axios with a valid url
 - [x] GS8-2: It should throw a HTTPError with status of 500 where Axios rejects
