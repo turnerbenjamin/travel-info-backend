@@ -55,4 +55,15 @@ describe("Geocoding Service tests", () => {
     //Assert
     expect(actual).to.equal(geocodingTestData.rawData);
   });
+
+  //?GS8-4
+  it("should return an empty array where Axios resolves to an empty array", async () => {
+    //Arrange
+    const testEmptyResponse = [];
+    axiosGetStub.resolves({ data: testEmptyResponse });
+    //Act
+    const actual = await geocodingService.getLocations(testSearchTerm);
+    //Assert
+    expect(actual).to.equal(testEmptyResponse);
+  });
 });
