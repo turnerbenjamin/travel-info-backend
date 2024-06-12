@@ -58,4 +58,12 @@ describe("Geocoding Controller tests", () => {
     //Assert
     expect(actual).to.equal(expected);
   });
+
+  //? WC9-3
+  it("should respond with a status code of 200 if the weather service resolves", async () => {
+    //Act
+    await weatherController.getWeather(req, res);
+    //Assert
+    expect(res.status.calledWith(200)).to.be.true;
+  });
 });
