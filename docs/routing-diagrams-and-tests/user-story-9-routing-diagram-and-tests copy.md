@@ -15,7 +15,7 @@
 ### Weather Service (WS)
 
 - [x] WS9-1: It should call get on Axios with a valid url
-- [ ] WS9-2: It should throw a HTTPError with status of 500 where Axios rejects
+- [x] WS9-2: It should throw a HTTPError with status of 500 where Axios rejects
 - [ ] WS9-3: It should return a weather forecast object
 
 ### Weather Controller (WC)

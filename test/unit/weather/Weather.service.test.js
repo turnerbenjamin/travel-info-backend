@@ -31,4 +31,20 @@ describe("Weather Service tests", () => {
     //Assert
     expect(axiosGetStub.calledWith(expectedURL)).to.be.true;
   });
+
+  //? WS9-2
+  it("should throw a HTTPError with status of 500 where Axios rejects", async () => {
+    //Arrange
+    axiosGetStub.rejects();
+    let expected = 500;
+    let actual;
+    //Act
+    try {
+      await weatherService.getWeather(testLatitude, testLongitude);
+    } catch (err) {
+      actual = err.statusCode;
+    }
+    //Assert
+    expect(actual).to.equal(expected);
+  });
 });
