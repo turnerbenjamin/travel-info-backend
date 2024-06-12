@@ -68,4 +68,25 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.body).to.deep.equal(geocodingTestData.formattedData);
   });
+
+  //?INT8-3
+  it("should respond with a status code of 500 if the request fails", async () => {
+    //Arrange
+    axiosGetStub.rejects();
+    //Act
+    const response = await request.get(testUrl);
+    //Assert
+    expect(response.status).to.equal(500);
+  });
+
+  //?INT8-4
+  it("should respond with a status code of 400 if the search term is empty", async () => {
+    //Arrange
+    const emptySearchTerm = "  ";
+    const invalidURL = `${endpoint}/?searchTerm=${emptySearchTerm}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
 });

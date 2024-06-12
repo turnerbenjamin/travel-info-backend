@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import GeocodingQueryValidator from "../middleware/Geocoding.query.validator.js";
+
 export default class GeocodingRoutes {
   #router;
   #root;
@@ -13,7 +15,11 @@ export default class GeocodingRoutes {
   }
 
   #initialiseRoutes() {
-    this.#router.get("/", this.#geoCodingController.getLocations);
+    this.#router.get(
+      "/",
+      GeocodingQueryValidator.validate(),
+      this.#geoCodingController.getLocations
+    );
   }
 
   getRouter() {
