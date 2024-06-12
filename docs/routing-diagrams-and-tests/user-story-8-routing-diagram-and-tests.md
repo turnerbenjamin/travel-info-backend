@@ -29,6 +29,6 @@
 ### Integration Tests (INT)
 
 - [x] INT8-1: It should respond with a status code of 200 if the request is successful
-- [ ] INT8-2: It should respond with an array of location objects
+- [x] INT8-2: It should respond with an array of location objects
 - [ ] INT8-3: It should respond with a status code of 500 if the request fails
 - [ ] INT8-4: It should respond with a status code of 400 if the search term is empty

@@ -55,11 +55,17 @@ describe("Geocoding routes integration tests", () => {
 
   //?INT8-1
   it("should respond with a status code of 200 if the request is successful", async () => {
-    //Arrange
-
     //Act
     const response = await request.get(testUrl);
     //Assert
     expect(response.status).to.equal(200);
+  });
+
+  //?INT8-2
+  it("should respond with an array of location objects", async () => {
+    //Act
+    const response = await request.get(testUrl);
+    //Assert
+    expect(response.body).to.deep.equal(geocodingTestData.formattedData);
   });
 });
