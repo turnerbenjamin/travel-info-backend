@@ -66,4 +66,14 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.body).to.deep.equal(weatherTestData);
   });
+
+  //?INT9-3
+  it("should respond with a status code of 500 if the request fails", async () => {
+    //Arrange
+    axiosGetStub.rejects();
+    //Act
+    const response = await request.get(testUrl);
+    //Assert
+    expect(response.status).to.equal(500);
+  });
 });

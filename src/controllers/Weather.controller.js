@@ -15,7 +15,7 @@ export default class WeatherController {
       );
       res.status(200).json(weatherData);
     } catch (err) {
-      throw new HTTPError(500, "Server error");
+      res.status(500).json("Server Error");
     }
   };
 }

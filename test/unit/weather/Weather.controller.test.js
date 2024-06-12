@@ -4,7 +4,7 @@ import sinon from "sinon";
 import WeatherController from "../../../src/controllers/Weather.controller.js";
 import weatherTestData from "../../data/weatherService.test.data.js";
 
-describe("Geocoding Controller tests", () => {
+describe("Weather Controller tests", () => {
   const testLatitude = 51.5073219;
   const testLongitude = -0.1276474;
   let weatherController;
@@ -46,17 +46,11 @@ describe("Geocoding Controller tests", () => {
 
   //? WC9-2
   it("should respond with a status code of 500 if the weather service rejects", async () => {
-    const expected = 500;
-    let actual;
     weatherService.getWeather.rejects();
     //Act
-    try {
-      await weatherController.getWeather(req, res);
-    } catch (err) {
-      actual = err.statusCode;
-    }
+    await weatherController.getWeather(req, res);
     //Assert
-    expect(actual).to.equal(expected);
+    expect(res.status.calledWith(500)).to.be.true;
   });
 
   //? WC9-3
