@@ -10,6 +10,11 @@ export default class WeatherQueryValidator {
         .withMessage("Latitude cannot be empty")
         .isNumeric()
         .withMessage("Latitude must be numeric"),
+      expressValidator
+        .query("longitude")
+        .trim()
+        .notEmpty()
+        .withMessage("Latitude cannot be empty"),
       WeatherQueryValidator.handleValidationErrors,
     ];
   };
