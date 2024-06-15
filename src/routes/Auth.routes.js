@@ -21,7 +21,9 @@ export default class AuthRoutes {
       UserValidator.validate(),
       this.#authController.register
     );
+
     this.#router.post("/sign-in", this.#authController.signIn, signAndSendJWT);
+
     this.#router.post(
       "/update-password",
       this.#authController.requireLoggedIn({ requirePassword: true }),

@@ -6,7 +6,6 @@ export default class Config {
   static #configPath = path.resolve(process.cwd(), "config");
 
   static #getEnvFileName() {
-    if (Config.#env === "prod") return ".env";
     return `.env.${Config.#env}`;
   }
 

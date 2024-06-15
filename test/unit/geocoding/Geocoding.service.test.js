@@ -24,7 +24,7 @@ describe("Geocoding Service tests", () => {
   it("should call get on Axios with a valid url", async () => {
     //Arrange
     axiosGetStub.resolves({ data: geocodingTestData.rawData });
-    const expectedURL = `https://api.openweathermap.org/geo/1.0/direct?q=${testSearchTerm},,GB&appid=${process.env.OPEN_WEATHER_API_KEY}`;
+    const expectedURL = `https://api.openweathermap.org/geo/1.0/direct?q=${testSearchTerm},,GB&limit=5&appid=${process.env.OPEN_WEATHER_API_KEY}`;
     //Act
     await geocodingService.getLocations(testSearchTerm);
     //Assert

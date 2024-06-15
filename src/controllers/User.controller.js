@@ -7,6 +7,12 @@ export default class UserController {
     this.#favouriteLocationService = favouriteLocationService;
     this.#locationService = locationService;
   }
+
+  /**
+   * Adds a location to the user's favourites.
+   * @param {Object} req - The request object, expected to contain a user and the location details in the body.
+   * @param {Object} res - The response object used to send back the HTTP response.
+   */
   addLocationToFavourites = async (req, res) => {
     try {
       if (!req.user) throw new HTTPError(500, "Server error");
@@ -20,6 +26,11 @@ export default class UserController {
     }
   };
 
+  /**
+   * Retrieves the user's favourite locations.
+   * @param {Object} req - The request object, expected to contain a user.
+   * @param {Object} res - The response object used to send back the HTTP response.
+   */
   getUserFavouriteLocations = async (req, res) => {
     try {
       if (!req.user) throw new HTTPError(500, "Server error");
@@ -31,6 +42,11 @@ export default class UserController {
     }
   };
 
+  /**
+   * Deletes a user's favourite location by its ID.
+   * @param {Object} req - The request object, expected to contain a user and the location ID as a parameter.
+   * @param {Object} res - The response object used to send back the HTTP response.
+   */
   deleteById = async (req, res) => {
     try {
       const locationId = req.params.locationId;

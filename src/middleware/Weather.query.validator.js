@@ -8,15 +8,16 @@ export default class WeatherQueryValidator {
         .trim()
         .notEmpty()
         .withMessage("Latitude cannot be empty")
-        .isNumeric()
-        .withMessage("Latitude must be numeric"),
+        .isFloat({ min: -90, max: 90 })
+        .withMessage("Invalid latitude"),
+
       expressValidator
         .query("longitude")
         .trim()
         .notEmpty()
         .withMessage("Longitude cannot be empty")
-        .isNumeric()
-        .withMessage("Longitude must be numeric"),
+        .isFloat({ min: -180, max: 180 })
+        .withMessage("Invalid longitude"),
       WeatherQueryValidator.handleValidationErrors,
     ];
   };

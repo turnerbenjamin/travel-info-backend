@@ -120,4 +120,45 @@ describe("Geocoding routes integration tests", () => {
     //Assert
     expect(response.status).to.equal(400);
   });
+
+  //?The following tests relate to a copilot suggestion to test the range of latitude and longitude
+  it("should respond with a status code of 400 if latitude is greater than 90", async () => {
+    //Arrange
+    const invalidLatitude = 90.1;
+    const invalidURL = `${endpoint}/?latitude=${invalidLatitude}&longitude=${testLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
+
+  it("should respond with a status code of 400 if latitude is less than -90", async () => {
+    //Arrange
+    const invalidLatitude = -90.1;
+    const invalidURL = `${endpoint}/?latitude=${invalidLatitude}&longitude=${testLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
+
+  it("should respond with a status code of 400 if latitude is greater than 180", async () => {
+    //Arrange
+    const invalidLongitude = 180.1;
+    const invalidURL = `${endpoint}/?latitude=${testLatitude}&longitude=${invalidLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
+
+  it("should respond with a status code of 400 if latitude is less than -180", async () => {
+    //Arrange
+    const invalidLongitude = -180.1;
+    const invalidURL = `${endpoint}/?latitude=${testLatitude}&longitude=${invalidLongitude}`;
+    //Act
+    const response = await request.get(invalidURL);
+    //Assert
+    expect(response.status).to.equal(400);
+  });
 });

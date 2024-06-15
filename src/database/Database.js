@@ -7,6 +7,10 @@ export default class Database {
     this.#uri = uri;
   }
 
+  /**
+   * Establishes a connection to the database using the MongoDB URI stored in the instance.
+   * Logs a success message upon successful connection or an error message if the connection fails.
+   */
   async connect() {
     try {
       await mongoose.connect(this.#uri);
@@ -16,6 +20,10 @@ export default class Database {
     }
   }
 
+  /**
+   * Closes the connection to the database.
+   * This should be called to gracefully shut down the connection when the application is terminating.
+   */
   async close() {
     await mongoose.disconnect();
   }
